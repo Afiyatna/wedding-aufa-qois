@@ -1,13 +1,13 @@
 export const weddingData = {
   couple: {
     bride: {
-      fullName: "Sarah Elizabeth Johnson",
-      firstName: "Sarah",
-      parents: "Mr. & Mrs. Michael Johnson"
+      fullName: "Aufa Amroini Indah Saesari",
+      firstName: "Aufa",
+      parents: "Rosanto Budiharjo & Ida Katrinawaningsih"
     },
     groom: {
-      fullName: "David Alexander Smith",
-      firstName: "David", 
+      fullName: "Sabilul Qois",
+      firstName: "Qois", 
       parents: "Mr. & Mrs. Robert Smith"
     }
   },
