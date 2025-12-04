@@ -102,7 +102,7 @@ export const RSVPForm: React.FC<RSVPFormProps> = ({ isDark }) => {
                   value={formData.name}
                   onChange={handleInputChange}
                   required
-                  className={`w-full px-4 py-3 rounded-lg border transition-colors focus:ring-2 focus:ring-rose-500 focus:border-transparent ${
+                  className={`w-full px-4 py-3 rounded-lg border transition-colors focus:ring-2 focus:ring-maroon-500 focus:border-transparent ${
                     isDark 
                       ? 'bg-gray-800 border-gray-600 text-white placeholder-gray-400' 
                       : 'bg-white border-gray-300 text-gray-900'
@@ -123,7 +123,7 @@ export const RSVPForm: React.FC<RSVPFormProps> = ({ isDark }) => {
                   name="email"
                   value={formData.email}
                   onChange={handleInputChange}
-                  className={`w-full px-4 py-3 rounded-lg border transition-colors focus:ring-2 focus:ring-rose-500 focus:border-transparent ${
+                  className={`w-full px-4 py-3 rounded-lg border transition-colors focus:ring-2 focus:ring-maroon-500 focus:border-transparent ${
                     isDark 
                       ? 'bg-gray-800 border-gray-600 text-white placeholder-gray-400' 
                       : 'bg-white border-gray-300 text-gray-900'
@@ -144,7 +144,7 @@ export const RSVPForm: React.FC<RSVPFormProps> = ({ isDark }) => {
                   name="phone"
                   value={formData.phone}
                   onChange={handleInputChange}
-                  className={`w-full px-4 py-3 rounded-lg border transition-colors focus:ring-2 focus:ring-rose-500 focus:border-transparent ${
+                  className={`w-full px-4 py-3 rounded-lg border transition-colors focus:ring-2 focus:ring-maroon-500 focus:border-transparent ${
                     isDark 
                       ? 'bg-gray-800 border-gray-600 text-white placeholder-gray-400' 
                       : 'bg-white border-gray-300 text-gray-900'
@@ -165,7 +165,7 @@ export const RSVPForm: React.FC<RSVPFormProps> = ({ isDark }) => {
                   value={formData.attendance}
                   onChange={handleInputChange}
                   required
-                  className={`w-full px-4 py-3 rounded-lg border transition-colors focus:ring-2 focus:ring-rose-500 focus:border-transparent ${
+                  className={`w-full px-4 py-3 rounded-lg border transition-colors focus:ring-2 focus:ring-maroon-500 focus:border-transparent ${
                     isDark 
                       ? 'bg-gray-800 border-gray-600 text-white' 
                       : 'bg-white border-gray-300 text-gray-900'
@@ -191,7 +191,7 @@ export const RSVPForm: React.FC<RSVPFormProps> = ({ isDark }) => {
                   max="10"
                   value={formData.guest_count}
                   onChange={handleInputChange}
-                  className={`w-full px-4 py-3 rounded-lg border transition-colors focus:ring-2 focus:ring-rose-500 focus:border-transparent ${
+                  className={`w-full px-4 py-3 rounded-lg border transition-colors focus:ring-2 focus:ring-maroon-500 focus:border-transparent ${
                     isDark 
                       ? 'bg-gray-800 border-gray-600 text-white' 
                       : 'bg-white border-gray-300 text-gray-900'
@@ -211,7 +211,7 @@ export const RSVPForm: React.FC<RSVPFormProps> = ({ isDark }) => {
                   value={formData.dietary_restrictions}
                   onChange={handleInputChange}
                   rows={3}
-                  className={`w-full px-4 py-3 rounded-lg border transition-colors focus:ring-2 focus:ring-rose-500 focus:border-transparent resize-none ${
+                  className={`w-full px-4 py-3 rounded-lg border transition-colors focus:ring-2 focus:ring-maroon-500 focus:border-transparent resize-none ${
                     isDark 
                       ? 'bg-gray-800 border-gray-600 text-white placeholder-gray-400' 
                       : 'bg-white border-gray-300 text-gray-900'
@@ -232,7 +232,7 @@ export const RSVPForm: React.FC<RSVPFormProps> = ({ isDark }) => {
                   value={formData.message}
                   onChange={handleInputChange}
                   rows={4}
-                  className={`w-full px-4 py-3 rounded-lg border transition-colors focus:ring-2 focus:ring-rose-500 focus:border-transparent resize-none ${
+                  className={`w-full px-4 py-3 rounded-lg border transition-colors focus:ring-2 focus:ring-maroon-500 focus:border-transparent resize-none ${
                     isDark 
                       ? 'bg-gray-800 border-gray-600 text-white placeholder-gray-400' 
                       : 'bg-white border-gray-300 text-gray-900'
@@ -247,7 +247,7 @@ export const RSVPForm: React.FC<RSVPFormProps> = ({ isDark }) => {
               <button
                 type="submit"
                 disabled={isSubmitting || !formData.name.trim()}
-                className="w-full bg-gradient-to-r from-rose-500 to-pink-500 text-white py-4 px-6 rounded-lg font-medium transition-all duration-300 hover:from-rose-600 hover:to-pink-600 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
+                className="w-full bg-gradient-to-r from-maroon-500 to-maroon-500 text-white py-4 px-6 rounded-lg font-medium transition-all duration-300 hover:from-maroon-600 hover:to-maroon-600 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
               >
                 {isSubmitting ? (
                   <>

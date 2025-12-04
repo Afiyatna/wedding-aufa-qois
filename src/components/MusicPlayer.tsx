@@ -13,7 +13,7 @@ export const MusicPlayer: React.FC<MusicPlayerProps> = ({ isDark }) => {
 
   // Note: Using a placeholder audio URL - in a real implementation, 
   // you would upload your wedding song to a hosting service
-  const audioUrl = "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav";
+  const audioUrl = "music/Kahitna-Soulmate.mp3";
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -86,8 +86,8 @@ export const MusicPlayer: React.FC<MusicPlayerProps> = ({ isDark }) => {
           onClick={togglePlay}
           className={`p-2 rounded-full transition-colors ${
             isDark 
-              ? 'bg-rose-500 text-white hover:bg-rose-600' 
-              : 'bg-rose-500 text-white hover:bg-rose-600'
+              ? 'bg-maroon-500 text-white hover:bg-maroon-600' 
+              : 'bg-maroon-500 text-white hover:bg-maroon-600'
           }`}
         >
           {isPlaying ? <Pause size={20} /> : <Play size={20} />}
@@ -113,7 +113,7 @@ export const MusicPlayer: React.FC<MusicPlayerProps> = ({ isDark }) => {
             onChange={handleVolumeChange}
             className="w-20 h-1 bg-gray-300 rounded-lg appearance-none cursor-pointer slider"
             style={{
-              background: `linear-gradient(to right, #f43f5e 0%, #f43f5e ${volume * 100}%, #d1d5db ${volume * 100}%, #d1d5db 100%)`
+              background: `linear-gradient(to right, #dc2626 0%, #dc2626 ${volume * 100}%, #d1d5db ${volume * 100}%, #d1d5db 100%)`
             }}
           />
         </div>
@@ -130,7 +130,7 @@ export const MusicPlayer: React.FC<MusicPlayerProps> = ({ isDark }) => {
           height: 16px;
           width: 16px;
           border-radius: 50%;
-          background: #f43f5e;
+          background: #dc2626;
           cursor: pointer;
         }
 
@@ -138,7 +138,7 @@ export const MusicPlayer: React.FC<MusicPlayerProps> = ({ isDark }) => {
           height: 16px;
           width: 16px;
           border-radius: 50%;
-          background: #f43f5e;
+          background: #dc2626;
           cursor: pointer;
           border: none;
         }

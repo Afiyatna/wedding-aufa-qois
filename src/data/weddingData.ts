@@ -3,57 +3,57 @@ export const weddingData = {
     bride: {
       fullName: "Aufa Amroini Indah Saesari",
       firstName: "Aufa",
-      parents: "Rosanto Budiharjo & Ida Katrinawaningsih"
+      parents: "H. Rosanto Budiharjo & Ida Katrinawaningsih"
     },
     groom: {
       fullName: "Sabilul Qois",
       firstName: "Qois", 
-      parents: "Mr. & Mrs. Robert Smith"
+      parents: "H. Mulyadi & Siti Syamsiah"
     }
   },
   quote: {
-    text: "Two souls with but a single thought, two hearts that beat as one.",
-    author: "John Keats"
+    text: "Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan untukmu istri-istri dari jenismu sendiri, supaya kamu cenderung dan merasa tenteram kepadanya, dan dijadikan-Nya di antaramu rasa kasih dan sayang.",
+    author: "QS. Ar-Rum ayat 21"
   },
   events: {
     ceremony: {
       title: "Wedding Ceremony",
-      date: "2024-06-15",
-      time: "16:00",
-      venue: "St. Mary's Cathedral",
-      address: "123 Cathedral Street, New York, NY 10001",
-      mapUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.9663095919355!2d-74.00425878459418!3d40.74844097932764!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c259a9b3117469%3A0xd134e199a405a163!2sEmpire%20State%20Building!5e0!3m2!1sen!2sus!4v1635959911187!5m2!1sen!2sus"
+      date: "2025-12-25",
+      time: "09:00",
+      venue: "Masjid Baitul Munir",
+      address: "SMP/SMA Generus Nusantara Boarding School GNBS KENDAL",
+      mapUrl: "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d1980.2392810479255!2d110.2337336!3d-6.9527375!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e705d436c0e4f7f%3A0x2b8efcc47b25fe1d!2sSMP%2FSMA%20Generus%20Nusantara%20Boarding%20School%20%22GNBS%22%20KENDAL!5e0!3m2!1sid!2sid!4v1764806836881!5m2!1sid!2sid"
     },
     reception: {
       title: "Wedding Reception",
-      date: "2024-06-15",
-      time: "19:00",
-      venue: "Grand Ballroom Hotel",
-      address: "456 Celebration Avenue, New York, NY 10002",
-      mapUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.9663095919355!2d-74.00425878459418!3d40.74844097932764!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c259a9b3117469%3A0xd134e199a405a163!2sEmpire%20State%20Building!5e0!3m2!1sen!2sus!4v1635959911187!5m2!1sen!2sus"
+      date: "2025-12-25",
+      time: "12:00 - 14:00",
+      venue: "Masjid Baitul Munir",
+      address: "SMP/SMA Generus Nusantara Boarding School GNBS KENDAL",
+      mapUrl: "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d1980.2392810479255!2d110.2337336!3d-6.9527375!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e705d436c0e4f7f%3A0x2b8efcc47b25fe1d!2sSMP%2FSMA%20Generus%20Nusantara%20Boarding%20School%20%22GNBS%22%20KENDAL!5e0!3m2!1sid!2sid!4v1764806836881!5m2!1sid!2sid"
     }
   },
   gallery: [
     {
       id: 1,
-      url: "https://images.pexels.com/photos/1779489/pexels-photo-1779489.jpeg?auto=compress&cs=tinysrgb&w=800",
-      alt: "Pre-wedding photo 1"
+      url: 'gallery/img1.jpg',
+      alt: "Mempelai Wanita"
     },
     {
       id: 2, 
-      url: "https://images.pexels.com/photos/1024993/pexels-photo-1024993.jpeg?auto=compress&cs=tinysrgb&w=800",
+      url: "gallery/img2.jpg",
       alt: "Pre-wedding photo 2"
     },
-    {
-      id: 3,
-      url: "https://images.pexels.com/photos/1729931/pexels-photo-1729931.jpeg?auto=compress&cs=tinysrgb&w=800", 
-      alt: "Pre-wedding photo 3"
-    },
-    {
-      id: 4,
-      url: "https://images.pexels.com/photos/1043474/pexels-photo-1043474.jpeg?auto=compress&cs=tinysrgb&w=800",
-      alt: "Pre-wedding photo 4"
-    },
+    // {
+    //   id: 3,
+    //   url: "https://images.pexels.com/photos/1729931/pexels-photo-1729931.jpeg?auto=compress&cs=tinysrgb&w=800", 
+    //   alt: "Pre-wedding photo 3"
+    // },
+    // {
+    //   id: 4,
+    //   url: "https://images.pexels.com/photos/1043474/pexels-photo-1043474.jpeg?auto=compress&cs=tinysrgb&w=800",
+    //   alt: "Pre-wedding photo 4"
+    // },
     {
       id: 5,
       url: "https://images.pexels.com/photos/1024960/pexels-photo-1024960.jpeg?auto=compress&cs=tinysrgb&w=800",

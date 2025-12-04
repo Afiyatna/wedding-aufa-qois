@@ -46,9 +46,9 @@ export const Header: React.FC<HeaderProps> = ({ isDark, onThemeToggle }) => {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <div className="text-2xl font-serif">
-            <span className={`${isDark ? 'text-rose-300' : 'text-rose-600'}`}>S</span>
+            <span className={`${isDark ? 'text-maroon-300' : 'text-maroon-600'}`}>A</span>
             <span className={`mx-2 ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>&</span>
-            <span className={`${isDark ? 'text-rose-300' : 'text-rose-600'}`}>D</span>
+            <span className={`${isDark ? 'text-maroon-300' : 'text-maroon-600'}`}>Q</span>
           </div>
 
           {/* Desktop Navigation */}
@@ -57,7 +57,7 @@ export const Header: React.FC<HeaderProps> = ({ isDark, onThemeToggle }) => {
               <button
                 key={item.label}
                 onClick={() => scrollToSection(item.href)}
-                className={`transition-colors hover:text-rose-500 ${
+                className={`transition-colors hover:text-maroon-500 ${
                   isDark ? 'text-gray-300' : 'text-gray-700'
                 }`}
               >
@@ -68,8 +68,8 @@ export const Header: React.FC<HeaderProps> = ({ isDark, onThemeToggle }) => {
               onClick={onThemeToggle}
               className={`p-2 rounded-full transition-colors ${
                 isDark 
-                  ? 'text-gray-300 hover:text-rose-300 hover:bg-gray-800' 
-                  : 'text-gray-700 hover:text-rose-600 hover:bg-rose-50'
+                  ? 'text-gray-300 hover:text-maroon-300 hover:bg-gray-800' 
+                  : 'text-gray-700 hover:text-maroon-600 hover:bg-maroon-50'
               }`}
             >
               {isDark ? <Sun size={20} /> : <Moon size={20} />}
@@ -82,8 +82,8 @@ export const Header: React.FC<HeaderProps> = ({ isDark, onThemeToggle }) => {
               onClick={onThemeToggle}
               className={`p-2 rounded-full transition-colors ${
                 isDark 
-                  ? 'text-gray-300 hover:text-rose-300' 
-                  : 'text-gray-700 hover:text-rose-600'
+                  ? 'text-gray-300 hover:text-maroon-300' 
+                  : 'text-gray-700 hover:text-maroon-600'
               }`}
             >
               {isDark ? <Sun size={20} /> : <Moon size={20} />}
@@ -107,7 +107,7 @@ export const Header: React.FC<HeaderProps> = ({ isDark, onThemeToggle }) => {
                 <button
                   key={item.label}
                   onClick={() => scrollToSection(item.href)}
-                  className={`text-left transition-colors hover:text-rose-500 ${
+                  className={`text-left transition-colors hover:text-maroon-500 ${
                     isDark ? 'text-gray-300' : 'text-gray-700'
                   }`}
                 >

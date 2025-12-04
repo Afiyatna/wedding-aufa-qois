@@ -35,8 +35,8 @@ export const Footer: React.FC<FooterProps> = ({ isDark }) => {
               href="#"
               className={`p-3 rounded-full transition-colors ${
                 isDark 
-                  ? 'bg-gray-700 text-gray-300 hover:bg-rose-500 hover:text-white' 
-                  : 'bg-gray-100 text-gray-600 hover:bg-rose-500 hover:text-white'
+                  ? 'bg-gray-700 text-gray-300 hover:bg-maroon-500 hover:text-white' 
+                  : 'bg-gray-100 text-gray-600 hover:bg-maroon-500 hover:text-white'
               }`}
             >
               <Instagram size={20} />
@@ -45,8 +45,8 @@ export const Footer: React.FC<FooterProps> = ({ isDark }) => {
               href="#"
               className={`p-3 rounded-full transition-colors ${
                 isDark 
-                  ? 'bg-gray-700 text-gray-300 hover:bg-rose-500 hover:text-white' 
-                  : 'bg-gray-100 text-gray-600 hover:bg-rose-500 hover:text-white'
+                  ? 'bg-gray-700 text-gray-300 hover:bg-maroon-500 hover:text-white' 
+                  : 'bg-gray-100 text-gray-600 hover:bg-maroon-500 hover:text-white'
               }`}
             >
               <Facebook size={20} />
@@ -55,8 +55,8 @@ export const Footer: React.FC<FooterProps> = ({ isDark }) => {
               href="#"
               className={`p-3 rounded-full transition-colors ${
                 isDark 
-                  ? 'bg-gray-700 text-gray-300 hover:bg-rose-500 hover:text-white' 
-                  : 'bg-gray-100 text-gray-600 hover:bg-rose-500 hover:text-white'
+                  ? 'bg-gray-700 text-gray-300 hover:bg-maroon-500 hover:text-white' 
+                  : 'bg-gray-100 text-gray-600 hover:bg-maroon-500 hover:text-white'
               }`}
             >
               <Twitter size={20} />
@@ -67,7 +67,7 @@ export const Footer: React.FC<FooterProps> = ({ isDark }) => {
           <div className="flex items-center justify-center mb-6">
             <div className={`h-px w-20 ${isDark ? 'bg-gray-600' : 'bg-gray-300'}`}></div>
             <Heart 
-              className={`mx-4 ${isDark ? 'text-rose-400' : 'text-rose-500'}`} 
+              className={`mx-4 ${isDark ? 'text-maroon-400' : 'text-maroon-500'}`} 
               size={20} 
               fill="currentColor"
             />
@@ -77,7 +77,7 @@ export const Footer: React.FC<FooterProps> = ({ isDark }) => {
           {/* Copyright */}
           <div className="space-y-2">
             <p className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
-              Made with <Heart className="inline w-4 h-4 text-rose-500" fill="currentColor" /> for our special day
+              Made with <Heart className="inline w-4 h-4 text-maroon-500" fill="currentColor" /> for our special day
             </p>
             <p className={`text-xs ${isDark ? 'text-gray-500' : 'text-gray-500'}`}>
               © {new Date().getFullYear()} {weddingData.couple.bride.firstName} & {weddingData.couple.groom.firstName}. All rights reserved.

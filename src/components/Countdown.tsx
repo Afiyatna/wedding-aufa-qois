@@ -21,7 +21,7 @@ export const Countdown: React.FC<CountdownProps> = ({ isDark }) => {
   return (
     <section 
       ref={ref}
-      className={`py-20 ${isDark ? 'bg-gray-900' : 'bg-gradient-to-br from-rose-100 via-pink-50 to-rose-200'}`}
+      className={`py-20 ${isDark ? 'bg-gray-900' : 'bg-gradient-to-br from-maroon-100 via-maroon-50 to-maroon-200'}`}
     >
       <div className="container mx-auto px-4">
         <div className={`text-center mb-16 transition-all duration-1000 ${
@@ -49,7 +49,7 @@ export const Countdown: React.FC<CountdownProps> = ({ isDark }) => {
                 isDark ? 'bg-gray-800 border border-gray-700' : 'bg-white/80 backdrop-blur-sm'
               }`}>
                 <div className={`text-4xl md:text-6xl font-bold mb-2 ${
-                  isDark ? 'text-rose-300' : 'text-rose-600'
+                  isDark ? 'text-maroon-300' : 'text-maroon-600'
                 }`}>
                   {unit.value.toString().padStart(2, '0')}
                 </div>
@@ -69,7 +69,7 @@ export const Countdown: React.FC<CountdownProps> = ({ isDark }) => {
             isDark ? 'bg-gray-800 border border-gray-700' : 'bg-white/80 backdrop-blur-sm'
           }`}>
             <h3 className={`text-3xl md:text-4xl font-serif ${
-              isDark ? 'text-rose-300' : 'text-rose-600'
+              isDark ? 'text-maroon-300' : 'text-maroon-600'
             }`}>
               Today is the Day! 🎉
             </h3>

@@ -24,7 +24,7 @@ export const EventDetails: React.FC<EventDetailsProps> = ({ isDark }) => {
     <section 
       id="events"
       ref={ref}
-      className={`py-20 ${isDark ? 'bg-gray-900' : 'bg-gradient-to-br from-rose-50 to-pink-50'}`}
+      className={`py-20 ${isDark ? 'bg-gray-900' : 'bg-gradient-to-br from-maroon-50 to-maroon-50'}`}
     >
       <div className="container mx-auto px-4">
         <div className={`text-center mb-16 transition-all duration-1000 ${
@@ -52,14 +52,14 @@ export const EventDetails: React.FC<EventDetailsProps> = ({ isDark }) => {
                 isDark ? 'bg-gray-800 border border-gray-700' : 'bg-white'
               }`}>
                 <h3 className={`text-2xl md:text-3xl font-serif mb-6 ${
-                  isDark ? 'text-rose-300' : 'text-rose-600'
+                  isDark ? 'text-maroon-300' : 'text-maroon-600'
                 }`}>
                   {event.title}
                 </h3>
                 
                 <div className="space-y-4">
                   <div className="flex items-center space-x-3">
-                    <Calendar className={`${isDark ? 'text-rose-400' : 'text-rose-500'}`} size={20} />
+                    <Calendar className={`${isDark ? 'text-maroon-400' : 'text-maroon-500'}`} size={20} />
                     <span className={`${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
                       {new Date(event.date).toLocaleDateString('en-US', {
                         weekday: 'long',
@@ -71,14 +71,14 @@ export const EventDetails: React.FC<EventDetailsProps> = ({ isDark }) => {
                   </div>
                   
                   <div className="flex items-center space-x-3">
-                    <Clock className={`${isDark ? 'text-rose-400' : 'text-rose-500'}`} size={20} />
+                    <Clock className={`${isDark ? 'text-maroon-400' : 'text-maroon-500'}`} size={20} />
                     <span className={`${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
                       {formatTime(event.time)}
                     </span>
                   </div>
                   
                   <div className="flex items-start space-x-3">
-                    <MapPin className={`${isDark ? 'text-rose-400' : 'text-rose-500'} mt-1`} size={20} />
+                    <MapPin className={`${isDark ? 'text-maroon-400' : 'text-maroon-500'} mt-1`} size={20} />
                     <div>
                       <p className={`font-medium ${isDark ? 'text-gray-200' : 'text-gray-800'}`}>
                         {event.venue}

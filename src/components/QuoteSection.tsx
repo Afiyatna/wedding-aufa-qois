@@ -21,7 +21,7 @@ export const QuoteSection: React.FC<QuoteSectionProps> = ({ isDark }) => {
           hasIntersected ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
         }`}>
           <Quote 
-            className={`mx-auto mb-8 ${isDark ? 'text-rose-400' : 'text-rose-500'}`} 
+            className={`mx-auto mb-8 ${isDark ? 'text-maroon-400' : 'text-maroon-500'}`} 
             size={48}
           />
           
@@ -37,11 +37,11 @@ export const QuoteSection: React.FC<QuoteSectionProps> = ({ isDark }) => {
 
           {/* Decorative elements */}
           <div className="mt-12 flex justify-center items-center space-x-4">
-            <div className={`w-16 h-px ${isDark ? 'bg-gray-600' : 'bg-rose-200'}`}></div>
-            <div className={`w-2 h-2 rounded-full ${isDark ? 'bg-rose-400' : 'bg-rose-400'}`}></div>
-            <div className={`w-4 h-px ${isDark ? 'bg-gray-600' : 'bg-rose-200'}`}></div>
-            <div className={`w-2 h-2 rounded-full ${isDark ? 'bg-rose-400' : 'bg-rose-400'}`}></div>
-            <div className={`w-16 h-px ${isDark ? 'bg-gray-600' : 'bg-rose-200'}`}></div>
+            <div className={`w-16 h-px ${isDark ? 'bg-gray-600' : 'bg-maroon-200'}`}></div>
+            <div className={`w-2 h-2 rounded-full ${isDark ? 'bg-maroon-400' : 'bg-maroon-400'}`}></div>
+            <div className={`w-4 h-px ${isDark ? 'bg-gray-600' : 'bg-maroon-200'}`}></div>
+            <div className={`w-2 h-2 rounded-full ${isDark ? 'bg-maroon-400' : 'bg-maroon-400'}`}></div>
+            <div className={`w-16 h-px ${isDark ? 'bg-gray-600' : 'bg-maroon-200'}`}></div>
           </div>
         </div>
       </div>

@@ -72,7 +72,7 @@ export const Guestbook: React.FC<GuestbookProps> = ({ isDark }) => {
     <section 
       id="guestbook"
       ref={ref}
-      className={`py-20 ${isDark ? 'bg-gray-900' : 'bg-gradient-to-br from-rose-50 to-pink-50'}`}
+      className={`py-20 ${isDark ? 'bg-gray-900' : 'bg-gradient-to-br from-maroon-50 to-maroon-50'}`}
     >
       <div className="container mx-auto px-4">
         <div className={`text-center mb-16 transition-all duration-1000 ${
@@ -107,7 +107,7 @@ export const Guestbook: React.FC<GuestbookProps> = ({ isDark }) => {
                     onChange={(e) => setNewMessage(prev => ({ ...prev, name: e.target.value }))}
                     placeholder="Your name"
                     required
-                    className={`w-full px-4 py-3 rounded-lg border transition-colors focus:ring-2 focus:ring-rose-500 focus:border-transparent ${
+                    className={`w-full px-4 py-3 rounded-lg border transition-colors focus:ring-2 focus:ring-maroon-500 focus:border-transparent ${
                       isDark 
                         ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' 
                         : 'bg-white border-gray-300 text-gray-900'
@@ -121,7 +121,7 @@ export const Guestbook: React.FC<GuestbookProps> = ({ isDark }) => {
                     placeholder="Write your message..."
                     required
                     rows={3}
-                    className={`w-full px-4 py-3 rounded-lg border transition-colors focus:ring-2 focus:ring-rose-500 focus:border-transparent resize-none ${
+                    className={`w-full px-4 py-3 rounded-lg border transition-colors focus:ring-2 focus:ring-maroon-500 focus:border-transparent resize-none ${
                       isDark 
                         ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' 
                         : 'bg-white border-gray-300 text-gray-900'
@@ -132,7 +132,7 @@ export const Guestbook: React.FC<GuestbookProps> = ({ isDark }) => {
                   <button
                     type="submit"
                     disabled={isSubmitting || !newMessage.name.trim() || !newMessage.message.trim()}
-                    className="w-full bg-gradient-to-r from-rose-500 to-pink-500 text-white py-3 px-4 rounded-lg font-medium transition-all duration-300 hover:from-rose-600 hover:to-pink-600 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
+                    className="w-full bg-gradient-to-r from-maroon-500 to-maroon-500 text-white py-3 px-4 rounded-lg font-medium transition-all duration-300 hover:from-maroon-600 hover:to-maroon-600 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
                   >
                     {isSubmitting ? (
                       <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent"></div>
@@ -152,7 +152,7 @@ export const Guestbook: React.FC<GuestbookProps> = ({ isDark }) => {
           <div className="space-y-6">
             {isLoading ? (
               <div className="text-center py-12">
-                <div className="animate-spin rounded-full h-8 w-8 border-2 border-rose-500 border-t-transparent mx-auto"></div>
+                <div className="animate-spin rounded-full h-8 w-8 border-2 border-maroon-500 border-t-transparent mx-auto"></div>
                 <p className={`mt-4 ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
                   Loading messages...
                 </p>
@@ -180,10 +180,10 @@ export const Guestbook: React.FC<GuestbookProps> = ({ isDark }) => {
                     <div className="flex items-start justify-between mb-3">
                       <div className="flex items-center space-x-2">
                         <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
-                          isDark ? 'bg-rose-500' : 'bg-rose-100'
+                          isDark ? 'bg-maroon-500' : 'bg-maroon-100'
                         }`}>
                           <span className={`font-medium ${
-                            isDark ? 'text-white' : 'text-rose-600'
+                            isDark ? 'text-white' : 'text-maroon-600'
                           }`}>
                             {msg.name.charAt(0).toUpperCase()}
                           </span>
@@ -197,7 +197,7 @@ export const Guestbook: React.FC<GuestbookProps> = ({ isDark }) => {
                           </p>
                         </div>
                       </div>
-                      <Heart className={`${isDark ? 'text-rose-400' : 'text-rose-500'}`} size={20} />
+                      <Heart className={`${isDark ? 'text-maroon-400' : 'text-maroon-500'}`} size={20} />
                     </div>
                     <p className={`${isDark ? 'text-gray-300' : 'text-gray-700'} leading-relaxed`}>
                       {msg.message}
