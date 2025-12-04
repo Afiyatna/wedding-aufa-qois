@@ -241,3 +241,4 @@ Jika masih mengalami masalah setelah mengikuti panduan ini:
 **Selamat! 🎉 Setup Supabase Anda sudah selesai!**
 
 
+

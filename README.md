@@ -37,6 +37,21 @@ npm run build
 5. Jalankan migration SQL dari folder `supabase/migrations/`
 6. Restart development server
 
+## 🚀 Deploy ke Vercel
+
+**Penting:** Setelah deploy ke Vercel, jangan lupa setup environment variables!
+
+📖 **Lihat panduan lengkap:** [VERCEL_DEPLOY.md](./VERCEL_DEPLOY.md)
+
+### Quick Deploy:
+
+1. Push code ke GitHub/GitLab
+2. Import project ke [Vercel](https://vercel.com)
+3. **Tambahkan Environment Variables:**
+   - `VITE_SUPABASE_URL`
+   - `VITE_SUPABASE_ANON_KEY`
+4. Deploy!
+
 ## ✨ Fitur
 
 - 🎨 Beautiful UI dengan Tailwind CSS
