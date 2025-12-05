@@ -38,11 +38,11 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ isDark, guestName }) =
           hasIntersected ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
         }`}>
           {/* Pre-title */}
-          {/* <p className={`text-lg md:text-xl mb-8 ${
+          <p className={`text-lg md:text-xl mb-8 ${
             isDark ? 'text-gray-300' : 'text-maroon-600'
           }`}>
             The Wedding of
-          </p> */}
+          </p>
 
           {/* Guest name badge */}
           {/* {greetingName && (
