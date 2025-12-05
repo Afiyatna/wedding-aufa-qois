@@ -12,10 +12,10 @@ export const Countdown: React.FC<CountdownProps> = ({ isDark }) => {
   const timeLeft = useCountdown(`${weddingData.events.ceremony.date}T${weddingData.events.ceremony.time}`);
   
   const timeUnits = [
-    { label: 'Days', value: timeLeft.days },
-    { label: 'Hours', value: timeLeft.hours },
-    { label: 'Minutes', value: timeLeft.minutes },
-    { label: 'Seconds', value: timeLeft.seconds }
+    { label: 'Hari', value: timeLeft.days },
+    { label: 'Jam', value: timeLeft.hours },
+    { label: 'Menit', value: timeLeft.minutes },
+    { label: 'Detik', value: timeLeft.seconds }
   ];
 
   return (
@@ -30,10 +30,10 @@ export const Countdown: React.FC<CountdownProps> = ({ isDark }) => {
           <h2 className={`text-4xl md:text-5xl font-serif mb-4 ${
             isDark ? 'text-white' : 'text-gray-800'
           }`}>
-            Counting Down
+            Hitung Mundur
           </h2>
           <p className={`text-lg ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
-            Until we say "I do"
+            Menuju hari bahagia kami
           </p>
         </div>
 
@@ -71,10 +71,10 @@ export const Countdown: React.FC<CountdownProps> = ({ isDark }) => {
             <h3 className={`text-3xl md:text-4xl font-serif ${
               isDark ? 'text-maroon-300' : 'text-maroon-600'
             }`}>
-              Today is the Day! 🎉
+              Hari ini waktunya! 🎉
             </h3>
             <p className={`mt-4 text-lg ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
-              Join us as we celebrate our wedding day!
+              Mari rayakan hari pernikahan kami!
             </p>
           </div>
         )}

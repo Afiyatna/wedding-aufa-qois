@@ -64,9 +64,9 @@ export const InvitationLanding: React.FC<InvitationLandingProps> = ({
         {/* Invitation text */}
         <div className="bg-white/95 backdrop-blur-sm rounded-3xl p-8 shadow-2xl border border-white/50">
           <div className="mb-6">
-            <p className="text-maroon-600 text-sm font-medium uppercase tracking-wider mb-2">
-              Wedding Invitation
-            </p>
+          <p className="text-maroon-600 text-sm font-medium uppercase tracking-wider mb-2">
+            Undangan Pernikahan
+          </p>
             <h1 className="text-3xl font-serif text-gray-800 mb-4">
               {weddingData.couple.bride.firstName} & {weddingData.couple.groom.firstName}
             </h1>
@@ -81,11 +81,11 @@ export const InvitationLanding: React.FC<InvitationLandingProps> = ({
 
           {/* Personal greeting */}
           <div className="mb-6">
-            <p className="text-gray-600 text-sm mb-2">Dear</p>
+            <p className="text-gray-600 text-sm mb-2">Kepada Yth.</p>
             <p className="text-2xl font-serif text-gray-800 mb-4">{guestName}</p>
             <p className="text-gray-600 text-sm leading-relaxed">
-              We joyfully invite you to celebrate our wedding day with us. 
-              Your presence would make our special day even more meaningful.
+              Dengan penuh sukacita, kami mengundang Anda untuk hadir di hari pernikahan kami. 
+              Kehadiran Anda akan membuat hari spesial ini semakin berarti.
             </p>
           </div>
 
@@ -93,7 +93,7 @@ export const InvitationLanding: React.FC<InvitationLandingProps> = ({
           <div className="flex items-center justify-center mb-8 text-maroon-600">
             <Calendar size={16} />
             <span className="ml-2 text-sm font-medium">
-              {new Date(weddingData.events.ceremony.date).toLocaleDateString('en-US', {
+              {new Date(weddingData.events.ceremony.date).toLocaleDateString('id-ID', {
                 weekday: 'long',
                 year: 'numeric',
                 month: 'long',
@@ -107,13 +107,13 @@ export const InvitationLanding: React.FC<InvitationLandingProps> = ({
             onClick={handleOpenInvitation}
             className="w-full bg-gradient-to-r from-maroon-500 to-maroon-500 text-white py-4 px-8 rounded-2xl font-medium text-lg transition-all duration-300 hover:from-maroon-600 hover:to-maroon-600 hover:shadow-lg hover:scale-105 active:scale-95"
           >
-            Open Invitation
+            Buka Undangan
           </button>
         </div>
 
         {/* Bottom text */}
         <p className="mt-6 text-maroon-700/80 text-xs">
-          With love and gratitude
+          Dengan hormat dan kasih
         </p>
       </div>
 

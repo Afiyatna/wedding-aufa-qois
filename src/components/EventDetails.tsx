@@ -11,11 +11,22 @@ export const EventDetails: React.FC<EventDetailsProps> = ({ isDark }) => {
   const { ref, hasIntersected } = useIntersectionObserver();
 
   const formatTime = (time: string) => {
-    const [hours, minutes] = time.split(':');
-    const hour = parseInt(hours);
-    const ampm = hour >= 12 ? 'PM' : 'AM';
-    const displayHour = hour % 12 || 12;
-    return `${displayHour}:${minutes} ${ampm}`;
+    const raw = time.trim();
+
+    // If user already provides a range or includes WIB, show as-is (ensure WIB suffix once)
+    if (raw.includes('-')) {
+      const hasWib = raw.toLowerCase().includes('wib');
+      return hasWib ? raw : `${raw} WIB`;
+    }
+    if (raw.toLowerCase().includes('wib')) {
+      return raw;
+    }
+
+    // Default: parse single HH:mm to localized time with WIB suffix
+    const [hours, minutes] = raw.split(':');
+    const date = new Date();
+    date.setHours(parseInt(hours), parseInt(minutes), 0);
+    return `${date.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', hour12: false })} WIB`;
   };
 
   const events = [weddingData.events.ceremony, weddingData.events.reception];
@@ -33,10 +44,10 @@ export const EventDetails: React.FC<EventDetailsProps> = ({ isDark }) => {
           <h2 className={`text-4xl md:text-5xl font-serif mb-4 ${
             isDark ? 'text-white' : 'text-gray-800'
           }`}>
-            Wedding Events
+            Rangkaian Acara
           </h2>
           <p className={`text-lg ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
-            Join us as we celebrate our special day
+            Hadirilah momen spesial kami
           </p>
         </div>
 
@@ -61,7 +72,7 @@ export const EventDetails: React.FC<EventDetailsProps> = ({ isDark }) => {
                   <div className="flex items-center space-x-3">
                     <Calendar className={`${isDark ? 'text-maroon-400' : 'text-maroon-500'}`} size={20} />
                     <span className={`${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
-                      {new Date(event.date).toLocaleDateString('en-US', {
+                      {new Date(event.date).toLocaleDateString('id-ID', {
                         weekday: 'long',
                         year: 'numeric',
                         month: 'long',

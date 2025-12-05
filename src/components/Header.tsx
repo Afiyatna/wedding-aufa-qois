@@ -20,12 +20,12 @@ export const Header: React.FC<HeaderProps> = ({ isDark, onThemeToggle }) => {
   }, []);
 
   const menuItems = [
-    { label: 'Home', href: '#home' },
-    { label: 'Story', href: '#story' },
-    { label: 'Events', href: '#events' },
-    { label: 'Gallery', href: '#gallery' },
+    { label: 'Beranda', href: '#home' },
+    { label: 'Kisah', href: '#story' },
+    { label: 'Acara', href: '#events' },
+    { label: 'Galeri', href: '#gallery' },
     { label: 'RSVP', href: '#rsvp' },
-    { label: 'Guestbook', href: '#guestbook' }
+    { label: 'Buku Tamu', href: '#guestbook' }
   ];
 
   const scrollToSection = (href: string) => {

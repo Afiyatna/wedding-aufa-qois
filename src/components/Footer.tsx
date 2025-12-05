@@ -77,7 +77,7 @@ export const Footer: React.FC<FooterProps> = ({ isDark }) => {
           {/* Copyright */}
           <div className="space-y-2">
             <p className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
-              Made with <Heart className="inline w-4 h-4 text-maroon-500" fill="currentColor" /> for our special day
+              Dibuat dengan <Heart className="inline w-4 h-4 text-maroon-500" fill="currentColor" /> untuk hari spesial kami
             </p>
             <p className={`text-xs ${isDark ? 'text-gray-500' : 'text-gray-500'}`}>
               © {new Date().getFullYear()} {weddingData.couple.bride.firstName} & {weddingData.couple.groom.firstName}. All rights reserved.

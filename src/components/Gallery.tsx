@@ -42,10 +42,10 @@ export const Gallery: React.FC<GalleryProps> = ({ isDark }) => {
           <h2 className={`text-4xl md:text-5xl font-serif mb-4 ${
             isDark ? 'text-white' : 'text-gray-800'
           }`}>
-            Our Gallery
+            Galeri Kami
           </h2>
           <p className={`text-lg ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
-            Beautiful moments we've shared together
+            Momen-momen indah yang kami bagi bersama
           </p>
         </div>
 
@@ -65,7 +65,7 @@ export const Gallery: React.FC<GalleryProps> = ({ isDark }) => {
                   className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                  <div className="text-white text-sm font-medium">View Full Size</div>
+                  <div className="text-white text-sm font-medium">Lihat ukuran penuh</div>
                 </div>
               </div>
             </div>

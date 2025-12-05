@@ -74,10 +74,10 @@ export const RSVPForm: React.FC<RSVPFormProps> = ({ isDark }) => {
           <h2 className={`text-4xl md:text-5xl font-serif mb-4 ${
             isDark ? 'text-white' : 'text-gray-800'
           }`}>
-            RSVP
+            Konfirmasi Kehadiran
           </h2>
           <p className={`text-lg ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
-            Please let us know if you can make it
+            Mohon konfirmasi kehadiran Anda
           </p>
         </div>
 
@@ -94,7 +94,7 @@ export const RSVPForm: React.FC<RSVPFormProps> = ({ isDark }) => {
                 <label className={`block text-sm font-medium mb-2 ${
                   isDark ? 'text-gray-300' : 'text-gray-700'
                 }`}>
-                  Full Name *
+                  Nama Lengkap *
                 </label>
                 <input
                   type="text"
@@ -107,7 +107,7 @@ export const RSVPForm: React.FC<RSVPFormProps> = ({ isDark }) => {
                       ? 'bg-gray-800 border-gray-600 text-white placeholder-gray-400' 
                       : 'bg-white border-gray-300 text-gray-900'
                   }`}
-                  placeholder="Enter your full name"
+                  placeholder="Masukkan nama lengkap"
                 />
               </div>
 
@@ -137,7 +137,7 @@ export const RSVPForm: React.FC<RSVPFormProps> = ({ isDark }) => {
                 <label className={`block text-sm font-medium mb-2 ${
                   isDark ? 'text-gray-300' : 'text-gray-700'
                 }`}>
-                  Phone Number
+                  Nomor Telepon
                 </label>
                 <input
                   type="tel"
@@ -149,7 +149,7 @@ export const RSVPForm: React.FC<RSVPFormProps> = ({ isDark }) => {
                       ? 'bg-gray-800 border-gray-600 text-white placeholder-gray-400' 
                       : 'bg-white border-gray-300 text-gray-900'
                   }`}
-                  placeholder="(555) 123-4567"
+                  placeholder="08xxxxxxxxxx"
                 />
               </div>
 
@@ -158,7 +158,7 @@ export const RSVPForm: React.FC<RSVPFormProps> = ({ isDark }) => {
                 <label className={`block text-sm font-medium mb-2 ${
                   isDark ? 'text-gray-300' : 'text-gray-700'
                 }`}>
-                  Will you attend? *
+                  Apakah Anda akan hadir? *
                 </label>
                 <select
                   name="attendance"
@@ -171,9 +171,9 @@ export const RSVPForm: React.FC<RSVPFormProps> = ({ isDark }) => {
                       : 'bg-white border-gray-300 text-gray-900'
                   }`}
                 >
-                  <option value="yes">Yes, I'll be there!</option>
-                  <option value="no">Sorry, can't make it</option>
-                  <option value="maybe">Maybe</option>
+                  <option value="yes">Ya, saya hadir</option>
+                  <option value="no">Maaf, tidak bisa hadir</option>
+                  <option value="maybe">Mungkin</option>
                 </select>
               </div>
 
@@ -182,7 +182,7 @@ export const RSVPForm: React.FC<RSVPFormProps> = ({ isDark }) => {
                 <label className={`block text-sm font-medium mb-2 ${
                   isDark ? 'text-gray-300' : 'text-gray-700'
                 }`}>
-                  Number of Guests
+                  Jumlah Tamu
                 </label>
                 <input
                   type="number"
@@ -204,7 +204,7 @@ export const RSVPForm: React.FC<RSVPFormProps> = ({ isDark }) => {
                 <label className={`block text-sm font-medium mb-2 ${
                   isDark ? 'text-gray-300' : 'text-gray-700'
                 }`}>
-                  Dietary Restrictions or Special Requests
+                  Kebutuhan makanan / catatan khusus
                 </label>
                 <textarea
                   name="dietary_restrictions"
@@ -216,7 +216,7 @@ export const RSVPForm: React.FC<RSVPFormProps> = ({ isDark }) => {
                       ? 'bg-gray-800 border-gray-600 text-white placeholder-gray-400' 
                       : 'bg-white border-gray-300 text-gray-900'
                   }`}
-                  placeholder="Let us know about any dietary restrictions or special requests..."
+                  placeholder="Tuliskan kebutuhan makanan atau catatan khusus..."
                 ></textarea>
               </div>
 
@@ -225,7 +225,7 @@ export const RSVPForm: React.FC<RSVPFormProps> = ({ isDark }) => {
                 <label className={`block text-sm font-medium mb-2 ${
                   isDark ? 'text-gray-300' : 'text-gray-700'
                 }`}>
-                  Message for the Happy Couple
+                  Pesan untuk kami
                 </label>
                 <textarea
                   name="message"
@@ -237,7 +237,7 @@ export const RSVPForm: React.FC<RSVPFormProps> = ({ isDark }) => {
                       ? 'bg-gray-800 border-gray-600 text-white placeholder-gray-400' 
                       : 'bg-white border-gray-300 text-gray-900'
                   }`}
-                  placeholder="Share your wishes for the happy couple..."
+                  placeholder="Tuliskan doa atau ucapan untuk kami..."
                 ></textarea>
               </div>
             </div>
@@ -252,12 +252,12 @@ export const RSVPForm: React.FC<RSVPFormProps> = ({ isDark }) => {
                 {isSubmitting ? (
                   <>
                     <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent"></div>
-                    <span>Submitting...</span>
+                    <span>Mengirim...</span>
                   </>
                 ) : (
                   <>
                     <Send size={20} />
-                    <span>Send RSVP</span>
+                    <span>Kirim RSVP</span>
                   </>
                 )}
               </button>
@@ -267,14 +267,14 @@ export const RSVPForm: React.FC<RSVPFormProps> = ({ isDark }) => {
             {submitStatus === 'success' && (
               <div className="mt-4 p-4 bg-green-100 text-green-800 rounded-lg flex items-center space-x-2">
                 <CheckCircle size={20} />
-                <span>Thank you! Your RSVP has been submitted successfully.</span>
+                <span>Terima kasih! Konfirmasi kehadiran Anda berhasil dikirim.</span>
               </div>
             )}
 
             {submitStatus === 'error' && (
               <div className="mt-4 p-4 bg-red-100 text-red-800 rounded-lg flex items-center space-x-2">
                 <AlertCircle size={20} />
-                <span>Sorry, there was an error submitting your RSVP. Please try again.</span>
+                <span>Maaf, terjadi kesalahan saat mengirim RSVP. Silakan coba lagi.</span>
               </div>
             )}
           </form>

@@ -10,7 +10,7 @@ interface HeroSectionProps {
 
 export const HeroSection: React.FC<HeroSectionProps> = ({ isDark, guestName }) => {
   const { ref, hasIntersected } = useIntersectionObserver();
-  const greetingName = guestName?.trim() || 'Someone Special';
+  const greetingName = guestName?.trim() || 'Tamu Spesial';
 
   return (
     <section 
@@ -38,14 +38,14 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ isDark, guestName }) =
           hasIntersected ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
         }`}>
           {/* Pre-title */}
-          <p className={`text-lg md:text-xl mb-8 ${
+          {/* <p className={`text-lg md:text-xl mb-8 ${
             isDark ? 'text-gray-300' : 'text-maroon-600'
           }`}>
             The Wedding of
-          </p>
+          </p> */}
 
           {/* Guest name badge */}
-          {greetingName && (
+          {/* {greetingName && (
             <div className="mb-6 flex justify-center">
               <span className={`inline-flex items-center px-4 py-2 rounded-full text-sm font-medium ${
                 isDark 
@@ -55,7 +55,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ isDark, guestName }) =
                 Untuk: {greetingName}
               </span>
             </div>
-          )}
+          )} */}
 
           {/* Couple Names */}
           <div className="space-y-6 mb-12">
@@ -111,7 +111,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ isDark, guestName }) =
             <span className={`text-lg font-medium ${
               isDark ? 'text-gray-200' : 'text-gray-700'
             }`}>
-              {new Date(weddingData.events.ceremony.date).toLocaleDateString('en-US', {
+              {new Date(weddingData.events.ceremony.date).toLocaleDateString('id-ID', {
                 weekday: 'long',
                 year: 'numeric',
                 month: 'long',

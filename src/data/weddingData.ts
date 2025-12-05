@@ -3,12 +3,12 @@ export const weddingData = {
     bride: {
       fullName: "Aufa Amroini Indah Saesari",
       firstName: "Aufa",
-      parents: "H. Rosanto Budiharjo & Ida Katrinawaningsih"
+      parents: "Bpk. H. Rosanto Budiharjo & Ibu Ida Katrinawaningsih"
     },
     groom: {
       fullName: "Sabilul Qois",
       firstName: "Qois", 
-      parents: "H. Mulyadi & Siti Syamsiah"
+      parents: "Bpk. H. Mulyadi (Alm) & Ibu Siti Syamsiah"
     }
   },
   quote: {

@@ -59,7 +59,7 @@ export const Guestbook: React.FC<GuestbookProps> = ({ isDark }) => {
   };
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
+    return new Date(dateString).toLocaleDateString('id-ID', {
       year: 'numeric',
       month: 'short',
       day: 'numeric',
@@ -81,10 +81,10 @@ export const Guestbook: React.FC<GuestbookProps> = ({ isDark }) => {
           <h2 className={`text-4xl md:text-5xl font-serif mb-4 ${
             isDark ? 'text-white' : 'text-gray-800'
           }`}>
-            Guestbook
+            Buku Tamu
           </h2>
           <p className={`text-lg ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
-            Leave your wishes and blessings for the happy couple
+            Tinggalkan doa dan ucapan untuk kami
           </p>
         </div>
 
@@ -105,7 +105,7 @@ export const Guestbook: React.FC<GuestbookProps> = ({ isDark }) => {
                     type="text"
                     value={newMessage.name}
                     onChange={(e) => setNewMessage(prev => ({ ...prev, name: e.target.value }))}
-                    placeholder="Your name"
+                    placeholder="Nama Anda"
                     required
                     className={`w-full px-4 py-3 rounded-lg border transition-colors focus:ring-2 focus:ring-maroon-500 focus:border-transparent ${
                       isDark 
@@ -118,7 +118,7 @@ export const Guestbook: React.FC<GuestbookProps> = ({ isDark }) => {
                   <textarea
                     value={newMessage.message}
                     onChange={(e) => setNewMessage(prev => ({ ...prev, message: e.target.value }))}
-                    placeholder="Write your message..."
+                    placeholder="Tulis pesan Anda..."
                     required
                     rows={3}
                     className={`w-full px-4 py-3 rounded-lg border transition-colors focus:ring-2 focus:ring-maroon-500 focus:border-transparent resize-none ${
@@ -139,7 +139,7 @@ export const Guestbook: React.FC<GuestbookProps> = ({ isDark }) => {
                     ) : (
                       <>
                         <Send size={16} />
-                        <span className="hidden md:inline">Send</span>
+                        <span className="hidden md:inline">Kirim</span>
                       </>
                     )}
                   </button>
@@ -154,7 +154,7 @@ export const Guestbook: React.FC<GuestbookProps> = ({ isDark }) => {
               <div className="text-center py-12">
                 <div className="animate-spin rounded-full h-8 w-8 border-2 border-maroon-500 border-t-transparent mx-auto"></div>
                 <p className={`mt-4 ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
-                  Loading messages...
+                  Memuat pesan...
                 </p>
               </div>
             ) : messages.length === 0 ? (
@@ -163,7 +163,7 @@ export const Guestbook: React.FC<GuestbookProps> = ({ isDark }) => {
               } rounded-2xl shadow-lg`}>
                 <MessageCircle className={`mx-auto mb-4 ${isDark ? 'text-gray-400' : 'text-gray-400'}`} size={48} />
                 <p className={`text-lg ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
-                  Be the first to leave a message!
+                  Jadilah yang pertama meninggalkan pesan!
                 </p>
               </div>
             ) : (

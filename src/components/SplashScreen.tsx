@@ -48,7 +48,7 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onComplete }) => {
         {/* Date */}
         <div className={`transition-all duration-1000 delay-500 ${currentPhase >= 1 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
           <p className="text-xl md:text-2xl text-maroon-600 font-light">
-            {new Date(weddingData.events.ceremony.date).toLocaleDateString('en-US', {
+            {new Date(weddingData.events.ceremony.date).toLocaleDateString('id-ID', {
               weekday: 'long',
               year: 'numeric', 
               month: 'long',
