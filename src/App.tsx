@@ -73,7 +73,7 @@ function App() {
       <Header isDark={isDark} onThemeToggle={toggleTheme} />
       
       <main>
-        <HeroSection isDark={isDark} />
+        <HeroSection isDark={isDark} guestName={guestName} />
         <QuoteSection isDark={isDark} />
         <EventDetails isDark={isDark} />
         <Gallery isDark={isDark} />

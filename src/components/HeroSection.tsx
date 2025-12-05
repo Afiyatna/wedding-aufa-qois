@@ -5,10 +5,12 @@ import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
 
 interface HeroSectionProps {
   isDark: boolean;
+  guestName?: string;
 }
 
-export const HeroSection: React.FC<HeroSectionProps> = ({ isDark }) => {
+export const HeroSection: React.FC<HeroSectionProps> = ({ isDark, guestName }) => {
   const { ref, hasIntersected } = useIntersectionObserver();
+  const greetingName = guestName?.trim() || 'Someone Special';
 
   return (
     <section 
@@ -41,6 +43,19 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ isDark }) => {
           }`}>
             The Wedding of
           </p>
+
+          {/* Guest name badge */}
+          {greetingName && (
+            <div className="mb-6 flex justify-center">
+              <span className={`inline-flex items-center px-4 py-2 rounded-full text-sm font-medium ${
+                isDark 
+                  ? 'bg-gray-800 text-gray-100 border border-gray-700' 
+                  : 'bg-white/80 text-gray-800 border border-maroon-200'
+              }`}>
+                Untuk: {greetingName}
+              </span>
+            </div>
+          )}
 
           {/* Couple Names */}
           <div className="space-y-6 mb-12">
