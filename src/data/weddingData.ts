@@ -13,7 +13,7 @@ export const weddingData = {
       image: "gallery/groom.jpg" // Path ke gambar mempelai pria, contoh: "images/groom.jpg" atau kosongkan jika ingin menggunakan inisial
     }
   },
-  coupleImage: "gallery/A-Q.jpg", // Path ke gambar gabungan kedua mempelai untuk HeroSection, contoh: "gallery/A-Q.jpg" atau kosongkan jika ingin menggunakan inisial
+  coupleImage: "gallery/img5.jpg", // Path ke gambar gabungan kedua mempelai untuk HeroSection, contoh: "gallery/A-Q.jpg" atau kosongkan jika ingin menggunakan inisial
   quote: {
     text: "Dan segala sesuatu Kami ciptakan berpasang-pasangan agar kamu mengingat (kebesaran Allah).",
     author: "QS. Adz Dzariyat: 49"
@@ -39,33 +39,42 @@ export const weddingData = {
   gallery: [
     {
       id: 1,
-      url: 'gallery/img1.jpg',
+      url: 'gallery/groom.jpg',
       alt: "Mempelai Wanita"
     },
     {
       id: 2, 
-      url: "gallery/img2.jpg",
+      url: "gallery/bride.jpg",
       alt: "Pre-wedding photo 2"
     },
-    // {
-    //   id: 3,
-    //   url: "https://images.pexels.com/photos/1729931/pexels-photo-1729931.jpeg?auto=compress&cs=tinysrgb&w=800", 
-    //   alt: "Pre-wedding photo 3"
-    // },
-    // {
-    //   id: 4,
-    //   url: "https://images.pexels.com/photos/1043474/pexels-photo-1043474.jpeg?auto=compress&cs=tinysrgb&w=800",
-    //   alt: "Pre-wedding photo 4"
-    // },
+    {
+      id: 3,
+      url: "gallery/img3.jpg", 
+      alt: "Pre-wedding photo 3"
+    },
+    {
+      id: 4,
+      url: "gallery/img4.jpg",
+      alt: "Pre-wedding photo 4"
+    },
     {
       id: 5,
-      url: "https://images.pexels.com/photos/1024960/pexels-photo-1024960.jpeg?auto=compress&cs=tinysrgb&w=800",
+      url: "gallery/A-Q.jpg",
       alt: "Pre-wedding photo 5"
     },
     {
       id: 6,
-      url: "https://images.pexels.com/photos/1024968/pexels-photo-1024968.jpeg?auto=compress&cs=tinysrgb&w=800",
+      url: "gallery/img5.jpg",
       alt: "Pre-wedding photo 6"
     }
-  ]
+  ],
+  digitalEnvelope: {
+    title: "Amplop Digital",
+    subtitle: "Doa restu Anda adalah hadiah terindah. Bila ingin berbagi tanda kasih, silakan gunakan rekening di bawah ini.",
+    accounts: [
+      { bank: "BCA", number: "0800820162", name: "Aufa Amroini Indah Saesari" },
+      { bank: "Bank Jateng", number: "3018023169", name: "Aufa Amroini Indah Saesari" },
+      { bank: "DANA", number: "082225279922", name: "Aufa Amroini Indah Saesari" }
+    ]
+  }
 };

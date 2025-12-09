@@ -5,6 +5,7 @@ import { Header } from './components/Header';
 import { HeroSection } from './components/HeroSection';
 import { QuoteSection } from './components/QuoteSection';
 import { QuotePage } from './components/QuotePage';
+import { DigitalEnvelope } from './components/DigitalEnvelope';
 import { EventDetails } from './components/EventDetails';
 import { Gallery } from './components/Gallery';
 import { Countdown } from './components/Countdown';
@@ -78,6 +79,7 @@ function App() {
         <QuoteSection isDark={isDark} />
         <QuotePage isDark={isDark} />
         <EventDetails isDark={isDark} />
+        <DigitalEnvelope isDark={isDark} />
         <Gallery isDark={isDark} />
         <Countdown isDark={isDark} />
         <RSVPForm isDark={isDark} />
