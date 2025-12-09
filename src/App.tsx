@@ -4,6 +4,7 @@ import { SplashScreen } from './components/SplashScreen';
 import { Header } from './components/Header';
 import { HeroSection } from './components/HeroSection';
 import { QuoteSection } from './components/QuoteSection';
+import { QuotePage } from './components/QuotePage';
 import { EventDetails } from './components/EventDetails';
 import { Gallery } from './components/Gallery';
 import { Countdown } from './components/Countdown';
@@ -72,9 +73,10 @@ function App() {
     }`}>
       <Header isDark={isDark} onThemeToggle={toggleTheme} />
       
-      <main>
+      <main className="scroll-container">
         <HeroSection isDark={isDark} guestName={guestName} />
         <QuoteSection isDark={isDark} />
+        <QuotePage isDark={isDark} />
         <EventDetails isDark={isDark} />
         <Gallery isDark={isDark} />
         <Countdown isDark={isDark} />

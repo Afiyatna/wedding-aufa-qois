@@ -8,7 +8,7 @@ interface CountdownProps {
 }
 
 export const Countdown: React.FC<CountdownProps> = ({ isDark }) => {
-  const { ref, hasIntersected } = useIntersectionObserver();
+  const { ref, shouldAnimate } = useIntersectionObserver();
   const timeLeft = useCountdown(`${weddingData.events.ceremony.date}T${weddingData.events.ceremony.time}`);
   
   const timeUnits = [
@@ -21,39 +21,39 @@ export const Countdown: React.FC<CountdownProps> = ({ isDark }) => {
   return (
     <section 
       ref={ref}
-      className={`py-20 ${isDark ? 'bg-gray-900' : 'bg-gradient-to-br from-maroon-100 via-maroon-50 to-maroon-200'}`}
+      className={`min-h-screen flex items-center py-12 sm:py-20 snap-start ${isDark ? 'bg-gray-900' : 'bg-gradient-to-br from-maroon-100 via-maroon-50 to-maroon-200'}`}
     >
-      <div className="container mx-auto px-4">
-        <div className={`text-center mb-16 transition-all duration-1000 ${
-          hasIntersected ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+      <div className="container mx-auto px-4 sm:px-6 w-full">
+        <div className={`text-center mb-10 sm:mb-16 transition-all duration-1000 ease-out ${
+          shouldAnimate ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
         }`}>
-          <h2 className={`text-4xl md:text-5xl font-serif mb-4 ${
+          <h2 className={`text-3xl sm:text-4xl md:text-5xl font-serif mb-3 sm:mb-4 ${
             isDark ? 'text-white' : 'text-gray-800'
           }`}>
             Hitung Mundur
           </h2>
-          <p className={`text-lg ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
+          <p className={`text-base sm:text-lg ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
             Menuju hari bahagia kami
           </p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6 max-w-4xl mx-auto">
           {timeUnits.map((unit, index) => (
             <div
               key={unit.label}
-              className={`text-center transition-all duration-1000 delay-${index * 100} ${
-                hasIntersected ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+              className={`text-center transition-all duration-1000 ease-out delay-${index * 100} ${
+                shouldAnimate ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
               }`}
             >
-              <div className={`p-6 rounded-2xl shadow-lg ${
+              <div className={`p-4 sm:p-6 rounded-xl sm:rounded-2xl shadow-lg ${
                 isDark ? 'bg-gray-800 border border-gray-700' : 'bg-white/80 backdrop-blur-sm'
               }`}>
-                <div className={`text-4xl md:text-6xl font-bold mb-2 ${
+                <div className={`text-3xl sm:text-4xl md:text-6xl font-bold mb-1 sm:mb-2 ${
                   isDark ? 'text-maroon-300' : 'text-maroon-600'
                 }`}>
                   {unit.value.toString().padStart(2, '0')}
                 </div>
-                <div className={`text-sm md:text-base font-medium uppercase tracking-wider ${
+                <div className={`text-xs sm:text-sm md:text-base font-medium uppercase tracking-wider ${
                   isDark ? 'text-gray-400' : 'text-gray-600'
                 }`}>
                   {unit.label}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Calendar } from 'lucide-react';
 import { weddingData } from '../data/weddingData';
 import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
@@ -9,11 +9,12 @@ interface HeroSectionProps {
 }
 
 export const HeroSection: React.FC<HeroSectionProps> = ({ isDark, guestName }) => {
-  const { ref, hasIntersected } = useIntersectionObserver();
-  const greetingName = guestName?.trim() || 'Tamu Spesial';
+  const { ref, shouldAnimate } = useIntersectionObserver();
+  const [imageError, setImageError] = useState(false);
   const brideInitial = weddingData.couple.bride.firstName.charAt(0).toUpperCase();
   const groomInitial = weddingData.couple.groom.firstName.charAt(0).toUpperCase();
   const initials = `${brideInitial} & ${groomInitial}`;
+  const coupleImage = weddingData.coupleImage || '';
   const weddingDateText = new Date(weddingData.events.ceremony.date).toLocaleDateString('id-ID', {
     weekday: 'long',
     year: 'numeric',
@@ -25,11 +26,18 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ isDark, guestName }) =
     document.getElementById('events')?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  const handleScrollDown = () => {
+    const nextSection = document.getElementById('story');
+    if (nextSection) {
+      nextSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
   return (
     <section 
       id="home"
       ref={ref}
-      className={`min-h-screen flex items-center justify-center relative overflow-hidden ${
+      className={`min-h-screen flex items-center justify-center relative overflow-hidden snap-start ${
         isDark ? 'bg-gray-900' : 'bg-gradient-to-br from-maroon-50 via-maroon-25 to-maroon-100'
       }`}
       style={{
@@ -46,64 +54,73 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ isDark, guestName }) =
         } animate-pulse delay-1000`}></div>
       </div>
 
-      <div className="container mx-auto px-4 text-center relative z-10">
-        <div className={`transition-all duration-1000 ${
-          hasIntersected ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+      <div className="container mx-auto px-4 sm:px-6 text-center relative z-10 py-20 sm:py-0">
+        <div className={`transition-all duration-1000 ease-out ${
+          shouldAnimate ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
         }`}>
           {/* Intro Card */}
-          <div className="flex justify-center mb-10">
-            <div className={`relative w-full max-w-md mx-auto p-6 rounded-3xl shadow-2xl ${
+          <div className="flex justify-center mb-8 sm:mb-10">
+            <div className={`relative w-full max-w-md mx-auto p-4 sm:p-6 rounded-2xl sm:rounded-3xl shadow-2xl ${
               isDark 
                 ? 'bg-gray-800/90 border border-gray-700' 
                 : 'bg-white/95 border border-maroon-100'
             }`}>
-              <p className={`text-sm font-semibold tracking-widest uppercase text-center ${
+              <p className={`text-xs sm:text-sm font-semibold tracking-widest uppercase text-center ${
                 isDark ? 'text-gray-300' : 'text-maroon-600'
               }`}>
                 The Wedding of
               </p>
 
-              <div className="mt-6 mb-4 flex justify-center">
-                <div className="relative w-40 h-40 rounded-full overflow-hidden border-4 border-maroon-100 bg-gradient-to-br from-maroon-100 to-white flex items-center justify-center shadow-inner">
-                  <div className="w-36 h-36 rounded-full bg-gradient-to-br from-maroon-500 to-maroon-300 flex items-center justify-center text-3xl font-serif text-white">
-                    {initials}
-                  </div>
+              <div className="mt-4 sm:mt-6 mb-3 sm:mb-4 flex justify-center">
+                <div className="relative w-32 h-32 sm:w-40 sm:h-40 rounded-full overflow-hidden border-4 border-maroon-100 bg-gradient-to-br from-maroon-100 to-white flex items-center justify-center shadow-inner">
+                  {coupleImage && !imageError ? (
+                    <img 
+                      src={coupleImage} 
+                      alt={`${weddingData.couple.bride.firstName} & ${weddingData.couple.groom.firstName}`}
+                      className="w-28 h-28 sm:w-36 sm:h-36 rounded-full object-cover"
+                      onError={() => setImageError(true)}
+                    />
+                  ) : (
+                    <div className="w-28 h-28 sm:w-36 sm:h-36 rounded-full bg-gradient-to-br from-maroon-500 to-maroon-300 flex items-center justify-center text-2xl sm:text-3xl font-serif text-white">
+                      {initials}
+                    </div>
+                  )}
                 </div>
               </div>
 
               <div className="text-center space-y-1">
-                <h1 className={`text-3xl md:text-4xl font-serif ${
+                <h1 className={`text-2xl sm:text-3xl md:text-4xl font-serif ${
                   isDark ? 'text-white' : 'text-gray-800'
                 }`}>
                   {weddingData.couple.bride.firstName}
                 </h1>
-                <span className={`block text-xl ${
+                <span className={`block text-lg sm:text-xl ${
                   isDark ? 'text-gray-400' : 'text-gray-500'
                 }`}>&</span>
-                <h1 className={`text-3xl md:text-4xl font-serif ${
+                <h1 className={`text-2xl sm:text-3xl md:text-4xl font-serif ${
                   isDark ? 'text-white' : 'text-gray-800'
                 }`}>
                   {weddingData.couple.groom.firstName}
                 </h1>
               </div>
 
-              <p className={`mt-4 text-center text-sm ${
+              <p className={`mt-3 sm:mt-4 text-center text-xs sm:text-sm px-2 ${
                 isDark ? 'text-gray-300' : 'text-gray-600'
               }`}>
                 Kami mengundang Anda untuk merayakan hari pernikahan kami.
               </p>
 
-              <div className="mt-4 flex items-center justify-center space-x-2 text-maroon-600">
-                <Calendar size={18} />
-                <span className="text-sm font-medium">
+              <div className="mt-3 sm:mt-4 flex items-center justify-center space-x-2 text-maroon-600">
+                <Calendar size={16} className="sm:w-[18px] sm:h-[18px]" />
+                <span className="text-xs sm:text-sm font-medium">
                   {weddingDateText}
                 </span>
               </div>
 
-              <div className="mt-6 flex justify-center">
+              <div className="mt-4 sm:mt-6 flex justify-center">
                 <button
                   onClick={handleScrollToEvents}
-                  className="px-5 py-3 rounded-full bg-maroon-500 text-white text-sm font-medium shadow-lg transition duration-300 hover:bg-maroon-600 hover:shadow-xl active:scale-95"
+                  className="px-5 py-2.5 sm:py-3 rounded-full bg-maroon-500 text-white text-xs sm:text-sm font-medium shadow-lg transition duration-300 hover:bg-maroon-600 hover:shadow-xl active:scale-95 touch-manipulation"
                 >
                   Save the Date
                 </button>
@@ -124,12 +141,16 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ isDark, guestName }) =
           </div>
 
           {/* Scroll Indicator */}
-          <div className="mt-16">
-            <div className={`animate-bounce ${isDark ? 'text-gray-400' : 'text-maroon-400'}`}>
-              <div className="w-6 h-10 border-2 border-current rounded-full mx-auto">
-                <div className="w-1 h-3 bg-current rounded-full mx-auto mt-2 animate-pulse"></div>
+          <div className="mt-8 sm:mt-16">
+            <button
+              onClick={handleScrollDown}
+              className={`animate-bounce ${isDark ? 'text-gray-400 hover:text-gray-300' : 'text-maroon-400 hover:text-maroon-500'} cursor-pointer transition-colors touch-manipulation`}
+              aria-label="Scroll ke bawah"
+            >
+              <div className="w-5 h-8 sm:w-6 sm:h-10 border-2 border-current rounded-full mx-auto">
+                <div className="w-1 h-2 sm:h-3 bg-current rounded-full mx-auto mt-1.5 sm:mt-2 animate-pulse"></div>
               </div>
-            </div>
+            </button>
           </div>
         </div>
       </div>

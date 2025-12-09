@@ -8,7 +8,7 @@ interface EventDetailsProps {
 }
 
 export const EventDetails: React.FC<EventDetailsProps> = ({ isDark }) => {
-  const { ref, hasIntersected } = useIntersectionObserver();
+  const { ref, shouldAnimate } = useIntersectionObserver();
 
   const formatTime = (time: string) => {
     const raw = time.trim();
@@ -35,34 +35,34 @@ export const EventDetails: React.FC<EventDetailsProps> = ({ isDark }) => {
     <section 
       id="events"
       ref={ref}
-      className={`py-20 ${isDark ? 'bg-gray-900' : 'bg-gradient-to-br from-maroon-50 to-maroon-50'}`}
+      className={`min-h-screen flex items-center py-12 sm:py-20 snap-start ${isDark ? 'bg-gray-900' : 'bg-gradient-to-br from-maroon-50 to-maroon-50'}`}
     >
-      <div className="container mx-auto px-4">
-        <div className={`text-center mb-16 transition-all duration-1000 ${
-          hasIntersected ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+      <div className="container mx-auto px-4 sm:px-6 w-full">
+        <div className={`text-center mb-10 sm:mb-16 transition-all duration-1000 ease-out ${
+          shouldAnimate ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
         }`}>
-          <h2 className={`text-4xl md:text-5xl font-serif mb-4 ${
+          <h2 className={`text-3xl sm:text-4xl md:text-5xl font-serif mb-3 sm:mb-4 ${
             isDark ? 'text-white' : 'text-gray-800'
           }`}>
             Rangkaian Acara
           </h2>
-          <p className={`text-lg ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
+          <p className={`text-base sm:text-lg ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
             Hadirilah momen spesial kami
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+        <div className="grid md:grid-cols-2 gap-6 sm:gap-8 max-w-6xl mx-auto">
           {events.map((event, index) => (
             <div
               key={event.title}
-              className={`transition-all duration-1000 delay-${index * 200} ${
-                hasIntersected ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+              className={`transition-all duration-1000 ease-out delay-${index * 200} ${
+                shouldAnimate ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
               }`}
             >
-              <div className={`p-8 rounded-2xl shadow-lg h-full ${
+              <div className={`p-5 sm:p-8 rounded-xl sm:rounded-2xl shadow-lg h-full ${
                 isDark ? 'bg-gray-800 border border-gray-700' : 'bg-white'
               }`}>
-                <h3 className={`text-2xl md:text-3xl font-serif mb-6 ${
+                <h3 className={`text-xl sm:text-2xl md:text-3xl font-serif mb-4 sm:mb-6 ${
                   isDark ? 'text-maroon-300' : 'text-maroon-600'
                 }`}>
                   {event.title}
@@ -102,7 +102,7 @@ export const EventDetails: React.FC<EventDetailsProps> = ({ isDark }) => {
                 </div>
 
                 {/* Map */}
-                <div className="mt-6">
+                <div className="mt-4 sm:mt-6">
                   <div className="aspect-video rounded-lg overflow-hidden">
                     <iframe
                       src={event.mapUrl}

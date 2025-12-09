@@ -8,7 +8,7 @@ interface RSVPFormProps {
 }
 
 export const RSVPForm: React.FC<RSVPFormProps> = ({ isDark }) => {
-  const { ref, hasIntersected } = useIntersectionObserver();
+  const { ref, shouldAnimate } = useIntersectionObserver();
   const [formData, setFormData] = useState<RSVPResponse>({
     name: '',
     email: '',
@@ -65,18 +65,18 @@ export const RSVPForm: React.FC<RSVPFormProps> = ({ isDark }) => {
     <section 
       id="rsvp"
       ref={ref}
-      className={`py-20 ${isDark ? 'bg-gray-800' : 'bg-white'}`}
+      className={`min-h-screen flex items-center py-12 sm:py-20 snap-start ${isDark ? 'bg-gray-800' : 'bg-white'}`}
     >
-      <div className="container mx-auto px-4">
-        <div className={`text-center mb-16 transition-all duration-1000 ${
-          hasIntersected ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+      <div className="container mx-auto px-4 sm:px-6 w-full">
+        <div className={`text-center mb-10 sm:mb-16 transition-all duration-1000 ease-out ${
+          shouldAnimate ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
         }`}>
-          <h2 className={`text-4xl md:text-5xl font-serif mb-4 ${
+          <h2 className={`text-3xl sm:text-4xl md:text-5xl font-serif mb-3 sm:mb-4 ${
             isDark ? 'text-white' : 'text-gray-800'
           }`}>
             Konfirmasi Kehadiran
           </h2>
-          <p className={`text-lg ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
+          <p className={`text-base sm:text-lg ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
             Mohon konfirmasi kehadiran Anda
           </p>
         </div>
@@ -84,11 +84,11 @@ export const RSVPForm: React.FC<RSVPFormProps> = ({ isDark }) => {
         <div className="max-w-2xl mx-auto">
           <form 
             onSubmit={handleSubmit}
-            className={`p-8 rounded-2xl shadow-lg transition-all duration-1000 delay-200 ${
-              hasIntersected ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+            className={`p-5 sm:p-8 rounded-xl sm:rounded-2xl shadow-lg transition-all duration-1000 ease-out delay-200 ${
+              shouldAnimate ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
             } ${isDark ? 'bg-gray-900 border border-gray-700' : 'bg-white'}`}
           >
-            <div className="grid md:grid-cols-2 gap-6">
+            <div className="grid md:grid-cols-2 gap-4 sm:gap-6">
               {/* Name */}
               <div className="md:col-span-2">
                 <label className={`block text-sm font-medium mb-2 ${
@@ -243,11 +243,11 @@ export const RSVPForm: React.FC<RSVPFormProps> = ({ isDark }) => {
             </div>
 
             {/* Submit Button */}
-            <div className="mt-8">
+            <div className="mt-6 sm:mt-8">
               <button
                 type="submit"
                 disabled={isSubmitting || !formData.name.trim()}
-                className="w-full bg-gradient-to-r from-maroon-500 to-maroon-500 text-white py-4 px-6 rounded-lg font-medium transition-all duration-300 hover:from-maroon-600 hover:to-maroon-600 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
+                className="w-full bg-gradient-to-r from-maroon-500 to-maroon-500 text-white py-3 sm:py-4 px-6 rounded-lg font-medium transition-all duration-300 hover:from-maroon-600 hover:to-maroon-600 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2 touch-manipulation"
               >
                 {isSubmitting ? (
                   <>

@@ -1,3 +1,60 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
+  scroll-snap-type: y mandatory;
+  overflow-y: scroll;
+}
+
+/* Scroll snap for sections */
+section {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+/* Smooth scroll animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.scroll-fade-in {
+  animation: fadeInUp 0.8s ease-out forwards;
+}
+
+/* Enhanced fade-in animation for sections */
+@keyframes sectionFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.section-animate {
+  animation: sectionFadeIn 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* Disable scroll snap on mobile for better UX */
+@media (max-width: 640px) {
+  html {
+    scroll-snap-type: none;
+  }
+  
+  section {
+    scroll-snap-align: none;
+    scroll-snap-stop: normal;
+  }
+}

@@ -8,7 +8,7 @@ interface GalleryProps {
 }
 
 export const Gallery: React.FC<GalleryProps> = ({ isDark }) => {
-  const { ref, hasIntersected } = useIntersectionObserver();
+  const { ref, shouldAnimate } = useIntersectionObserver();
   const [selectedImage, setSelectedImage] = useState<number | null>(null);
 
   const nextImage = () => {
@@ -33,28 +33,28 @@ export const Gallery: React.FC<GalleryProps> = ({ isDark }) => {
     <section 
       id="gallery"
       ref={ref}
-      className={`py-20 ${isDark ? 'bg-gray-800' : 'bg-white'}`}
+      className={`min-h-screen flex items-center py-12 sm:py-20 snap-start ${isDark ? 'bg-gray-800' : 'bg-white'}`}
     >
-      <div className="container mx-auto px-4">
-        <div className={`text-center mb-16 transition-all duration-1000 ${
-          hasIntersected ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+      <div className="container mx-auto px-4 sm:px-6 w-full">
+        <div className={`text-center mb-10 sm:mb-16 transition-all duration-1000 ease-out ${
+          shouldAnimate ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
         }`}>
-          <h2 className={`text-4xl md:text-5xl font-serif mb-4 ${
+          <h2 className={`text-3xl sm:text-4xl md:text-5xl font-serif mb-3 sm:mb-4 ${
             isDark ? 'text-white' : 'text-gray-800'
           }`}>
             Galeri Kami
           </h2>
-          <p className={`text-lg ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
+          <p className={`text-base sm:text-lg ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
             Momen-momen indah yang kami bagi bersama
           </p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 max-w-6xl mx-auto">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-2 sm:gap-4 max-w-6xl mx-auto">
           {weddingData.gallery.map((photo, index) => (
             <div
               key={photo.id}
-              className={`relative group cursor-pointer transition-all duration-1000 delay-${index * 100} ${
-                hasIntersected ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+              className={`relative group cursor-pointer transition-all duration-1000 ease-out delay-${index * 100} ${
+                shouldAnimate ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
               }`}
               onClick={() => setSelectedImage(index)}
             >

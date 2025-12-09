@@ -3,17 +3,20 @@ export const weddingData = {
     bride: {
       fullName: "Aufa Amroini Indah Saesari",
       firstName: "Aufa",
-      parents: "Bpk. H. Rosanto Budiharjo & Ibu Ida Katrinawaningsih"
+      parents: "Bpk. H. Rosanto Budiharjo & Ibu Ida Katrinawaningsih",
+      image: "gallery/bride.jpg" // Path ke gambar mempelai wanita, contoh: "images/bride.jpg" atau kosongkan jika ingin menggunakan inisial
     },
     groom: {
       fullName: "Sabilul Qois",
       firstName: "Qois", 
-      parents: "Bpk. H. Mulyadi (Alm) & Ibu Siti Syamsiah"
+      parents: "Bpk. H. Mulyadi (Alm) & Ibu Siti Syamsiah",
+      image: "gallery/groom.jpg" // Path ke gambar mempelai pria, contoh: "images/groom.jpg" atau kosongkan jika ingin menggunakan inisial
     }
   },
+  coupleImage: "gallery/A-Q.jpg", // Path ke gambar gabungan kedua mempelai untuk HeroSection, contoh: "gallery/A-Q.jpg" atau kosongkan jika ingin menggunakan inisial
   quote: {
-    text: "Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan untukmu istri-istri dari jenismu sendiri, supaya kamu cenderung dan merasa tenteram kepadanya, dan dijadikan-Nya di antaramu rasa kasih dan sayang.",
-    author: "QS. Ar-Rum ayat 21"
+    text: "Dan segala sesuatu Kami ciptakan berpasang-pasangan agar kamu mengingat (kebesaran Allah).",
+    author: "QS. Adz Dzariyat: 49"
   },
   events: {
     ceremony: {
