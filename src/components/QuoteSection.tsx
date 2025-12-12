@@ -30,7 +30,7 @@ export const QuoteSection: React.FC<QuoteSectionProps> = ({ isDark, backgroundIm
             </AnimateIn>
 
             <AnimateIn shouldAnimate={shouldAnimate} from="bottom" delay={300} className="mb-6 sm:mb-8 space-y-2 sm:space-y-3 text-center">
-              <p className={`${isDark ? 'text-gray-200' : 'text-gray-800'} text-sm sm:text-base md:text-lg font-semibold px-4`}>
+              <p className={`${isDark ? 'text-gray-200' : 'text-gray-800'} text-sm sm:text-base md:text-lg italic font-semibold px-4`}>
                 Assalamualaikum Wr. Wb.
               </p>
               <p className={`${isDark ? 'text-gray-300' : 'text-gray-700'} text-xs sm:text-sm md:text-base leading-relaxed max-w-2xl mx-auto px-4`}>

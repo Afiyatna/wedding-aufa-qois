@@ -39,11 +39,11 @@ export const EventDetails: React.FC<EventDetailsProps> = ({ isDark, backgroundIm
       {(shouldAnimate) => (
         <div className="container mx-auto px-4 sm:px-6 w-full">
           <AnimateIn shouldAnimate={shouldAnimate} from="top" delay={100} className="text-center mb-10 sm:mb-16">
-            <h2 className={`text-3xl sm:text-4xl md:text-5xl font-serif mb-3 sm:mb-4 ${isDark ? 'text-white' : 'text-gray-800'
+            <h2 className={`text-3xl sm:text-4xl md:text-5xl font-serif mb-3 sm:mb-4 italic ${isDark ? 'text-white' : 'text-gray-800'
               }`}>
               Rangkaian Acara
             </h2>
-            <p className={`text-base sm:text-lg ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
+            <p className={`text-base italic sm:text-lg ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
               Hadirilah momen spesial kami
             </p>
           </AnimateIn>
@@ -59,7 +59,7 @@ export const EventDetails: React.FC<EventDetailsProps> = ({ isDark, backgroundIm
               >
                 <div className={`p-5 sm:p-8 rounded-xl sm:rounded-2xl shadow-lg h-full ${isDark ? 'bg-gray-800 border border-gray-700' : 'bg-white'
                   }`}>
-                  <h3 className={`text-xl sm:text-2xl md:text-3xl font-serif mb-4 sm:mb-6 ${isDark ? 'text-rose-300' : 'text-rose-600'
+                  <h3 className={`text-xl sm:text-2xl md:text-3xl font-serif mb-4 sm:mb-6 italic ${isDark ? 'text-rose-300' : 'text-rose-600'
                     }`}>
                     {event.title}
                   </h3>

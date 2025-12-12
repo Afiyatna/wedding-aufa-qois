@@ -36,7 +36,7 @@ export const DigitalEnvelope: React.FC<DigitalEnvelopeProps> = ({ isDark, backgr
             <AnimateIn shouldAnimate={shouldAnimate} from="top" delay={100} className="flex items-center justify-center mb-4 sm:mb-6 space-x-3">
               <Gift className={isDark ? 'text-rose-300' : 'text-rose-500'} size={28} />
               <h2
-                className={`text-3xl sm:text-4xl font-serif ${isDark ? 'text-white' : 'text-gray-800'
+                className={`text-3xl sm:text-4xl font-serif italic ${isDark ? 'text-white' : 'text-gray-800'
                   }`}
               >
                 {weddingData.digitalEnvelope.title}
@@ -55,7 +55,7 @@ export const DigitalEnvelope: React.FC<DigitalEnvelopeProps> = ({ isDark, backgr
             <AnimateIn shouldAnimate={shouldAnimate} delay={500} className="mt-8 sm:mt-10 flex justify-center">
               <button
                 onClick={() => setIsOpen((prev) => !prev)}
-                className={`px-5 py-3 rounded-full text-sm font-medium shadow-lg transition-all duration-300 touch-manipulation ${isDark
+                className={`px-5 py-3 rounded-full text-sm font-medium shadow-lg transition-all duration-1000 touch-manipulation ${isDark
                   ? 'bg-rose-500 text-white hover:bg-rose-600'
                   : 'bg-rose-500 text-white hover:bg-rose-600'
                   } ${isOpen ? 'scale-95' : 'scale-100'}`}
@@ -68,7 +68,7 @@ export const DigitalEnvelope: React.FC<DigitalEnvelopeProps> = ({ isDark, backgr
             </AnimateIn>
 
             <div
-              className={`mt-8 sm:mt-10 grid gap-4 sm:gap-6 max-w-2xl mx-auto transition-all duration-500 ${isOpen ? 'max-h-[800px] opacity-100' : 'max-h-0 opacity-0 pointer-events-none'
+              className={`mt-8 sm:mt-10 grid gap-4 sm:gap-6 max-w-2xl mx-auto transition-all duration-1000 ${isOpen ? 'max-h-[800px] opacity-100' : 'max-h-0 opacity-0 pointer-events-none'
                 } overflow-hidden`}
             >
               {weddingData.digitalEnvelope.accounts.map((acc, idx) => (

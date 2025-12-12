@@ -70,11 +70,16 @@ export const weddingData = {
   ],
   digitalEnvelope: {
     title: "Wedding Gift",
-    subtitle: "Doa restu Anda adalah hadiah terindah. Bila ingin berbagi tanda kasih, silakan gunakan rekening di bawah ini.",
+    subtitle: "Doa restu Anda merupakan karunia yang sangat berarti bagi kami, dan jika memberi adalah ungkapan tanda kasih, Anda dapat memberi kado secara cashless.",
     accounts: [
       { bank: "BCA", number: "0800820162", name: "Aufa Amroini Indah Saesari" },
       { bank: "Bank Jateng", number: "3018023169", name: "Aufa Amroini Indah Saesari" },
       { bank: "DANA", number: "082225279922", name: "Aufa Amroini Indah Saesari" }
-    ]
+    ],
+    gift: {
+      name: "Aufa Amroini",
+      handphone: "082225279922",
+      address: "Komplek GNBS, Jl. Letnan Suyono No 1 RT 01 RW 04, Desa Kebonadem, Kec. Brangsong, Kab. Kendal (51371)"
+    }
   }
 };

@@ -27,11 +27,11 @@ export const Countdown: React.FC<CountdownProps> = ({ isDark, backgroundImage })
       {(shouldAnimate) => (
         <div className="container mx-auto px-4 sm:px-6 w-full">
           <AnimateIn shouldAnimate={shouldAnimate} from="top" delay={100} className="text-center mb-10 sm:mb-16">
-            <h2 className={`text-3xl sm:text-4xl md:text-5xl font-serif mb-3 sm:mb-4 ${isDark ? 'text-white' : 'text-gray-800'
+            <h2 className={`text-3xl sm:text-4xl md:text-5xl font-serif mb-3 sm:mb-4 italic ${isDark ? 'text-white' : 'text-gray-800'
               }`}>
               Hitung Mundur
             </h2>
-            <p className={`text-base sm:text-lg ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
+            <p className={`text-base italic sm:text-lg ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
               Menuju hari bahagia kami
             </p>
           </AnimateIn>
