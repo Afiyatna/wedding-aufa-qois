@@ -74,7 +74,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ isDark, guestName, bac
                     }`}>
                     {weddingData.couple.bride.firstName}
                   </h1>
-                  <span className={`mx-2 pt-2 block text-2xl ${isDark ? 'text-gray-400' : 'text-gray-500'
+                  <span className={`mx-2 pt-1 block text-2xl ${isDark ? 'text-gray-400' : 'text-gray-500'
                     }`}>&</span>
                   <h1 className={`text-2xl sm:text-3xl md:text-4xl font-serif ${isDark ? 'text-white' : 'text-gray-800'
                     }`}>

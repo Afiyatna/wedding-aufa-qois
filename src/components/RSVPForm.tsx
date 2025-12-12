@@ -91,7 +91,7 @@ export const RSVPForm: React.FC<RSVPFormProps> = ({ isDark, backgroundImage }) =
             className={`p-5 sm:p-8 rounded-xl sm:rounded-2xl shadow-lg transition-all duration-1000 ease-out delay-200 ${shouldAnimate ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
               } ${isDark ? 'bg-gray-900 border border-gray-700' : 'bg-white'}`}
           >
-            <div className="grid md:grid-cols-2 gap-4 sm:gap-6">
+            <div className="grid gap-4">
               {/* Name */}
               <div className="md:col-span-2">
                 <label className={`block text-sm font-medium mb-2 ${isDark ? 'text-gray-300' : 'text-gray-700'
