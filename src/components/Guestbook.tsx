@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Send, CheckCircle, XCircle, HelpCircle, MessageSquare, X } from 'lucide-react';
+import { Send, CheckCircle, XCircle, HelpCircle, MessageSquare, X, ChevronDown } from 'lucide-react';
 import { supabase, RSVPResponse } from '../lib/supabase';
 import { SectionWrapper, AnimateIn } from './common/SectionWrapper';
 
@@ -131,11 +131,11 @@ export const Guestbook: React.FC<GuestbookProps> = ({ isDark, backgroundImage, i
       {(shouldAnimate) => (
         <div className="container mx-auto px-4 sm:px-6 w-full">
           <AnimateIn shouldAnimate={shouldAnimate} from="top" delay={100} className="text-center mb-8">
-            <h2 className={`text-3xl sm:text-4xl md:text-5xl font-serif mb-3 sm:mb-4 ${isDark ? 'text-white' : 'text-gray-800'
+            <h2 className={`text-3xl font-serif mb-3 sm:mb-4 italic ${isDark ? 'text-white' : 'text-gray-800'
               }`}>
               Wishes
             </h2>
-            <p className={`text-base sm:text-lg ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
+            <p className={`text-base italic ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
               Berikan ucapan harapan dan do’a kepada kedua mempelai
             </p>
           </AnimateIn>
@@ -164,39 +164,23 @@ export const Guestbook: React.FC<GuestbookProps> = ({ isDark, backgroundImage, i
                   </div>
                 )}
 
-                <div className="space-y-4">
-                  <div className="grid md:grid-cols-2 gap-4">
-                    <div>
-                      <label className={`block text-sm font-medium mb-1 ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>Nama</label>
-                      <input
-                        type="text"
-                        value={formData.name}
-                        onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
-                        placeholder="Nama Anda"
-                        required
-                        className={`w-full px-4 py-3 rounded-lg border transition-colors focus:ring-2 focus:ring-rose-500 focus:border-transparent ${isDark
-                          ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400'
-                          : 'bg-white border-gray-300 text-gray-900'
-                          }`}
-                      />
-                    </div>
-                    <div>
-                      <label className={`block text-sm font-medium mb-1 ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>Konfirmasi Kehadiran</label>
-                      <select
-                        value={formData.attendance}
-                        onChange={(e) => setFormData(prev => ({ ...prev, attendance: e.target.value as any }))}
-                        className={`w-full px-4 py-3 rounded-lg border transition-colors focus:ring-2 focus:ring-rose-500 focus:border-transparent ${isDark
-                          ? 'bg-gray-700 border-gray-600 text-white'
-                          : 'bg-white border-gray-300 text-gray-900'
-                          }`}
-                      >
-                        <option value="yes">Hadir</option>
-                        <option value="no">Tidak Hadir</option>
-                      </select>
-                    </div>
+                <div>
+                  <div>
+                    <label className={`block text-sm font-medium mb-1 ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>Nama</label>
+                    <input
+                      type="text"
+                      value={formData.name}
+                      onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
+                      placeholder="Nama Anda"
+                      required
+                      className={`w-full px-4 py-3 rounded-lg border transition-colors focus:ring-2 focus:ring-rose-500 focus:border-transparent ${isDark
+                        ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400'
+                        : 'bg-white border-gray-300 text-gray-900'
+                        }`}
+                    />
                   </div>
 
-                  <div>
+                  <div className='mt-4 mb-2'>
                     <label className={`block text-sm font-medium mb-1 ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>Ucapan & Doa</label>
                     <textarea
                       value={formData.message}
@@ -209,6 +193,25 @@ export const Guestbook: React.FC<GuestbookProps> = ({ isDark, backgroundImage, i
                         : 'bg-white border-gray-300 text-gray-900'
                         }`}
                     ></textarea>
+                  </div>
+
+                  <div className='mb-7'>
+                    <label className={`block text-sm font-medium mb-1 ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>Konfirmasi Kehadiran</label>
+                    <div className="relative">
+                      <select
+                        value={formData.attendance}
+                        onChange={(e) => setFormData(prev => ({ ...prev, attendance: e.target.value as any }))}
+                        className={`w-full px-4 py-3 rounded-lg border transition-colors focus:ring-2 focus:ring-rose-500 focus:border-transparent appearance-none pr-10 ${isDark
+                          ? 'bg-gray-700 border-gray-600 text-white'
+                          : 'bg-white border-gray-300 text-gray-900'
+                          }`}
+                      >
+                        <option value="yes">Hadir</option>
+                        <option value="no">Tidak Hadir</option>
+                        <option value="maybe">Mungkin Hadir</option>
+                      </select>
+                      <ChevronDown size={18} className={`absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none ${isDark ? 'text-gray-400' : 'text-gray-700'}`} />
+                    </div>
                   </div>
 
                   <button

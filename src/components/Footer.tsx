@@ -1,5 +1,5 @@
 import React from 'react';
-import { Heart, Instagram, Facebook, Twitter } from 'lucide-react';
+import { Heart, Instagram } from 'lucide-react';
 import { weddingData } from '../data/weddingData';
 
 interface FooterProps {
@@ -30,31 +30,25 @@ export const Footer: React.FC<FooterProps> = ({ isDark }) => {
           {/* Social Media Links */}
           <div className="flex justify-center space-x-4 mb-8">
             <a
-              href="#"
+              target="_blank"
+              href="https://www.instagram.com/aufa_amroini/"
               className={`p-3 rounded-full transition-colors ${isDark
-                  ? 'bg-gray-700 text-gray-300 hover:bg-rose-500 hover:text-white'
-                  : 'bg-gray-100 text-gray-600 hover:bg-rose-500 hover:text-white'
+                ? 'bg-gray-700 text-gray-300 hover:bg-rose-500 hover:text-white'
+                : 'bg-gray-100 text-gray-600 hover:bg-rose-500 hover:text-white'
                 }`}
             >
               <Instagram size={20} />
             </a>
             <a
-              href="#"
-              className={`p-3 rounded-full transition-colors ${isDark
-                  ? 'bg-gray-700 text-gray-300 hover:bg-rose-500 hover:text-white'
-                  : 'bg-gray-100 text-gray-600 hover:bg-rose-500 hover:text-white'
+              target="_blank"
+              href="https://wa.me/6282225279922"
+              className={`group p-3 rounded-full transition-colors ${isDark
+                ? 'bg-gray-700 text-gray-300 hover:bg-rose-500 hover:text-white'
+                : 'bg-gray-100 text-gray-600 hover:bg-rose-500 hover:text-white'
                 }`}
             >
-              <Facebook size={20} />
-            </a>
-            <a
-              href="#"
-              className={`p-3 rounded-full transition-colors ${isDark
-                  ? 'bg-gray-700 text-gray-300 hover:bg-rose-500 hover:text-white'
-                  : 'bg-gray-100 text-gray-600 hover:bg-rose-500 hover:text-white'
-                }`}
-            >
-              <Twitter size={20} />
+              <img src="/images/logo/whatsapp.png" alt="WhatsApp" width={20} className="group-hover:hidden" />
+              <img src="/images/logo/whatsapp-white.png" alt="WhatsApp" width={20} className="hidden group-hover:block" />
             </a>
           </div>
 

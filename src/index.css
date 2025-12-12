@@ -10,7 +10,8 @@ html {
 }
 
 /* Scroll snap for sections */
-section {
+section,
+footer {
   scroll-snap-align: start;
   scroll-snap-stop: always;
 }
@@ -21,6 +22,7 @@ section {
     opacity: 0;
     transform: translateY(30px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -37,6 +39,7 @@ section {
     opacity: 0;
     transform: translateY(40px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -52,7 +55,7 @@ section {
   html {
     scroll-snap-type: none;
   }
-  
+
   section {
     scroll-snap-align: none;
     scroll-snap-stop: normal;

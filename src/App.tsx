@@ -134,9 +134,9 @@ function InvitationWrapper() {
         <DigitalEnvelope isDark={isDark} backgroundImage={"flower-rose-3"} />
         <Countdown isDark={isDark} backgroundImage={"flower-rose-4"} />
         <Guestbook isDark={isDark} initialName={guestName} backgroundImage={"flower-rose-4"} />
+        <Footer isDark={isDark} />
       </main>
 
-      <Footer isDark={isDark} />
       <MusicPlayer isDark={isDark} />
     </div>
   );

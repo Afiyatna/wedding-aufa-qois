@@ -212,7 +212,8 @@ Wassalamualaikum Wr. Wb.`;
         <div className="space-y-6">
             <div className="flex justify-between items-center">
                 <div>
-                    <h2 className="text-3xl font-black text-gray-900">Tamu</h2>
+                    <h2 className="hidden sm:inline text-3xl font-black text-gray-900">Daftar Tamu</h2>
+                    <h2 className="sm:hidden text-3xl font-black text-gray-900">Tamu</h2>
                     <p className="mt-2 text-sm text-gray-600">Kelola Data Tamu</p>
                 </div>
                 <div className="flex flex-col md:flex-row gap-2">
@@ -295,9 +296,9 @@ Wassalamualaikum Wr. Wb.`;
                                             <div className="text-sm text-gray-500">{guest.phone || '-'}</div>
                                         </td>
                                         <td className="px-6 py-4">
-                                            <div className="text-sm text-blue-600 max-w-[150px] md:max-w-[250px]">
+                                            <a target="_blank" href={generateLink(guest.name)} className="text-sm text-blue-600 max-w-[150px] md:max-w-[250px]">
                                                 {generateLink(guest.name)}
-                                            </div>
+                                            </a>
                                         </td>
                                         <td className="px-6 py-4 text-right">
                                             <div className="flex items-center justify-center gap-2">
