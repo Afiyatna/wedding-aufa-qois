@@ -7,9 +7,10 @@ interface GuestbookProps {
   isDark: boolean;
   backgroundImage?: string;
   initialName?: string;
+  guestId?: string | null;
 }
 
-export const Guestbook: React.FC<GuestbookProps> = ({ isDark, backgroundImage, initialName }) => {
+export const Guestbook: React.FC<GuestbookProps> = ({ isDark, backgroundImage, initialName, guestId }) => {
   const [messages, setMessages] = useState<RSVPResponse[]>([]);
   const [formData, setFormData] = useState<Omit<RSVPResponse, 'id' | 'created_at'>>({
     name: initialName || '',
@@ -63,9 +64,11 @@ export const Guestbook: React.FC<GuestbookProps> = ({ isDark, backgroundImage, i
     setIsSubmitting(true);
 
     try {
+      // 1. Submit the message
       const submissionData = {
         ...formData,
-        parent_id: replyingTo?.id || null
+        parent_id: replyingTo?.id || null,
+        guest_id: guestId || null
       };
 
       const { data, error } = await supabase
@@ -77,8 +80,24 @@ export const Guestbook: React.FC<GuestbookProps> = ({ isDark, backgroundImage, i
       if (error) throw error;
 
       setMessages(prev => [...prev, data]);
-      setFormData({ name: '', message: '', attendance: 'yes', parent_id: null });
+      setFormData({ name: initialName || '', message: '', attendance: 'yes', parent_id: null });
       setReplyingTo(null);
+
+      // 2. If guestId exists, update the Guest's RSVP status in 'guests' table
+      if (guestId) {
+        const statusMap: Record<string, string> = {
+          'yes': 'hadir',
+          'no': 'tidak_hadir',
+          'maybe': 'bimbang'
+        };
+        const newStatus = statusMap[formData.attendance] || 'pending';
+
+        await supabase
+          .from('guests')
+          .update({ rsvp_status: newStatus })
+          .eq('id', guestId);
+      }
+
     } catch (error) {
       console.error('Error submitting message:', error);
     } finally {

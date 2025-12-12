@@ -8,6 +8,7 @@ type Guest = {
     slug: string;
     phone?: string;
     category?: string;
+    rsvp_status?: string;
 };
 
 export default function GuestList() {
@@ -129,12 +130,6 @@ Wassalamualaikum Wr. Wb.`;
         } else {
             alert('Error bulk insert: ' + error.message);
         }
-        if (!error) {
-            fetchGuests();
-            closeMultiModal();
-        } else {
-            alert('Error bulk insert: ' + error.message);
-        }
         setLoading(false);
     };
 
@@ -180,15 +175,15 @@ Wassalamualaikum Wr. Wb.`;
         setEditId(null);
     };
 
-    const generateLink = (name: string) => {
+    const generateLink = (guestId: string) => {
         const baseUrl = window.location.origin;
-        return `${baseUrl}/?to=${encodeURIComponent(name)}`;
+        return `${baseUrl}/?u=${guestId}`;
     };
 
     const sendWA = (guest: Guest) => {
         if (!guest.phone) return alert('Nomor HP tidak ada!');
 
-        const link = generateLink(guest.name);
+        const link = generateLink(guest.id);
 
         let text = waTemplate;
         text = text.replace('{name}', guest.name);
@@ -202,6 +197,19 @@ Wassalamualaikum Wr. Wb.`;
         }
 
         window.open(`https://wa.me/${phone}?text=${encodedText}`, '_blank');
+    };
+
+    const getStatusBadge = (status?: string) => {
+        switch (status) {
+            case 'hadir':
+                return <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">Hadir</span>;
+            case 'tidak_hadir':
+                return <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800">Tidak Hadir</span>;
+            case 'bimbang':
+                return <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">Mungkin</span>;
+            default:
+                return <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-600">Belum Konfirmasi</span>;
+        }
     };
 
     const filteredGuests = guests.filter(g =>
@@ -270,15 +278,16 @@ Wassalamualaikum Wr. Wb.`;
                             <tr>
                                 <th className="px-4 py-4 w-16 text-center font-semibold text-gray-600">WA</th>
                                 <th className="px-6 py-4 font-semibold text-gray-600">Nama</th>
+                                <th className="px-6 py-4 font-semibold text-gray-600 text-center">Status</th>
                                 <th className="px-6 py-4 font-semibold text-gray-600">Link Undangan</th>
                                 <th className="px-6 py-4 font-semibold text-gray-600 text-center">Aksi</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-100">
                             {loading ? (
-                                <tr><td colSpan={4} className="p-6 text-center">Loading...</td></tr>
+                                <tr><td colSpan={5} className="p-6 text-center">Loading...</td></tr>
                             ) : filteredGuests.length === 0 ? (
-                                <tr><td colSpan={4} className="p-6 text-center text-gray-500">Tidak ada data tamu.</td></tr>
+                                <tr><td colSpan={5} className="p-6 text-center text-gray-500">Tidak ada data tamu.</td></tr>
                             ) : (
                                 filteredGuests.map((guest) => (
                                     <tr key={guest.id} className="hover:bg-gray-50">
@@ -295,9 +304,12 @@ Wassalamualaikum Wr. Wb.`;
                                             <div className="font-medium text-gray-900">{guest.name}</div>
                                             <div className="text-sm text-gray-500">{guest.phone || '-'}</div>
                                         </td>
+                                        <td className="px-6 py-4 text-center">
+                                            {getStatusBadge(guest.rsvp_status)}
+                                        </td>
                                         <td className="px-6 py-4">
-                                            <a target="_blank" href={generateLink(guest.name)} className="text-sm text-blue-600 max-w-[150px] md:max-w-[250px]">
-                                                {generateLink(guest.name)}
+                                            <a target="_blank" href={generateLink(guest.id)} className="text-sm text-blue-600 max-w-[150px] md:max-w-[250px] block truncate">
+                                                {generateLink(guest.id)}
                                             </a>
                                         </td>
                                         <td className="px-6 py-4 text-right">

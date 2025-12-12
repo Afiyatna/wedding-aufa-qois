@@ -42,51 +42,60 @@ function InvitationWrapper() {
   const [isDark, setIsDark] = useState(false);
   const [searchParams] = useSearchParams();
   const [guestName, setGuestName] = useState<string>('');
+  const [guestId, setGuestId] = useState<string | null>(null);
   const [isValidGuest, setIsValidGuest] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const checkGuest = async () => {
-      // Get name from URL param 'to' or 'guest'
+      // Priority 1: Check for Unique ID 'u'
+      const idParam = searchParams.get('u');
+      // Priority 2: Legacy/Fallback Name 'to' or 'guest'
       const nameParam = searchParams.get('to') || searchParams.get('guest');
 
-      if (!nameParam) {
-        // Allow access without name? User said "kalau user di url memasukkan namanya dia yang tidak terdaftar maka undangan nya tidak bisa dibuka"
-        // Implies name is optional? Or MANDATORY?
-        // "nanti user tinggal memasukkan nama tamu nya" implies we distribute links like example.com/?to=Budi
-        // If no param, maybe generic guest or block?
-        // Let's assume generic "Tamu Undangan" is allowed if no param, OR block.
-        // Re-reading: "kalau user di url memasukkan namanya dia yang tidak terdaftar maka undangan nya tidak bisa dibuka"
-        // This strictly means IF name is provided AND NOT found => Block.
-        // What if NO name is provided? Usually weddings allow generic access or default.
-        // But for strict "Guest Management", usually we want to force valid guests.
-        // However, I will allow generic access for testing unless specified otherwise, but specifically validate if param exists.
-        // Wait, "tidak terdaftar maka undangan nya tidak bisa dibuka" -> strongly implies strict check.
-        // But let's check DB.
-        setGuestName('Tamu Undangan');
-        setIsValidGuest(true);
+      if (idParam) {
+        // ID-based lookup (Secure)
+        const { data, error } = await supabase
+          .from('guests')
+          .select('id, name')
+          .eq('id', idParam)
+          .maybeSingle();
+
+        if (error || !data) {
+          setIsValidGuest(false);
+        } else {
+          setIsValidGuest(true);
+          setGuestName(data.name);
+          setGuestId(data.id);
+        }
         setIsLoading(false);
         return;
       }
 
-      setGuestName(nameParam);
+      // Name-based lookup (Legacy)
+      if (nameParam) {
+        const { data, error } = await supabase
+          .from('guests')
+          .select('id, name')
+          .ilike('name', nameParam)
+          .maybeSingle();
 
-      // Verify against DB
-      // We check if there is a guest with this name (case insensitive or exact?)
-      // Let's try flexible search
-      const { data, error } = await supabase
-        .from('guests')
-        .select('id, name')
-        .ilike('name', nameParam)
-        .maybeSingle();
-
-      if (error || !data) {
-        setIsValidGuest(false);
-      } else {
-        setIsValidGuest(true);
-        // Update name to match DB casing exactly if found
-        setGuestName(data.name);
+        if (error || !data) {
+          setIsValidGuest(false);
+        } else {
+          setIsValidGuest(true);
+          setGuestName(data.name);
+          setGuestId(data.id);
+        }
+        setIsLoading(false);
+        return;
       }
+
+      // No params provided
+      // setGuestName('Tamu Undangan');
+      // setIsValidGuest(true);
+      // For strict mode, block access if no param
+      setIsValidGuest(false);
       setIsLoading(false);
     };
 
@@ -114,8 +123,10 @@ function InvitationWrapper() {
       <div className="min-h-screen flex items-col justify-center items-center bg-gray-50 p-4 font-serif text-center">
         <div className="bg-white p-8 rounded-xl shadow-lg max-w-md w-full">
           <h1 className="text-2xl text-gray-800 mb-4">Maaf, Undangan Tidak Ditemukan</h1>
-          <p className="text-gray-600 mb-6">Nama tamu <strong>"{searchParams.get('to')}"</strong> tidak terdaftar dalam buku tamu kami.</p>
-          <p className="text-sm text-gray-500">Mohon periksa kembali link undangan Anda atau hubungi kami.</p>
+          <p className="text-gray-600 mb-6 font-sans">
+            Undangan ini bersifat privat. Pastikan Anda mengakses melalui link yang benar.
+          </p>
+          <p className="text-sm text-gray-500 font-sans">Hubungi kami jika Anda mengalami kendala.</p>
         </div>
       </div>
     );
@@ -135,7 +146,7 @@ function InvitationWrapper() {
         <EventDetails isDark={isDark} backgroundImage={"flower-rose-4"} />
         <DigitalEnvelope isDark={isDark} backgroundImage={"flower-rose-3"} />
         <Countdown isDark={isDark} backgroundImage={"flower-rose-4"} />
-        <Guestbook isDark={isDark} initialName={guestName} backgroundImage={"flower-rose-4"} />
+        <Guestbook isDark={isDark} initialName={guestName} guestId={guestId} backgroundImage={"flower-rose-4"} />
         <Footer isDark={isDark} />
       </main>
 
