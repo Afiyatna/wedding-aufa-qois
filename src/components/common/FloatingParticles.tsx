@@ -5,7 +5,7 @@ export const FloatingParticles: React.FC = () => {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none select-none">
       {/* Floating hearts - Reduced count for mobile performance */}
-      {[...Array(8)].map((_, i) => (
+      {[...Array(6)].map((_, i) => (
         <Heart
           key={i}
           className="absolute text-rose-300/40 will-change-transform"
