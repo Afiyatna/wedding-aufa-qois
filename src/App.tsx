@@ -59,7 +59,7 @@ function App() {
 
   // Show invitation landing page
   if (currentView === 'invitation') {
-    return <InvitationLanding guestName={guestName} onOpenInvitation={handleOpenInvitation} backgroundImage={"flower-rose"} />;
+    return <InvitationLanding guestName={guestName} onOpenInvitation={handleOpenInvitation} backgroundImage={"flower-rose-2"} />;
   }
 
   // Show splash screen
@@ -74,15 +74,15 @@ function App() {
       {/* <Header isDark={isDark} onThemeToggle={toggleTheme} /> */}
 
       <main className="scroll-container">
-        <HeroSection isDark={isDark} guestName={guestName} backgroundImage={"flower-rose-2"} />
+        <HeroSection isDark={isDark} guestName={guestName} backgroundImage={"flower-rose-5"} />
         <QuoteSection isDark={isDark} backgroundImage={"flower-rose-4"} />
         <QuotePage isDark={isDark} backgroundImage={"flower-rose-3"} />
         <EventDetails isDark={isDark} backgroundImage={"flower-rose-4"} />
         <DigitalEnvelope isDark={isDark} backgroundImage={"flower-rose-3"} />
         {/* <Gallery isDark={isDark} backgroundImage={"flower-rose-4"} /> */}
         <Countdown isDark={isDark} backgroundImage={"flower-rose-4"} />
-        <RSVPForm isDark={isDark} backgroundImage={"flower-rose-3"} />
-        <Guestbook isDark={isDark} backgroundImage={"flower-rose-4"} />
+        {/* <RSVPForm isDark={isDark} backgroundImage={"flower-rose-3"} />
+        <Guestbook isDark={isDark} backgroundImage={"flower-rose-4"} /> */}
       </main>
 
       <Footer isDark={isDark} />
