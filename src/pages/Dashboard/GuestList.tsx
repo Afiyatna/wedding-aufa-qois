@@ -395,7 +395,7 @@ Wassalamualaikum Wr. Wb.`;
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-1">No. WhatsApp</label>
                                 <input
-                                    type="text"
+                                    type="number"
                                     value={formData.phone}
                                     onChange={e => setFormData({ ...formData, phone: e.target.value })}
                                     className="w-full border border-gray-300 rounded-lg px-3 py-2"
@@ -480,7 +480,7 @@ Wassalamualaikum Wr. Wb.`;
                                         </div>
                                         <div className="col-span-5">
                                             <input
-                                                type="text"
+                                                type="number"
                                                 value={guest.phone}
                                                 onChange={e => handleBatchChange(index, 'phone', e.target.value)}
                                                 className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-rose-500 focus:border-rose-500 outline-none transition-all"
