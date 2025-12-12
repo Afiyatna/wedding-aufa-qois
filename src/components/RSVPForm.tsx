@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Send, CheckCircle, AlertCircle } from 'lucide-react';
-import { supabase, RSVPResponse } from '../lib/supabase';
+// import { supabase, RSVPResponse } from '../lib/supabase';
 import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
 
 interface RSVPFormProps {
@@ -36,44 +36,42 @@ export const RSVPForm: React.FC<RSVPFormProps> = ({ isDark }) => {
     setIsSubmitting(true);
     setSubmitStatus('idle');
 
-    try {
-      const { error } = await supabase
-        .from('rsvp_responses')
-        .insert([formData]);
+    // try {
+    //   const { error } = await supabase
+    //     .from('rsvp_responses')
+    //     .insert([formData]);
 
-      if (error) throw error;
+    //   if (error) throw error;
 
-      setSubmitStatus('success');
-      setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        attendance: 'yes',
-        guest_count: 1,
-        dietary_restrictions: '',
-        message: ''
-      });
-    } catch (error) {
-      console.error('Error submitting RSVP:', error);
-      setSubmitStatus('error');
-    } finally {
-      setIsSubmitting(false);
-    }
+    //   setSubmitStatus('success');
+    //   setFormData({
+    //     name: '',
+    //     email: '',
+    //     phone: '',
+    //     attendance: 'yes',
+    //     guest_count: 1,
+    //     dietary_restrictions: '',
+    //     message: ''
+    //   });
+    // } catch (error) {
+    //   console.error('Error submitting RSVP:', error);
+    //   setSubmitStatus('error');
+    // } finally {
+    //   setIsSubmitting(false);
+    // }
   };
 
   return (
-    <section 
+    <section
       id="rsvp"
       ref={ref}
       className={`min-h-screen flex items-center py-12 sm:py-20 snap-start ${isDark ? 'bg-gray-800' : 'bg-white'}`}
     >
       <div className="container mx-auto px-4 sm:px-6 w-full">
-        <div className={`text-center mb-10 sm:mb-16 transition-all duration-1000 ease-out ${
-          shouldAnimate ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-        }`}>
-          <h2 className={`text-3xl sm:text-4xl md:text-5xl font-serif mb-3 sm:mb-4 ${
-            isDark ? 'text-white' : 'text-gray-800'
+        <div className={`text-center mb-10 sm:mb-16 transition-all duration-1000 ease-out ${shouldAnimate ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
           }`}>
+          <h2 className={`text-3xl sm:text-4xl md:text-5xl font-serif mb-3 sm:mb-4 ${isDark ? 'text-white' : 'text-gray-800'
+            }`}>
             Konfirmasi Kehadiran
           </h2>
           <p className={`text-base sm:text-lg ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
@@ -82,18 +80,16 @@ export const RSVPForm: React.FC<RSVPFormProps> = ({ isDark }) => {
         </div>
 
         <div className="max-w-2xl mx-auto">
-          <form 
+          <form
             onSubmit={handleSubmit}
-            className={`p-5 sm:p-8 rounded-xl sm:rounded-2xl shadow-lg transition-all duration-1000 ease-out delay-200 ${
-              shouldAnimate ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-            } ${isDark ? 'bg-gray-900 border border-gray-700' : 'bg-white'}`}
+            className={`p-5 sm:p-8 rounded-xl sm:rounded-2xl shadow-lg transition-all duration-1000 ease-out delay-200 ${shouldAnimate ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+              } ${isDark ? 'bg-gray-900 border border-gray-700' : 'bg-white'}`}
           >
             <div className="grid md:grid-cols-2 gap-4 sm:gap-6">
               {/* Name */}
               <div className="md:col-span-2">
-                <label className={`block text-sm font-medium mb-2 ${
-                  isDark ? 'text-gray-300' : 'text-gray-700'
-                }`}>
+                <label className={`block text-sm font-medium mb-2 ${isDark ? 'text-gray-300' : 'text-gray-700'
+                  }`}>
                   Nama Lengkap *
                 </label>
                 <input
@@ -102,20 +98,18 @@ export const RSVPForm: React.FC<RSVPFormProps> = ({ isDark }) => {
                   value={formData.name}
                   onChange={handleInputChange}
                   required
-                  className={`w-full px-4 py-3 rounded-lg border transition-colors focus:ring-2 focus:ring-maroon-500 focus:border-transparent ${
-                    isDark 
-                      ? 'bg-gray-800 border-gray-600 text-white placeholder-gray-400' 
+                  className={`w-full px-4 py-3 rounded-lg border transition-colors focus:ring-2 focus:ring-rose-500 focus:border-transparent ${isDark
+                      ? 'bg-gray-800 border-gray-600 text-white placeholder-gray-400'
                       : 'bg-white border-gray-300 text-gray-900'
-                  }`}
+                    }`}
                   placeholder="Masukkan nama lengkap"
                 />
               </div>
 
               {/* Email */}
               <div>
-                <label className={`block text-sm font-medium mb-2 ${
-                  isDark ? 'text-gray-300' : 'text-gray-700'
-                }`}>
+                <label className={`block text-sm font-medium mb-2 ${isDark ? 'text-gray-300' : 'text-gray-700'
+                  }`}>
                   Email
                 </label>
                 <input
@@ -123,20 +117,18 @@ export const RSVPForm: React.FC<RSVPFormProps> = ({ isDark }) => {
                   name="email"
                   value={formData.email}
                   onChange={handleInputChange}
-                  className={`w-full px-4 py-3 rounded-lg border transition-colors focus:ring-2 focus:ring-maroon-500 focus:border-transparent ${
-                    isDark 
-                      ? 'bg-gray-800 border-gray-600 text-white placeholder-gray-400' 
+                  className={`w-full px-4 py-3 rounded-lg border transition-colors focus:ring-2 focus:ring-rose-500 focus:border-transparent ${isDark
+                      ? 'bg-gray-800 border-gray-600 text-white placeholder-gray-400'
                       : 'bg-white border-gray-300 text-gray-900'
-                  }`}
+                    }`}
                   placeholder="your@email.com"
                 />
               </div>
 
               {/* Phone */}
               <div>
-                <label className={`block text-sm font-medium mb-2 ${
-                  isDark ? 'text-gray-300' : 'text-gray-700'
-                }`}>
+                <label className={`block text-sm font-medium mb-2 ${isDark ? 'text-gray-300' : 'text-gray-700'
+                  }`}>
                   Nomor Telepon
                 </label>
                 <input
@@ -144,20 +136,18 @@ export const RSVPForm: React.FC<RSVPFormProps> = ({ isDark }) => {
                   name="phone"
                   value={formData.phone}
                   onChange={handleInputChange}
-                  className={`w-full px-4 py-3 rounded-lg border transition-colors focus:ring-2 focus:ring-maroon-500 focus:border-transparent ${
-                    isDark 
-                      ? 'bg-gray-800 border-gray-600 text-white placeholder-gray-400' 
+                  className={`w-full px-4 py-3 rounded-lg border transition-colors focus:ring-2 focus:ring-rose-500 focus:border-transparent ${isDark
+                      ? 'bg-gray-800 border-gray-600 text-white placeholder-gray-400'
                       : 'bg-white border-gray-300 text-gray-900'
-                  }`}
+                    }`}
                   placeholder="08xxxxxxxxxx"
                 />
               </div>
 
               {/* Attendance */}
               <div>
-                <label className={`block text-sm font-medium mb-2 ${
-                  isDark ? 'text-gray-300' : 'text-gray-700'
-                }`}>
+                <label className={`block text-sm font-medium mb-2 ${isDark ? 'text-gray-300' : 'text-gray-700'
+                  }`}>
                   Apakah Anda akan hadir? *
                 </label>
                 <select
@@ -165,11 +155,10 @@ export const RSVPForm: React.FC<RSVPFormProps> = ({ isDark }) => {
                   value={formData.attendance}
                   onChange={handleInputChange}
                   required
-                  className={`w-full px-4 py-3 rounded-lg border transition-colors focus:ring-2 focus:ring-maroon-500 focus:border-transparent ${
-                    isDark 
-                      ? 'bg-gray-800 border-gray-600 text-white' 
+                  className={`w-full px-4 py-3 rounded-lg border transition-colors focus:ring-2 focus:ring-rose-500 focus:border-transparent ${isDark
+                      ? 'bg-gray-800 border-gray-600 text-white'
                       : 'bg-white border-gray-300 text-gray-900'
-                  }`}
+                    }`}
                 >
                   <option value="yes">Ya, saya hadir</option>
                   <option value="no">Maaf, tidak bisa hadir</option>
@@ -179,9 +168,8 @@ export const RSVPForm: React.FC<RSVPFormProps> = ({ isDark }) => {
 
               {/* Guest Count */}
               <div>
-                <label className={`block text-sm font-medium mb-2 ${
-                  isDark ? 'text-gray-300' : 'text-gray-700'
-                }`}>
+                <label className={`block text-sm font-medium mb-2 ${isDark ? 'text-gray-300' : 'text-gray-700'
+                  }`}>
                   Jumlah Tamu
                 </label>
                 <input
@@ -191,19 +179,17 @@ export const RSVPForm: React.FC<RSVPFormProps> = ({ isDark }) => {
                   max="10"
                   value={formData.guest_count}
                   onChange={handleInputChange}
-                  className={`w-full px-4 py-3 rounded-lg border transition-colors focus:ring-2 focus:ring-maroon-500 focus:border-transparent ${
-                    isDark 
-                      ? 'bg-gray-800 border-gray-600 text-white' 
+                  className={`w-full px-4 py-3 rounded-lg border transition-colors focus:ring-2 focus:ring-rose-500 focus:border-transparent ${isDark
+                      ? 'bg-gray-800 border-gray-600 text-white'
                       : 'bg-white border-gray-300 text-gray-900'
-                  }`}
+                    }`}
                 />
               </div>
 
               {/* Dietary Restrictions */}
               <div className="md:col-span-2">
-                <label className={`block text-sm font-medium mb-2 ${
-                  isDark ? 'text-gray-300' : 'text-gray-700'
-                }`}>
+                <label className={`block text-sm font-medium mb-2 ${isDark ? 'text-gray-300' : 'text-gray-700'
+                  }`}>
                   Kebutuhan makanan / catatan khusus
                 </label>
                 <textarea
@@ -211,20 +197,18 @@ export const RSVPForm: React.FC<RSVPFormProps> = ({ isDark }) => {
                   value={formData.dietary_restrictions}
                   onChange={handleInputChange}
                   rows={3}
-                  className={`w-full px-4 py-3 rounded-lg border transition-colors focus:ring-2 focus:ring-maroon-500 focus:border-transparent resize-none ${
-                    isDark 
-                      ? 'bg-gray-800 border-gray-600 text-white placeholder-gray-400' 
+                  className={`w-full px-4 py-3 rounded-lg border transition-colors focus:ring-2 focus:ring-rose-500 focus:border-transparent resize-none ${isDark
+                      ? 'bg-gray-800 border-gray-600 text-white placeholder-gray-400'
                       : 'bg-white border-gray-300 text-gray-900'
-                  }`}
+                    }`}
                   placeholder="Tuliskan kebutuhan makanan atau catatan khusus..."
                 ></textarea>
               </div>
 
               {/* Message */}
               <div className="md:col-span-2">
-                <label className={`block text-sm font-medium mb-2 ${
-                  isDark ? 'text-gray-300' : 'text-gray-700'
-                }`}>
+                <label className={`block text-sm font-medium mb-2 ${isDark ? 'text-gray-300' : 'text-gray-700'
+                  }`}>
                   Pesan untuk kami
                 </label>
                 <textarea
@@ -232,11 +216,10 @@ export const RSVPForm: React.FC<RSVPFormProps> = ({ isDark }) => {
                   value={formData.message}
                   onChange={handleInputChange}
                   rows={4}
-                  className={`w-full px-4 py-3 rounded-lg border transition-colors focus:ring-2 focus:ring-maroon-500 focus:border-transparent resize-none ${
-                    isDark 
-                      ? 'bg-gray-800 border-gray-600 text-white placeholder-gray-400' 
+                  className={`w-full px-4 py-3 rounded-lg border transition-colors focus:ring-2 focus:ring-rose-500 focus:border-transparent resize-none ${isDark
+                      ? 'bg-gray-800 border-gray-600 text-white placeholder-gray-400'
                       : 'bg-white border-gray-300 text-gray-900'
-                  }`}
+                    }`}
                   placeholder="Tuliskan doa atau ucapan untuk kami..."
                 ></textarea>
               </div>
@@ -247,7 +230,7 @@ export const RSVPForm: React.FC<RSVPFormProps> = ({ isDark }) => {
               <button
                 type="submit"
                 disabled={isSubmitting || !formData.name.trim()}
-                className="w-full bg-gradient-to-r from-maroon-500 to-maroon-500 text-white py-3 sm:py-4 px-6 rounded-lg font-medium transition-all duration-300 hover:from-maroon-600 hover:to-maroon-600 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2 touch-manipulation"
+                className="w-full bg-gradient-to-r from-rose-500 to-rose-500 text-white py-3 sm:py-4 px-6 rounded-lg font-medium transition-all duration-300 hover:from-rose-600 hover:to-rose-600 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2 touch-manipulation"
               >
                 {isSubmitting ? (
                   <>

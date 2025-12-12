@@ -26,31 +26,27 @@ export const DigitalEnvelope: React.FC<DigitalEnvelopeProps> = ({ isDark }) => {
     <section
       id="envelope"
       ref={ref}
-      className={`min-h-screen flex items-center py-12 sm:py-20 snap-start ${
-        isDark ? 'bg-gray-900' : 'bg-gradient-to-br from-maroon-50 via-maroon-25 to-maroon-50'
-      }`}
+      className={`min-h-screen flex items-center py-12 sm:py-20 snap-start ${isDark ? 'bg-gray-900' : 'bg-gradient-to-br from-rose-50 via-rose-25 to-rose-50'
+        }`}
     >
       <div className="container mx-auto px-4 sm:px-6 w-full">
         <div
-          className={`max-w-4xl mx-auto text-center transition-all duration-1000 ease-out ${
-            shouldAnimate ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-          }`}
+          className={`max-w-4xl mx-auto text-center transition-all duration-1000 ease-out ${shouldAnimate ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+            }`}
         >
           <div className="flex items-center justify-center mb-4 sm:mb-6 space-x-3">
-            <Gift className={isDark ? 'text-maroon-300' : 'text-maroon-500'} size={28} />
+            <Gift className={isDark ? 'text-rose-300' : 'text-rose-500'} size={28} />
             <h2
-              className={`text-3xl sm:text-4xl font-serif ${
-                isDark ? 'text-white' : 'text-gray-800'
-              }`}
+              className={`text-3xl sm:text-4xl font-serif ${isDark ? 'text-white' : 'text-gray-800'
+                }`}
             >
               {weddingData.digitalEnvelope.title}
             </h2>
           </div>
 
           <p
-            className={`max-w-3xl mx-auto text-sm sm:text-base md:text-lg leading-relaxed ${
-              isDark ? 'text-gray-300' : 'text-gray-700'
-            }`}
+            className={`max-w-3xl mx-auto text-sm sm:text-base md:text-lg leading-relaxed ${isDark ? 'text-gray-300' : 'text-gray-700'
+              }`}
           >
             {weddingData.digitalEnvelope.subtitle}
           </p>
@@ -58,30 +54,27 @@ export const DigitalEnvelope: React.FC<DigitalEnvelopeProps> = ({ isDark }) => {
           <div className="mt-8 sm:mt-10 flex justify-center">
             <button
               onClick={() => setIsOpen((prev) => !prev)}
-              className={`px-5 py-3 rounded-full text-sm font-medium shadow-lg transition-all duration-300 touch-manipulation ${
-                isDark
-                  ? 'bg-maroon-500 text-white hover:bg-maroon-600'
-                  : 'bg-maroon-500 text-white hover:bg-maroon-600'
-              } ${isOpen ? 'scale-95' : 'scale-100'}`}
+              className={`px-5 py-3 rounded-full text-sm font-medium shadow-lg transition-all duration-300 touch-manipulation ${isDark
+                  ? 'bg-rose-500 text-white hover:bg-rose-600'
+                  : 'bg-rose-500 text-white hover:bg-rose-600'
+                } ${isOpen ? 'scale-95' : 'scale-100'}`}
             >
               {isOpen ? 'Tutup Detail' : 'Klik di sini'}
             </button>
           </div>
 
           <div
-            className={`mt-8 sm:mt-10 grid gap-4 sm:gap-6 max-w-2xl mx-auto transition-all duration-500 ${
-              isOpen ? 'max-h-[800px] opacity-100' : 'max-h-0 opacity-0 pointer-events-none'
-            } overflow-hidden`}
+            className={`mt-8 sm:mt-10 grid gap-4 sm:gap-6 max-w-2xl mx-auto transition-all duration-500 ${isOpen ? 'max-h-[800px] opacity-100' : 'max-h-0 opacity-0 pointer-events-none'
+              } overflow-hidden`}
           >
             {weddingData.digitalEnvelope.accounts.map((acc, idx) => (
               <div
                 key={acc.bank + acc.number}
-                className={`p-4 sm:p-5 rounded-2xl shadow-lg flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 ${
-                  isDark ? 'bg-gray-800 border border-gray-700' : 'bg-white border border-maroon-100'
-                }`}
+                className={`p-4 sm:p-5 rounded-2xl shadow-lg flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 ${isDark ? 'bg-gray-800 border border-gray-700' : 'bg-white border border-rose-100'
+                  }`}
               >
                 <div className="text-left">
-                  <p className={`text-xs uppercase tracking-widest ${isDark ? 'text-maroon-300' : 'text-maroon-500'}`}>
+                  <p className={`text-xs uppercase tracking-widest ${isDark ? 'text-rose-300' : 'text-rose-500'}`}>
                     {acc.bank}
                   </p>
                   <p className={`text-lg sm:text-xl font-semibold ${isDark ? 'text-white' : 'text-gray-800'}`}>
@@ -93,11 +86,10 @@ export const DigitalEnvelope: React.FC<DigitalEnvelopeProps> = ({ isDark }) => {
                 </div>
                 <button
                   onClick={() => handleCopy(acc.number, idx)}
-                  className={`inline-flex items-center justify-center px-3 py-2 rounded-lg text-sm font-medium transition-colors touch-manipulation ${
-                    isDark
+                  className={`inline-flex items-center justify-center px-3 py-2 rounded-lg text-sm font-medium transition-colors touch-manipulation ${isDark
                       ? 'bg-gray-700 text-white hover:bg-gray-600'
-                      : 'bg-maroon-50 text-maroon-600 hover:bg-maroon-100'
-                  }`}
+                      : 'bg-rose-50 text-rose-600 hover:bg-rose-100'
+                    }`}
                 >
                   {copiedIndex === idx ? (
                     <>

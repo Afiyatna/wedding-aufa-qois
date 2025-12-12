@@ -87,7 +87,7 @@ export const MusicPlayer: React.FC<MusicPlayerProps> = ({ isDark }) => {
 
     audio.volume = newVolume;
     setVolume(newVolume);
-    
+
     if (newVolume === 0) {
       setIsMuted(true);
       audio.muted = true;
@@ -98,9 +98,8 @@ export const MusicPlayer: React.FC<MusicPlayerProps> = ({ isDark }) => {
   };
 
   return (
-    <div className={`fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-30 p-2 sm:p-4 rounded-xl sm:rounded-2xl shadow-lg backdrop-blur-sm transition-all duration-300 ${
-      isDark ? 'bg-gray-800/90 border border-gray-700' : 'bg-white/90 border border-gray-200'
-    }`}>
+    <div className={`fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-30 p-2 sm:p-4 rounded-xl sm:rounded-2xl shadow-lg backdrop-blur-sm transition-all duration-300 ${isDark ? 'bg-gray-800/90 border border-gray-700' : 'bg-white/90 border border-gray-200'
+      }`}>
       <audio
         ref={audioRef}
         src={audioUrl}
@@ -108,16 +107,15 @@ export const MusicPlayer: React.FC<MusicPlayerProps> = ({ isDark }) => {
         preload="auto"
         autoPlay
       />
-      
+
       <div className="flex items-center space-x-2 sm:space-x-3">
         {/* Play/Pause Button */}
         <button
           onClick={togglePlay}
-          className={`p-1.5 sm:p-2 rounded-full transition-colors touch-manipulation ${
-            isDark 
-              ? 'bg-maroon-500 text-white hover:bg-maroon-600' 
-              : 'bg-maroon-500 text-white hover:bg-maroon-600'
-          }`}
+          className={`p-1.5 sm:p-2 rounded-full transition-colors touch-manipulation ${isDark
+              ? 'bg-rose-500 text-white hover:bg-rose-600'
+              : 'bg-rose-500 text-white hover:bg-rose-600'
+            }`}
         >
           {isPlaying ? <Pause size={18} className="sm:w-5 sm:h-5" /> : <Play size={18} className="sm:w-5 sm:h-5" />}
         </button>
@@ -126,13 +124,12 @@ export const MusicPlayer: React.FC<MusicPlayerProps> = ({ isDark }) => {
         <div className="hidden sm:flex items-center space-x-2">
           <button
             onClick={toggleMute}
-            className={`p-1 rounded transition-colors touch-manipulation ${
-              isDark ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-800'
-            }`}
+            className={`p-1 rounded transition-colors touch-manipulation ${isDark ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-800'
+              }`}
           >
             {isMuted || volume === 0 ? <VolumeX size={16} /> : <Volume2 size={16} />}
           </button>
-          
+
           <input
             type="range"
             min="0"

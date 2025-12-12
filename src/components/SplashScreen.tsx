@@ -28,29 +28,29 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onComplete }) => {
   }, [currentPhase, onComplete]);
 
   return (
-    <div className="fixed inset-0 bg-gradient-to-br from-maroon-100 via-maroon-50 to-maroon-200 flex items-center justify-center z-50 transition-opacity duration-1000">
+    <div className="fixed inset-0 bg-gradient-to-br from-rose-100 via-rose-50 to-rose-200 flex items-center justify-center z-50 transition-opacity duration-1000">
       <div className="text-center space-y-8">
         {/* Couple Names */}
         <div className={`transition-all duration-1000 ${currentPhase >= 0 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <h1 className="text-4xl md:text-6xl font-serif text-maroon-800 mb-2">
+          <h1 className="text-4xl md:text-6xl font-serif text-rose-800 mb-2">
             {weddingData.couple.bride.firstName}
           </h1>
           <div className="flex items-center justify-center my-4">
-            <div className="h-px bg-maroon-300 w-16"></div>
-            <Heart className={`mx-4 text-maroon-500 transition-all duration-1000 ${currentPhase >= 1 ? 'scale-125 text-maroon-600' : 'scale-100'}`} size={24} />
-            <div className="h-px bg-maroon-300 w-16"></div>
+            <div className="h-px bg-rose-300 w-16"></div>
+            <Heart className={`mx-4 text-rose-500 transition-all duration-1000 ${currentPhase >= 1 ? 'scale-125 text-rose-600' : 'scale-100'}`} size={24} />
+            <div className="h-px bg-rose-300 w-16"></div>
           </div>
-          <h1 className="text-4xl md:text-6xl font-serif text-maroon-800">
+          <h1 className="text-4xl md:text-6xl font-serif text-rose-800">
             {weddingData.couple.groom.firstName}
           </h1>
         </div>
 
         {/* Date */}
         <div className={`transition-all duration-1000 delay-500 ${currentPhase >= 1 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-          <p className="text-xl md:text-2xl text-maroon-600 font-light">
+          <p className="text-xl md:text-2xl text-rose-600 font-light">
             {new Date(weddingData.events.ceremony.date).toLocaleDateString('id-ID', {
               weekday: 'long',
-              year: 'numeric', 
+              year: 'numeric',
               month: 'long',
               day: 'numeric'
             })}
@@ -63,7 +63,7 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onComplete }) => {
             {[0, 1, 2].map((i) => (
               <div
                 key={i}
-                className="w-2 h-2 bg-maroon-400 rounded-full animate-pulse"
+                className="w-2 h-2 bg-rose-400 rounded-full animate-pulse"
                 style={{ animationDelay: `${i * 0.2}s` }}
               ></div>
             ))}

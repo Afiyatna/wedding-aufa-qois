@@ -32,18 +32,16 @@ export const EventDetails: React.FC<EventDetailsProps> = ({ isDark }) => {
   const events = [weddingData.events.ceremony, weddingData.events.reception];
 
   return (
-    <section 
+    <section
       id="events"
       ref={ref}
-      className={`min-h-screen flex items-center py-12 sm:py-20 snap-start ${isDark ? 'bg-gray-900' : 'bg-gradient-to-br from-maroon-50 to-maroon-50'}`}
+      className={`min-h-screen flex items-center py-12 sm:py-20 snap-start ${isDark ? 'bg-gray-900' : 'bg-gradient-to-br from-rose-50 to-rose-50'}`}
     >
       <div className="container mx-auto px-4 sm:px-6 w-full">
-        <div className={`text-center mb-10 sm:mb-16 transition-all duration-1000 ease-out ${
-          shouldAnimate ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-        }`}>
-          <h2 className={`text-3xl sm:text-4xl md:text-5xl font-serif mb-3 sm:mb-4 ${
-            isDark ? 'text-white' : 'text-gray-800'
+        <div className={`text-center mb-10 sm:mb-16 transition-all duration-1000 ease-out ${shouldAnimate ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
           }`}>
+          <h2 className={`text-3xl sm:text-4xl md:text-5xl font-serif mb-3 sm:mb-4 ${isDark ? 'text-white' : 'text-gray-800'
+            }`}>
             Rangkaian Acara
           </h2>
           <p className={`text-base sm:text-lg ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
@@ -55,22 +53,19 @@ export const EventDetails: React.FC<EventDetailsProps> = ({ isDark }) => {
           {events.map((event, index) => (
             <div
               key={event.title}
-              className={`transition-all duration-1000 ease-out delay-${index * 200} ${
-                shouldAnimate ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-              }`}
+              className={`transition-all duration-1000 ease-out delay-${index * 200} ${shouldAnimate ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+                }`}
             >
-              <div className={`p-5 sm:p-8 rounded-xl sm:rounded-2xl shadow-lg h-full ${
-                isDark ? 'bg-gray-800 border border-gray-700' : 'bg-white'
-              }`}>
-                <h3 className={`text-xl sm:text-2xl md:text-3xl font-serif mb-4 sm:mb-6 ${
-                  isDark ? 'text-maroon-300' : 'text-maroon-600'
+              <div className={`p-5 sm:p-8 rounded-xl sm:rounded-2xl shadow-lg h-full ${isDark ? 'bg-gray-800 border border-gray-700' : 'bg-white'
                 }`}>
+                <h3 className={`text-xl sm:text-2xl md:text-3xl font-serif mb-4 sm:mb-6 ${isDark ? 'text-rose-300' : 'text-rose-600'
+                  }`}>
                   {event.title}
                 </h3>
-                
+
                 <div className="space-y-4">
                   <div className="flex items-center space-x-3">
-                    <Calendar className={`${isDark ? 'text-maroon-400' : 'text-maroon-500'}`} size={20} />
+                    <Calendar className={`${isDark ? 'text-rose-400' : 'text-rose-500'}`} size={20} />
                     <span className={`${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
                       {new Date(event.date).toLocaleDateString('id-ID', {
                         weekday: 'long',
@@ -80,16 +75,16 @@ export const EventDetails: React.FC<EventDetailsProps> = ({ isDark }) => {
                       })}
                     </span>
                   </div>
-                  
+
                   <div className="flex items-center space-x-3">
-                    <Clock className={`${isDark ? 'text-maroon-400' : 'text-maroon-500'}`} size={20} />
+                    <Clock className={`${isDark ? 'text-rose-400' : 'text-rose-500'}`} size={20} />
                     <span className={`${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
                       {formatTime(event.time)}
                     </span>
                   </div>
-                  
+
                   <div className="flex items-start space-x-3">
-                    <MapPin className={`${isDark ? 'text-maroon-400' : 'text-maroon-500'} mt-1`} size={20} />
+                    <MapPin className={`${isDark ? 'text-rose-400' : 'text-rose-500'} mt-1`} size={20} />
                     <div>
                       <p className={`font-medium ${isDark ? 'text-gray-200' : 'text-gray-800'}`}>
                         {event.venue}
