@@ -96,7 +96,7 @@ export const RSVPForm: React.FC<RSVPFormProps> = ({ isDark, backgroundImage }) =
               <div className="md:col-span-2">
                 <label className={`block text-sm font-medium mb-2 ${isDark ? 'text-gray-300' : 'text-gray-700'
                   }`}>
-                  Nama Lengkap *
+                  Nama *
                 </label>
                 <input
                   type="text"
@@ -108,12 +108,12 @@ export const RSVPForm: React.FC<RSVPFormProps> = ({ isDark, backgroundImage }) =
                     ? 'bg-gray-800 border-gray-600 text-white placeholder-gray-400'
                     : 'bg-white border-gray-300 text-gray-900'
                     }`}
-                  placeholder="Masukkan nama lengkap"
+                  placeholder="Masukkan nama"
                 />
               </div>
 
               {/* Email */}
-              <div>
+              {/* <div>
                 <label className={`block text-sm font-medium mb-2 ${isDark ? 'text-gray-300' : 'text-gray-700'
                   }`}>
                   Email
@@ -129,10 +129,10 @@ export const RSVPForm: React.FC<RSVPFormProps> = ({ isDark, backgroundImage }) =
                     }`}
                   placeholder="your@email.com"
                 />
-              </div>
+              </div> */}
 
               {/* Phone */}
-              <div>
+              {/* <div>
                 <label className={`block text-sm font-medium mb-2 ${isDark ? 'text-gray-300' : 'text-gray-700'
                   }`}>
                   Nomor Telepon
@@ -148,7 +148,7 @@ export const RSVPForm: React.FC<RSVPFormProps> = ({ isDark, backgroundImage }) =
                     }`}
                   placeholder="08xxxxxxxxxx"
                 />
-              </div>
+              </div> */}
 
               {/* Attendance */}
               <div>
@@ -193,7 +193,7 @@ export const RSVPForm: React.FC<RSVPFormProps> = ({ isDark, backgroundImage }) =
               </div>
 
               {/* Dietary Restrictions */}
-              <div className="md:col-span-2">
+              {/* <div className="md:col-span-2">
                 <label className={`block text-sm font-medium mb-2 ${isDark ? 'text-gray-300' : 'text-gray-700'
                   }`}>
                   Kebutuhan makanan / catatan khusus
@@ -209,7 +209,7 @@ export const RSVPForm: React.FC<RSVPFormProps> = ({ isDark, backgroundImage }) =
                     }`}
                   placeholder="Tuliskan kebutuhan makanan atau catatan khusus..."
                 ></textarea>
-              </div>
+              </div> */}
 
               {/* Message */}
               <div className="md:col-span-2">

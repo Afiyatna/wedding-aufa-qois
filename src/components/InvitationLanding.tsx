@@ -14,6 +14,12 @@ export const InvitationLanding: React.FC<InvitationLandingProps> = ({
   backgroundImage
 }) => {
   const [isAnimating, setIsAnimating] = useState(false);
+  const [showContent, setShowContent] = useState(false);
+
+  React.useEffect(() => {
+    // Trigger entry animations
+    setTimeout(() => setShowContent(true), 100);
+  }, []);
 
   const handleOpenInvitation = () => {
     setIsAnimating(true);
@@ -29,46 +35,56 @@ export const InvitationLanding: React.FC<InvitationLandingProps> = ({
         backgroundSize: '400% 400%',
         animation: 'gradientShift 8s ease infinite'
       }}>
-      {/* Floating decorative elements */}
-      <div className="absolute inset-0 overflow-hidden"
-        style={backgroundImage ? {
-          backgroundImage: `url('/images/background/${backgroundImage}.jpeg')`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-        } : undefined}>
-        <div className="absolute top-20 left-10 w-32 h-32 bg-white/20 rounded-full animate-pulse"></div>
-        <div className="absolute top-40 right-20 w-24 h-24 bg-rose-200/30 rounded-full animate-bounce delay-1000"></div>
-        <div className="absolute bottom-32 left-20 w-20 h-20 bg-rose-200/40 rounded-full animate-pulse delay-500"></div>
-        <div className="absolute bottom-20 right-10 w-28 h-28 bg-white/15 rounded-full animate-bounce delay-2000"></div>
+      {/* Background Image with Slow Zoom (Ken Burns Effect) */}
+      {backgroundImage && (
+        <div className="absolute inset-0 overflow-hidden">
+          <div
+            className="absolute inset-0 bg-cover bg-center"
+            style={{
+              backgroundImage: `url('/images/background/${backgroundImage}.jpeg')`,
+              animation: 'kenBurns 8s ease-in-out infinite alternate'
+            }}
+          />
+          {/* Dark overlay for better text readability */}
+          <div className="absolute inset-0"></div>
+        </div>
+      )}
 
-        {/* Floating hearts */}
-        {[...Array(6)].map((_, i) => (
+      {/* Floating decorative elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {/* Floating hearts with improved animation */}
+        {[...Array(12)].map((_, i) => (
           <Heart
             key={i}
-            className="absolute text-rose-300/40 animate-pulse"
-            size={16 + Math.random() * 16}
+            className="absolute text-rose-300/60"
+            size={80 + Math.random() * 24}
             style={{
-              top: `${Math.random() * 100}%`,
               left: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 3}s`,
-              animationDuration: `${2 + Math.random() * 2}s`
+              animation: `floatUp ${10 + Math.random() * 10}s linear infinite`,
+              animationDelay: `-${Math.random() * 10}s`,
+              opacity: 0,
             }}
             fill="currentColor"
           />
         ))}
+
+        {/* Shimmering orbs */}
+        <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-rose-400/20 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-indigo-400/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
       </div>
 
       {/* Main content */}
       <div className="relative z-10 text-center px-4 max-w-md mx-auto">
         {/* Envelope icon */}
-        <div className="mb-8 animate-bounce">
-          <div className="inline-flex items-center justify-center w-20 h-20 bg-white/90 rounded-full shadow-lg">
-            <Mail className="text-rose-500" size={32} />
+        <div className={`mb-8 transition-all duration-1000 delay-100 transform ${showContent ? 'translate-y-0 opacity-100' : '-translate-y-12 opacity-0'}`}>
+          <div className="inline-flex items-center justify-center w-20 h-20 bg-white/90 rounded-full shadow-lg animate-bounce relative">
+            <Mail className="text-rose-500 relative z-10" size={32} />
+            <div className="absolute inset-0 bg-rose-200/50 rounded-full animate-ping opacity-20"></div>
           </div>
         </div>
 
         {/* Invitation text */}
-        <div className="bg-white/95 backdrop-blur-sm rounded-3xl p-8 shadow-2xl border border-white/50">
+        <div className={`bg-white/90 backdrop-blur-md rounded-3xl p-8 shadow-2xl border border-white/50 transition-all duration-1000 delay-300 transform ${showContent ? 'translate-y-0 opacity-100' : 'translate-y-12 opacity-0'}`}>
           <div className="mb-6">
             <p className="text-rose-600 text-sm font-medium uppercase tracking-wider mb-2">
               Undangan Pernikahan
@@ -81,7 +97,7 @@ export const InvitationLanding: React.FC<InvitationLandingProps> = ({
           {/* Decorative line */}
           <div className="flex items-center justify-center mb-6">
             <div className="h-px bg-rose-300 w-16"></div>
-            <Heart className="mx-4 text-rose-500" size={16} fill="currentColor" />
+            <Heart className="mx-4 text-rose-500 animate-pulse" size={16} fill="currentColor" />
             <div className="h-px bg-rose-300 w-16"></div>
           </div>
 
@@ -111,14 +127,15 @@ export const InvitationLanding: React.FC<InvitationLandingProps> = ({
           {/* Open invitation button */}
           <button
             onClick={handleOpenInvitation}
-            className="w-full bg-gradient-to-r from-rose-500 to-rose-500 text-white py-4 px-8 rounded-2xl font-medium text-lg transition-all duration-300 hover:from-rose-600 hover:to-rose-600 hover:shadow-lg hover:scale-105 active:scale-95"
+            className="w-full bg-gradient-to-r from-rose-500 to-rose-600 text-white py-4 px-8 rounded-2xl font-medium text-lg transition-all duration-300 hover:from-rose-600 hover:to-rose-700 hover:shadow-xl hover:scale-105 active:scale-95 relative overflow-hidden group"
           >
-            Buka Undangan
+            <span className="relative z-10">Buka Undangan</span>
+            <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
           </button>
         </div>
 
         {/* Bottom text */}
-        <p className="mt-6 text-rose-700/80 text-xs">
+        <p className={`mt-6 text-white/90 text-xs font-medium tracking-wide shadow-black/50 drop-shadow-md transition-all duration-1000 delay-700 transform ${showContent ? 'opacity-100' : 'opacity-0'}`}>
           Dengan hormat dan kasih
         </p>
       </div>
@@ -128,6 +145,26 @@ export const InvitationLanding: React.FC<InvitationLandingProps> = ({
           0% { background-position: 0% 50%; }
           50% { background-position: 100% 50%; }
           100% { background-position: 0% 50%; }
+        }
+        @keyframes kenBurns {
+          0% { transform: scale(1); }
+          100% { transform: scale(1.15); }
+        }
+        @keyframes floatUp {
+          0% {
+            transform: translateY(110vh) scale(0.5) rotate(0deg);
+            opacity: 0;
+          }
+          10% {
+            opacity: 0.8;
+          }
+          90% {
+            opacity: 0.8;
+          }
+          100% {
+            transform: translateY(-10vh) scale(1) rotate(360deg);
+            opacity: 0;
+          }
         }
       `}</style>
     </div>
