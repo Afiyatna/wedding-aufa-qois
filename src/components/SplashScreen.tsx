@@ -11,9 +11,9 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onComplete }) => {
 
   useEffect(() => {
     const phases = [
-      { delay: 0, duration: 1000 }, // Names appear
-      { delay: 0, duration: 1000 }, // Heart animation
-      { delay: 0, duration: 500 }   // Fade out
+      { delay: 0, duration: 0 }, // Names appear
+      { delay: 0, duration: 0 }, // Heart animation
+      { delay: 0, duration: 0 }   // Fade out
     ];
 
     const timer = setTimeout(() => {
