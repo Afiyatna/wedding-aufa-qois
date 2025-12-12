@@ -23,7 +23,7 @@ export const InvitationLanding: React.FC<InvitationLandingProps> = ({
   };
 
   return (
-    <div className={`max-w-lg mx-auto min-h-screen flex items-center justify-center relative overflow-hidden transition-all duration-1000 ${isAnimating ? 'scale-110 opacity-0' : 'scale-100 opacity-100'
+    <div className={`max-w-[560px] mx-auto min-h-screen flex items-center justify-center relative overflow-hidden transition-all duration-1000 ${isAnimating ? 'scale-110 opacity-0' : 'scale-100 opacity-100'
       }`} style={{
         background: 'linear-gradient(135deg, #fdf2f8 0%, #fce7f3 25%, #fbcfe8 50%, #f9a8d4 75%, #f472b6 100%)',
         backgroundSize: '400% 400%',
@@ -40,7 +40,7 @@ export const InvitationLanding: React.FC<InvitationLandingProps> = ({
         <div className="absolute top-40 right-20 w-24 h-24 bg-rose-200/30 rounded-full animate-bounce delay-1000"></div>
         <div className="absolute bottom-32 left-20 w-20 h-20 bg-rose-200/40 rounded-full animate-pulse delay-500"></div>
         <div className="absolute bottom-20 right-10 w-28 h-28 bg-white/15 rounded-full animate-bounce delay-2000"></div>
-        
+
         {/* Floating hearts */}
         {[...Array(6)].map((_, i) => (
           <Heart

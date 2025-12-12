@@ -47,7 +47,7 @@ function App() {
   const toggleTheme = () => {
     const newTheme = !isDark;
     setIsDark(newTheme);
-    
+
     if (newTheme) {
       document.documentElement.classList.add('dark');
       localStorage.setItem('wedding-theme', 'dark');
@@ -69,11 +69,10 @@ function App() {
 
   // Show main wedding invitation
   return (
-    <div className={`max-w-lg mx-auto min-h-screen transition-colors duration-300 ${
-      isDark ? 'bg-gray-900 text-white' : 'bg-white text-gray-900'
-    }`}>
+    <div className={`max-w-[560px] mx-auto min-h-screen transition-colors duration-300 ${isDark ? 'bg-gray-900 text-white' : 'bg-white text-gray-900'
+      }`}>
       {/* <Header isDark={isDark} onThemeToggle={toggleTheme} /> */}
-      
+
       <main className="scroll-container">
         <HeroSection isDark={isDark} guestName={guestName} backgroundImage={"flower-rose-2"} />
         <QuoteSection isDark={isDark} backgroundImage={"flower-rose-4"} />
