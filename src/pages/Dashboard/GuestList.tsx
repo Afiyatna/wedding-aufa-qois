@@ -318,7 +318,7 @@ Wassalamualaikum Wr. Wb.`;
                                 <th className="px-4 py-4 w-16 text-center font-semibold text-gray-600">WA</th>
                                 <th className="px-6 py-4 font-semibold text-gray-600">Nama</th>
                                 <th className="px-6 py-4 font-semibold text-gray-600 text-center">Status</th>
-                                <th className="px-6 py-4 font-semibold text-gray-600">Link Undangan</th>
+                                <th className="px-6 py-4 font-semibold text-gray-600">Link</th>
                                 <th className="px-6 py-4 font-semibold text-gray-600 text-center">Aksi</th>
                             </tr>
                         </thead>
