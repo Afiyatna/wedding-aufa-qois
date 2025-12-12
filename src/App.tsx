@@ -19,6 +19,7 @@ import Login from './pages/Login';
 import DashboardLayout from './pages/Dashboard/Layout';
 import Overview from './pages/Dashboard/Overview';
 import GuestList from './pages/Dashboard/GuestList';
+import Comments from './pages/Dashboard/Comments';
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
         <Route path="/dashboard" element={<DashboardLayout />}>
           <Route index element={<Overview />} />
           <Route path="guests" element={<GuestList />} />
+          <Route path="comments" element={<Comments />} />
         </Route>
       </Routes>
     </BrowserRouter>

@@ -85,13 +85,13 @@ export default function Overview() {
 
 function StatCard({ title, value, icon, bg }: { title: string, value: number, icon: React.ReactNode, bg: string }) {
     return (
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center justify-between">
-            <div>
-                <p className="text-sm font-medium text-gray-500">{title}</p>
-                <p className="text-2xl font-bold text-gray-900 mt-1">{value}</p>
-            </div>
-            <div className={`p-3 rounded-lg ${bg}`}>
-                {icon}
+        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+            <p className="text-sm font-medium text-gray-500">{title}</p>
+            <div className="flex justify-between">
+                <p className="text-2xl font-bold text-gray-900 mt-1 self-center">{value}</p>
+                <div className={`p-3 rounded-lg ${bg} self-end`}>
+                    {icon}
+                </div>
             </div>
         </div>
     );
