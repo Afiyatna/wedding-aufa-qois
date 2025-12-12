@@ -21,11 +21,15 @@ export default function GuestList() {
     const [isMultiModalOpen, setIsMultiModalOpen] = useState(false);
     const [isTemplateModalOpen, setIsTemplateModalOpen] = useState(false);
     const [formData, setFormData] = useState({ name: '', phone: '', category: 'General' });
-    const [multiInputText, setMultiInputText] = useState('');
     const [waTemplate, setWaTemplate] = useState('');
     const [templateText, setTemplateText] = useState('');
     const [isEditMode, setIsEditMode] = useState(false);
     const [editId, setEditId] = useState<string | null>(null);
+
+    // Batch Input State
+    const [batchGuests, setBatchGuests] = useState<{ name: string; phone: string }[]>(
+        Array(5).fill({ name: '', phone: '' })
+    );
 
     useEffect(() => {
         fetchGuests();
@@ -64,9 +68,9 @@ Wassalamualaikum Wr. Wb.`;
     };
 
     const handleCreateSlug = (name: string) => {
-        const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
-        // Add random string to ensure uniqueness if needed, but for now simple slug
-        return slug;
+        const baseSlug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+        const randomString = Math.random().toString(36).substring(2, 6);
+        return `${baseSlug}-${randomString}`;
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -81,8 +85,14 @@ Wassalamualaikum Wr. Wb.`;
             if (!error) {
                 fetchGuests();
                 closeModal();
+                alert('Data tamu berhasil diperbarui.');
             } else {
-                alert('Error updating guest: ' + error.message);
+                if (error.code === '23505') {
+                    if (error.message.includes('phone')) alert('Gagal: Nomor WhatsApp sudah digunakan tamu lain.');
+                    else alert('Gagal: Data duplikat.');
+                } else {
+                    alert('Terjadi kesalahan: ' + error.message);
+                }
             }
         } else {
             const { error } = await supabase
@@ -91,44 +101,73 @@ Wassalamualaikum Wr. Wb.`;
             if (!error) {
                 fetchGuests();
                 closeModal();
+                alert('Tamu berhasil ditambahkan.');
             } else {
-                alert('Error adding guest: ' + error.message);
+                if (error.code === '23505') {
+                    if (error.message.includes('phone')) alert('Gagal: Nomor WhatsApp sudah terdaftar.');
+                    else alert('Gagal: Data duplikat.');
+                } else {
+                    alert('Terjadi kesalahan: ' + error.message);
+                }
             }
         }
+    };
+
+    const handleBatchChange = (index: number, field: 'name' | 'phone', value: string) => {
+        const newBatch = [...batchGuests];
+        newBatch[index] = { ...newBatch[index], [field]: value };
+        setBatchGuests(newBatch);
+    };
+
+    const handleAddRow = () => {
+        setBatchGuests([...batchGuests, { name: '', phone: '' }]);
     };
 
     const handleMultiSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
-        const lines = multiInputText.split('\n').filter(line => line.trim() !== '');
 
-        const guests = lines.map(line => {
-            // Check if line has comma (Simple CSV: Name, Phone)
-            const parts = line.split(',');
-            const name = parts[0].trim();
-            const phone = parts[1] ? parts[1].trim() : '';
+        // Filter out empty rows
+        const validRows = batchGuests.filter(row => row.name.trim() !== '' || row.phone.trim() !== '');
 
-            return {
-                name,
-                slug: handleCreateSlug(name),
-                phone: phone,
-                category: 'General' // Default category
-            };
-        });
-
-        if (guests.length === 0) {
-            alert('Tidak ada data nama ditemukan.');
+        if (validRows.length === 0) {
+            alert('Silakan isi minimal satu data tamu.');
             setLoading(false);
             return;
         }
 
-        const { error } = await supabase.from('guests').insert(guests);
+        // Validate mandatory fields
+        const invalidRow = validRows.find(row => row.name.trim() === '' || row.phone.trim() === '');
+        if (invalidRow) {
+            alert('Gagal: Nama dan Nomor HP wajib diisi untuk setiap baris yang digunakan.');
+            setLoading(false);
+            return;
+        }
+
+        const guestsToInsert = validRows.map(row => ({
+            name: row.name.trim(),
+            slug: handleCreateSlug(row.name.trim()),
+            phone: row.phone.trim(),
+            category: 'General'
+        }));
+
+        const { error } = await supabase.from('guests').insert(guestsToInsert);
 
         if (!error) {
             fetchGuests();
             closeMultiModal();
+            alert('Batch input berhasil!');
         } else {
-            alert('Error bulk insert: ' + error.message);
+            console.error(error);
+            if (error.code === '23505') {
+                if (error.message.includes('phone')) {
+                    alert('Gagal: Salah satu Nomor WhatsApp sudah terdaftar.');
+                } else {
+                    alert('Gagal: Data duplikat ditemukan.');
+                }
+            } else {
+                alert('Terjadi kesalahan: ' + error.message);
+            }
         }
         setLoading(false);
     };
@@ -152,7 +191,7 @@ Wassalamualaikum Wr. Wb.`;
 
     const closeMultiModal = () => {
         setIsMultiModalOpen(false);
-        setMultiInputText('');
+        setBatchGuests(Array(5).fill({ name: '', phone: '' })); // Reset to 5 empty rows
     };
 
     const handleDelete = async (id: string) => {
@@ -400,49 +439,81 @@ Wassalamualaikum Wr. Wb.`;
             {/* Multi Input Modal */}
             {isMultiModalOpen && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-                    <div className="bg-white rounded-xl shadow-xl max-w-lg w-full p-6">
-                        <div className="flex justify-between items-center mb-4">
-                            <h3 className="text-xl font-bold">Multi Input Tamu</h3>
+                    <div className="bg-white rounded-xl shadow-xl max-w-2xl w-full p-6 max-h-[90vh] overflow-y-auto">
+                        <div className="flex justify-between items-center mb-6">
+                            <h3 className="text-xl font-bold">Input Banyak Tamu</h3>
                             <button onClick={closeMultiModal} className="text-gray-400 hover:text-gray-600">
-                                <Trash2 size={20} className="transform rotate-45" /> {/* Using Trash as X icon fallback or close */}
+                                <Trash2 size={20} className="transform rotate-45" />
                             </button>
                         </div>
 
                         <form onSubmit={handleMultiSubmit} className="space-y-4">
-                            <div className="bg-blue-50 p-3 rounded-lg text-sm text-blue-700 mb-4">
-                                <p className="font-semibold">Format Input:</p>
-                                <p>Satu nama per baris dan pisahkan dengan koma untuk nomor HP.</p>
-                                <p></p>
-                                <p className="mt-1 font-mono text-xs">
-                                    Contoh:<br />
-                                    Abu Abdirohman, 085201201260<br />
-                                    Afiyatna Nursita, 08123456789<br />
-                                </p>
+                            <div className="bg-blue-50 p-4 rounded-lg text-sm text-blue-800 mb-4 border border-blue-200">
+                                <p className="font-semibold mb-1">Panduan:</p>
+                                <ul className="list-disc list-inside">
+                                    <li>Nama dan Nomor HP <strong>wajib diisi</strong>.</li>
+                                    <li>Baris yang kosong akan diabaikan.</li>
+                                    <li>Format Nomor HP (08xx, 62xx).</li>
+                                </ul>
                             </div>
 
-                            <div>
-                                <textarea
-                                    required
-                                    value={multiInputText}
-                                    onChange={e => setMultiInputText(e.target.value)}
-                                    className="w-full border border-gray-300 rounded-lg px-3 py-2 h-48 font-mono text-sm"
-                                    placeholder="Masukkan daftar nama disini..."
-                                />
+                            <div className="space-y-3">
+                                <div className="grid grid-cols-12 gap-4 font-semibold text-gray-700 pb-2 border-b">
+                                    <div className="col-span-1 text-center">#</div>
+                                    <div className="col-span-6">Nama Tamu</div>
+                                    <div className="col-span-5">WhatsApp</div>
+                                </div>
+
+                                {batchGuests.map((guest, index) => (
+                                    <div key={index} className="grid grid-cols-12 gap-4 items-center">
+                                        <div className="col-span-1 text-center font-mono text-sm">
+                                            {index + 1}
+                                        </div>
+                                        <div className="col-span-6">
+                                            <input
+                                                type="text"
+                                                value={guest.name}
+                                                onChange={e => handleBatchChange(index, 'name', e.target.value)}
+                                                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-rose-500 focus:border-rose-500 outline-none transition-all"
+                                                placeholder="Nama Tamu"
+                                            />
+                                        </div>
+                                        <div className="col-span-5">
+                                            <input
+                                                type="text"
+                                                value={guest.phone}
+                                                onChange={e => handleBatchChange(index, 'phone', e.target.value)}
+                                                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-rose-500 focus:border-rose-500 outline-none transition-all"
+                                                placeholder="08xxxxxxxx"
+                                            />
+                                        </div>
+                                    </div>
+                                ))}
+
+                                <button
+                                    type="button"
+                                    onClick={handleAddRow}
+                                    className="mt-4 w-full py-2 border-2 border-dashed border-gray-300 rounded-lg text-gray-500 hover:border-rose-500 hover:text-rose-500 transition-colors flex items-center justify-center gap-2 font-medium"
+                                >
+                                    <Plus size={18} />
+                                    Tambah Tamu
+                                </button>
                             </div>
 
-                            <div className="flex justify-end gap-3 mt-6">
+                            <div className="flex justify-end gap-3 mt-8 pt-4 border-t border-gray-100">
                                 <button
                                     type="button"
                                     onClick={closeMultiModal}
-                                    className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg"
+                                    className="px-6 py-2.5 text-gray-600 hover:bg-gray-100 rounded-lg font-medium transition-colors"
                                 >
                                     Batal
                                 </button>
                                 <button
                                     type="submit"
-                                    className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                                    disabled={loading}
+                                    className="px-6 py-2.5 bg-rose-600 text-white rounded-lg hover:bg-rose-700 font-medium shadow-sm shadow-rose-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
-                                    Simpan Semua
+                                    {loading ? 'Menyimpan...' : 'Simpan Semua'}
                                 </button>
                             </div>
                         </form>
