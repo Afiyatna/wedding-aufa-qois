@@ -81,8 +81,8 @@ function App() {
         <DigitalEnvelope isDark={isDark} backgroundImage={"flower-rose-3"} />
         {/* <Gallery isDark={isDark} backgroundImage={"flower-rose-4"} /> */}
         <Countdown isDark={isDark} backgroundImage={"flower-rose-4"} />
-        {/* <RSVPForm isDark={isDark} backgroundImage={"flower-rose-3"} />
-        <Guestbook isDark={isDark} backgroundImage={"flower-rose-4"} /> */}
+        <RSVPForm isDark={isDark} backgroundImage={"flower-rose-3"} />
+        <Guestbook isDark={isDark} backgroundImage={"flower-rose-4"} />
       </main>
 
       <Footer isDark={isDark} />
