@@ -85,7 +85,7 @@ Wassalamualaikum Wr. Wb.`;
             if (!error) {
                 fetchGuests();
                 closeModal();
-                alert('Data tamu berhasil diperbarui.');
+                // alert('Data tamu berhasil diperbarui.');
             } else {
                 if (error.code === '23505') {
                     if (error.message.includes('phone')) alert('Gagal: Nomor WhatsApp sudah digunakan tamu lain.');
@@ -101,7 +101,7 @@ Wassalamualaikum Wr. Wb.`;
             if (!error) {
                 fetchGuests();
                 closeModal();
-                alert('Tamu berhasil ditambahkan.');
+                // alert('Tamu berhasil ditambahkan.');
             } else {
                 if (error.code === '23505') {
                     if (error.message.includes('phone')) alert('Gagal: Nomor WhatsApp sudah terdaftar.');
@@ -156,7 +156,7 @@ Wassalamualaikum Wr. Wb.`;
         if (!error) {
             fetchGuests();
             closeMultiModal();
-            alert('Batch input berhasil!');
+            // alert('Batch input berhasil!');
         } else {
             console.error(error);
             if (error.code === '23505') {
@@ -182,7 +182,7 @@ Wassalamualaikum Wr. Wb.`;
         if (!error) {
             setWaTemplate(templateText);
             setIsTemplateModalOpen(false);
-            alert('Template berhasil disimpan!');
+            // alert('Template berhasil disimpan!');
         } else {
             alert('Error saving template: ' + error.message);
         }
