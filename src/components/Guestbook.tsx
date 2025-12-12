@@ -5,13 +5,14 @@ import { SectionWrapper, AnimateIn } from './common/SectionWrapper';
 
 interface GuestbookProps {
   isDark: boolean;
-  backgroundImage: string;
+  backgroundImage?: string;
+  initialName?: string;
 }
 
-export const Guestbook: React.FC<GuestbookProps> = ({ isDark, backgroundImage }) => {
+export const Guestbook: React.FC<GuestbookProps> = ({ isDark, backgroundImage, initialName }) => {
   const [messages, setMessages] = useState<RSVPResponse[]>([]);
   const [formData, setFormData] = useState<Omit<RSVPResponse, 'id' | 'created_at'>>({
-    name: '',
+    name: initialName || '',
     message: '',
     attendance: 'yes',
     parent_id: null

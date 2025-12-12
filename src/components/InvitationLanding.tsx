@@ -4,18 +4,18 @@ import { weddingData } from '../data/weddingData';
 import { FloatingParticles } from './common/FloatingParticles';
 
 interface InvitationLandingProps {
-  guestName: string;
   onOpenInvitation: () => void;
+  guestName?: string; // It was guestName in the component props usage
+  valigGuestName?: string; // New prop passed from App
   backgroundImage?: string;
 }
 
-export const InvitationLanding: React.FC<InvitationLandingProps> = ({
-  guestName,
-  onOpenInvitation,
-  backgroundImage
-}) => {
+export const InvitationLanding = ({ onOpenInvitation, guestName, valigGuestName, backgroundImage }: InvitationLandingProps) => {
   const [isAnimating, setIsAnimating] = useState(false);
   const [showContent, setShowContent] = useState(false);
+
+  // Use valigGuestName if available, otherwise guestName or default
+  const displayName = valigGuestName || guestName || 'Tamu Undangan';
 
   React.useEffect(() => {
     // Trigger entry animations
@@ -85,7 +85,7 @@ export const InvitationLanding: React.FC<InvitationLandingProps> = ({
           {/* Personal greeting */}
           <div className="mb-6">
             <p className="text-gray-600 text-sm mb-2">Kepada Bapak/Ibu/Saudara/i</p>
-            <p className="text-2xl font-serif text-gray-800 mb-4">{guestName}</p>
+            <p className="text-2xl font-serif text-gray-800 mb-4">{displayName}</p>
             {/* <p className="text-gray-600 text-sm leading-relaxed">
               Dengan penuh sukacita, kami mengundang Anda untuk hadir di hari pernikahan kami.
               Kehadiran Anda akan membuat hari spesial ini semakin berarti.
