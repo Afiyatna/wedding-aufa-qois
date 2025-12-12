@@ -8,7 +8,7 @@ export const weddingData = {
     },
     groom: {
       fullName: "Sabilul Qois",
-      firstName: "Qois", 
+      firstName: "Qois",
       parents: "Bpk. H. Mulyadi (Alm) & Ibu Siti Syamsiah",
       image: "gallery/groom.jpg" // Path ke gambar mempelai pria, contoh: "images/groom.jpg" atau kosongkan jika ingin menggunakan inisial
     }
@@ -43,13 +43,13 @@ export const weddingData = {
       alt: "Mempelai Wanita"
     },
     {
-      id: 2, 
+      id: 2,
       url: "gallery/bride.jpg",
       alt: "Pre-wedding photo 2"
     },
     {
       id: 3,
-      url: "gallery/img3.jpg", 
+      url: "gallery/img3.jpg",
       alt: "Pre-wedding photo 3"
     },
     {
@@ -72,9 +72,9 @@ export const weddingData = {
     title: "Wedding Gift",
     subtitle: "Doa restu Anda merupakan karunia yang sangat berarti bagi kami, dan jika memberi adalah ungkapan tanda kasih, Anda dapat memberi kado secara cashless.",
     accounts: [
-      { bank: "BCA", number: "0800820162", name: "Aufa Amroini Indah Saesari" },
-      { bank: "Bank Jateng", number: "3018023169", name: "Aufa Amroini Indah Saesari" },
-      { bank: "DANA", number: "082225279922", name: "Aufa Amroini Indah Saesari" }
+      { bank: "BCA", number: "0800820162", name: "Aufa Amroini Indah Saesari", image: "/images/logo/bank-bca.png" },
+      { bank: "JATENG", number: "3018023169", name: "Aufa Amroini Indah Saesari", image: "/images/logo/bank-jateng.png" },
+      { bank: "DANA", number: "082225279922", name: "Aufa Amroini Indah Saesari", image: "/images/logo/bank-dana.png" }
     ],
     gift: {
       name: "Aufa Amroini",
