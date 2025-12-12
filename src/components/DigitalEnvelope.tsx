@@ -60,7 +60,10 @@ export const DigitalEnvelope: React.FC<DigitalEnvelopeProps> = ({ isDark, backgr
                   : 'bg-rose-500 text-white hover:bg-rose-600'
                   } ${isOpen ? 'scale-95' : 'scale-100'}`}
               >
-                {isOpen ? 'Tutup Detail' : 'Klik di sini'}
+                <span className="flex items-center gap-2">
+                  <Gift size={18} className="text-white" />
+                  {isOpen ? 'Tutup Detail' : 'Klik di sini'}
+                </span>
               </button>
             </AnimateIn>
 

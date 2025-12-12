@@ -191,7 +191,6 @@ export const Guestbook: React.FC<GuestbookProps> = ({ isDark, backgroundImage })
                       >
                         <option value="yes">Hadir</option>
                         <option value="no">Tidak Hadir</option>
-                        <option value="maybe">Mungkin</option>
                       </select>
                     </div>
                   </div>
