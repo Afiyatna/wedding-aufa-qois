@@ -9,7 +9,6 @@ import { DigitalEnvelope } from './components/DigitalEnvelope';
 import { EventDetails } from './components/EventDetails';
 // import { Gallery } from './components/Gallery';
 import { Countdown } from './components/Countdown';
-import { RSVPForm } from './components/RSVPForm';
 import { Guestbook } from './components/Guestbook';
 import { Footer } from './components/Footer';
 import { MusicPlayer } from './components/MusicPlayer';
@@ -81,7 +80,6 @@ function App() {
         <DigitalEnvelope isDark={isDark} backgroundImage={"flower-rose-3"} />
         {/* <Gallery isDark={isDark} backgroundImage={"flower-rose-4"} /> */}
         <Countdown isDark={isDark} backgroundImage={"flower-rose-4"} />
-        <RSVPForm isDark={isDark} backgroundImage={"flower-rose-3"} />
         <Guestbook isDark={isDark} backgroundImage={"flower-rose-4"} />
       </main>
 

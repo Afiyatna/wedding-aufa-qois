@@ -12,18 +12,8 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 export type RSVPResponse = {
   id?: string;
   name: string;
-  email?: string;
-  phone?: string;
   attendance: 'yes' | 'no' | 'maybe';
-  guest_count: number;
-  dietary_restrictions?: string;
-  message?: string;
-  created_at?: string;
-};
-
-export type GuestbookMessage = {
-  id?: string;
-  name: string;
   message: string;
+  parent_id?: string | null;
   created_at?: string;
 };
