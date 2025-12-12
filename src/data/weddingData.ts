@@ -69,7 +69,7 @@ export const weddingData = {
     }
   ],
   digitalEnvelope: {
-    title: "Amplop Digital",
+    title: "Wedding Gift",
     subtitle: "Doa restu Anda adalah hadiah terindah. Bila ingin berbagi tanda kasih, silakan gunakan rekening di bawah ini.",
     accounts: [
       { bank: "BCA", number: "0800820162", name: "Aufa Amroini Indah Saesari" },
