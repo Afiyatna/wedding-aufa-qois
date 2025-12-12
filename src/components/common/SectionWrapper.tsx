@@ -1,5 +1,6 @@
 import React, { ReactNode } from 'react';
 import { useIntersectionObserver } from '../../hooks/useIntersectionObserver';
+import { FloatingParticles } from './FloatingParticles';
 
 interface SectionWrapperProps {
     id: string;
@@ -8,6 +9,7 @@ interface SectionWrapperProps {
     children: (shouldAnimate: boolean) => ReactNode;
     className?: string;
     backgroundElement?: ReactNode;
+    withParticles?: boolean;
 }
 
 // Helper component for granular element animations
@@ -59,6 +61,7 @@ export const SectionWrapper: React.FC<SectionWrapperProps> = ({
     children,
     className = "",
     backgroundElement,
+    withParticles = true,
 }) => {
     const { ref, shouldAnimate } = useIntersectionObserver();
 
@@ -85,6 +88,11 @@ export const SectionWrapper: React.FC<SectionWrapperProps> = ({
                     <div className={`absolute inset-0 transition-opacity duration-1000 ${isDark ? 'bg-black/60' : 'bg-white/30'
                         }`} />
                 </div>
+            )}
+
+            {/* Global Floating Particles */}
+            {withParticles && (
+                <FloatingParticles />
             )}
 
             {/* Custom Background Element */}

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Calendar, Heart } from 'lucide-react';
+import { Calendar } from 'lucide-react';
 import { weddingData } from '../data/weddingData';
 import { SectionWrapper, AnimateIn } from './common/SectionWrapper';
 
@@ -38,29 +38,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ isDark, guestName, bac
       id="home"
       isDark={isDark}
       backgroundImage={backgroundImage}
-      backgroundElement={
-        <div className="w-full h-full relative">
-          {/* Floating hearts */}
-          {[...Array(12)].map((_, i) => (
-            <Heart
-              key={i}
-              className="absolute text-rose-300/40"
-              size={80 + Math.random() * 24}
-              style={{
-                left: `${Math.random() * 100}%`,
-                animation: `floatUp ${10 + Math.random() * 10}s linear infinite`,
-                animationDelay: `-${Math.random() * 10}s`,
-                opacity: 0,
-              }}
-              fill="currentColor"
-            />
-          ))}
-
-          {/* Shimmering orbs */}
-          <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-rose-400/10 rounded-full blur-3xl animate-pulse"></div>
-          <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-indigo-400/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
-        </div>
-      }
     >
       {(shouldAnimate) => (
         <div className="container mx-auto px-4 sm:px-6 text-center relative z-10 py-20 sm:py-0">
@@ -142,24 +119,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ isDark, guestName, bac
               </div>
             </button>
           </AnimateIn>
-          <style>{`
-        @keyframes floatUp {
-          0% {
-            transform: translateY(110vh) scale(0.5) rotate(0deg);
-            opacity: 0;
-          }
-          10% {
-            opacity: 0.8;
-          }
-          90% {
-            opacity: 0.8;
-          }
-          100% {
-            transform: translateY(-10vh) scale(1) rotate(360deg);
-            opacity: 0;
-          }
-        }
-      `}</style>
         </div>
       )}
     </SectionWrapper>

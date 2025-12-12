@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Heart, Mail, Calendar } from 'lucide-react';
+import { Mail, Calendar, Heart } from 'lucide-react';
 import { weddingData } from '../data/weddingData';
+import { FloatingParticles } from './common/FloatingParticles';
 
 interface InvitationLandingProps {
   guestName: string;
@@ -50,28 +51,8 @@ export const InvitationLanding: React.FC<InvitationLandingProps> = ({
         </div>
       )}
 
-      {/* Floating decorative elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {/* Floating hearts with improved animation */}
-        {[...Array(12)].map((_, i) => (
-          <Heart
-            key={i}
-            className="absolute text-rose-300/60"
-            size={80 + Math.random() * 24}
-            style={{
-              left: `${Math.random() * 100}%`,
-              animation: `floatUp ${10 + Math.random() * 10}s linear infinite`,
-              animationDelay: `-${Math.random() * 10}s`,
-              opacity: 0,
-            }}
-            fill="currentColor"
-          />
-        ))}
-
-        {/* Shimmering orbs */}
-        <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-rose-400/20 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-indigo-400/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
-      </div>
+      {/* Global Floating Particles */}
+      <FloatingParticles />
 
       {/* Main content */}
       <div className="relative z-10 text-center px-4 max-w-md mx-auto">
@@ -149,22 +130,6 @@ export const InvitationLanding: React.FC<InvitationLandingProps> = ({
         @keyframes kenBurns {
           0% { transform: scale(1); }
           100% { transform: scale(1.15); }
-        }
-        @keyframes floatUp {
-          0% {
-            transform: translateY(110vh) scale(0.5) rotate(0deg);
-            opacity: 0;
-          }
-          10% {
-            opacity: 0.8;
-          }
-          90% {
-            opacity: 0.8;
-          }
-          100% {
-            transform: translateY(-10vh) scale(1) rotate(360deg);
-            opacity: 0;
-          }
         }
       `}</style>
     </div>
