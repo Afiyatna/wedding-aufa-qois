@@ -5,9 +5,10 @@ import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
 
 interface DigitalEnvelopeProps {
   isDark: boolean;
+  backgroundImage?: string;
 }
 
-export const DigitalEnvelope: React.FC<DigitalEnvelopeProps> = ({ isDark }) => {
+export const DigitalEnvelope: React.FC<DigitalEnvelopeProps> = ({ isDark, backgroundImage }) => {
   const { ref, shouldAnimate } = useIntersectionObserver();
   const [isOpen, setIsOpen] = useState(false);
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
@@ -28,6 +29,11 @@ export const DigitalEnvelope: React.FC<DigitalEnvelopeProps> = ({ isDark }) => {
       ref={ref}
       className={`min-h-screen flex items-center py-12 sm:py-20 snap-start ${isDark ? 'bg-gray-900' : 'bg-gradient-to-br from-rose-50 via-rose-25 to-rose-50'
         }`}
+      style={backgroundImage ? {
+        backgroundImage: `url('/images/background/${backgroundImage}.jpeg')`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      } : undefined}
     >
       <div className="container mx-auto px-4 sm:px-6 w-full">
         <div
@@ -55,8 +61,8 @@ export const DigitalEnvelope: React.FC<DigitalEnvelopeProps> = ({ isDark }) => {
             <button
               onClick={() => setIsOpen((prev) => !prev)}
               className={`px-5 py-3 rounded-full text-sm font-medium shadow-lg transition-all duration-300 touch-manipulation ${isDark
-                  ? 'bg-rose-500 text-white hover:bg-rose-600'
-                  : 'bg-rose-500 text-white hover:bg-rose-600'
+                ? 'bg-rose-500 text-white hover:bg-rose-600'
+                : 'bg-rose-500 text-white hover:bg-rose-600'
                 } ${isOpen ? 'scale-95' : 'scale-100'}`}
             >
               {isOpen ? 'Tutup Detail' : 'Klik di sini'}
@@ -87,8 +93,8 @@ export const DigitalEnvelope: React.FC<DigitalEnvelopeProps> = ({ isDark }) => {
                 <button
                   onClick={() => handleCopy(acc.number, idx)}
                   className={`inline-flex items-center justify-center px-3 py-2 rounded-lg text-sm font-medium transition-colors touch-manipulation ${isDark
-                      ? 'bg-gray-700 text-white hover:bg-gray-600'
-                      : 'bg-rose-50 text-rose-600 hover:bg-rose-100'
+                    ? 'bg-gray-700 text-white hover:bg-gray-600'
+                    : 'bg-rose-50 text-rose-600 hover:bg-rose-100'
                     }`}
                 >
                   {copiedIndex === idx ? (

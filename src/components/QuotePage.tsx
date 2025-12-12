@@ -5,17 +5,22 @@ import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
 
 interface QuotePageProps {
   isDark: boolean;
+  backgroundImage?: string;
 }
 
-export const QuotePage: React.FC<QuotePageProps> = ({ isDark }) => {
+export const QuotePage: React.FC<QuotePageProps> = ({ isDark, backgroundImage }) => {
   const { ref, shouldAnimate } = useIntersectionObserver();
 
   return (
     <section
       id="quote"
       ref={ref}
-      className={`min-h-screen flex items-center justify-center py-12 sm:py-20 snap-start ${isDark ? 'bg-gray-900' : 'bg-white'
-        }`}
+      className={`min-h-screen flex items-center justify-center py-12 sm:py-20 snap-start ${isDark ? 'bg-gray-900' : 'bg-gradient-to-br from-rose-100 via-rose-50 to-rose-200'}`}
+      style={backgroundImage ? {
+        backgroundImage: `url('/images/background/${backgroundImage}.jpeg')`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      } : undefined}
     >
       <div className="container mx-auto px-4 sm:px-6 w-full">
         <div className={`max-w-3xl mx-auto text-center transition-all duration-1000 ease-out ${shouldAnimate ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'

@@ -5,9 +5,10 @@ import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
 
 interface EventDetailsProps {
   isDark: boolean;
+  backgroundImage?: string;
 }
 
-export const EventDetails: React.FC<EventDetailsProps> = ({ isDark }) => {
+export const EventDetails: React.FC<EventDetailsProps> = ({ isDark, backgroundImage }) => {
   const { ref, shouldAnimate } = useIntersectionObserver();
 
   const formatTime = (time: string) => {
@@ -36,6 +37,11 @@ export const EventDetails: React.FC<EventDetailsProps> = ({ isDark }) => {
       id="events"
       ref={ref}
       className={`min-h-screen flex items-center py-12 sm:py-20 snap-start ${isDark ? 'bg-gray-900' : 'bg-gradient-to-br from-rose-50 to-rose-50'}`}
+      style={backgroundImage ? {
+        backgroundImage: `url('/images/background/${backgroundImage}.jpeg')`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      } : undefined}
     >
       <div className="container mx-auto px-4 sm:px-6 w-full">
         <div className={`text-center mb-10 sm:mb-16 transition-all duration-1000 ease-out ${shouldAnimate ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'

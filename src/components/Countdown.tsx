@@ -5,9 +5,10 @@ import { weddingData } from '../data/weddingData';
 
 interface CountdownProps {
   isDark: boolean;
+  backgroundImage?: string;
 }
 
-export const Countdown: React.FC<CountdownProps> = ({ isDark }) => {
+export const Countdown: React.FC<CountdownProps> = ({ isDark, backgroundImage }) => {
   const { ref, shouldAnimate } = useIntersectionObserver();
   const timeLeft = useCountdown(`${weddingData.events.ceremony.date}T${weddingData.events.ceremony.time}`);
 
@@ -22,6 +23,11 @@ export const Countdown: React.FC<CountdownProps> = ({ isDark }) => {
     <section
       ref={ref}
       className={`min-h-screen flex items-center py-12 sm:py-20 snap-start ${isDark ? 'bg-gray-900' : 'bg-gradient-to-br from-rose-100 via-rose-50 to-rose-200'}`}
+      style={backgroundImage ? {
+        backgroundImage: `url('/images/background/${backgroundImage}.jpeg')`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      } : undefined}
     >
       <div className="container mx-auto px-4 sm:px-6 w-full">
         <div className={`text-center mb-10 sm:mb-16 transition-all duration-1000 ease-out ${shouldAnimate ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
@@ -44,7 +50,7 @@ export const Countdown: React.FC<CountdownProps> = ({ isDark }) => {
             >
               <div className={`p-4 sm:p-6 rounded-xl sm:rounded-2xl shadow-lg ${isDark ? 'bg-gray-800 border border-gray-700' : 'bg-white/80 backdrop-blur-sm'
                 }`}>
-                <div className={`text-3xl sm:text-4xl md:text-6xl font-bold mb-1 sm:mb-2 ${isDark ? 'text-rose-300' : 'text-rose-600'
+                <div className={`text-[44px] font-bold mb-1 sm:mb-2 ${isDark ? 'text-rose-300' : 'text-rose-600'
                   }`}>
                   {unit.value.toString().padStart(2, '0')}
                 </div>

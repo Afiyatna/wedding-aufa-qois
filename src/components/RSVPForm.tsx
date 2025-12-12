@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { Send, CheckCircle, AlertCircle } from 'lucide-react';
-// import { supabase, RSVPResponse } from '../lib/supabase';
+import { supabase, RSVPResponse } from '../lib/supabase';
 import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
 
 interface RSVPFormProps {
   isDark: boolean;
+  backgroundImage?: string;
 }
 
-export const RSVPForm: React.FC<RSVPFormProps> = ({ isDark }) => {
+export const RSVPForm: React.FC<RSVPFormProps> = ({ isDark, backgroundImage }) => {
   const { ref, shouldAnimate } = useIntersectionObserver();
   const [formData, setFormData] = useState<RSVPResponse>({
     name: '',
@@ -36,36 +37,41 @@ export const RSVPForm: React.FC<RSVPFormProps> = ({ isDark }) => {
     setIsSubmitting(true);
     setSubmitStatus('idle');
 
-    // try {
-    //   const { error } = await supabase
-    //     .from('rsvp_responses')
-    //     .insert([formData]);
+    try {
+      const { error } = await supabase
+        .from('rsvp_responses')
+        .insert([formData]);
 
-    //   if (error) throw error;
+      if (error) throw error;
 
-    //   setSubmitStatus('success');
-    //   setFormData({
-    //     name: '',
-    //     email: '',
-    //     phone: '',
-    //     attendance: 'yes',
-    //     guest_count: 1,
-    //     dietary_restrictions: '',
-    //     message: ''
-    //   });
-    // } catch (error) {
-    //   console.error('Error submitting RSVP:', error);
-    //   setSubmitStatus('error');
-    // } finally {
-    //   setIsSubmitting(false);
-    // }
+      setSubmitStatus('success');
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        attendance: 'yes',
+        guest_count: 1,
+        dietary_restrictions: '',
+        message: ''
+      });
+    } catch (error) {
+      console.error('Error submitting RSVP:', error);
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
     <section
       id="rsvp"
       ref={ref}
-      className={`min-h-screen flex items-center py-12 sm:py-20 snap-start ${isDark ? 'bg-gray-800' : 'bg-white'}`}
+      className={`min-h-screen flex items-center py-12 sm:py-20 snap-start ${isDark ? 'bg-gray-900' : 'bg-gradient-to-br from-rose-100 via-rose-50 to-rose-200'}`}
+      style={backgroundImage ? {
+        backgroundImage: `url('/images/background/${backgroundImage}.jpeg')`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      } : undefined}
     >
       <div className="container mx-auto px-4 sm:px-6 w-full">
         <div className={`text-center mb-10 sm:mb-16 transition-all duration-1000 ease-out ${shouldAnimate ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
@@ -99,8 +105,8 @@ export const RSVPForm: React.FC<RSVPFormProps> = ({ isDark }) => {
                   onChange={handleInputChange}
                   required
                   className={`w-full px-4 py-3 rounded-lg border transition-colors focus:ring-2 focus:ring-rose-500 focus:border-transparent ${isDark
-                      ? 'bg-gray-800 border-gray-600 text-white placeholder-gray-400'
-                      : 'bg-white border-gray-300 text-gray-900'
+                    ? 'bg-gray-800 border-gray-600 text-white placeholder-gray-400'
+                    : 'bg-white border-gray-300 text-gray-900'
                     }`}
                   placeholder="Masukkan nama lengkap"
                 />
@@ -118,8 +124,8 @@ export const RSVPForm: React.FC<RSVPFormProps> = ({ isDark }) => {
                   value={formData.email}
                   onChange={handleInputChange}
                   className={`w-full px-4 py-3 rounded-lg border transition-colors focus:ring-2 focus:ring-rose-500 focus:border-transparent ${isDark
-                      ? 'bg-gray-800 border-gray-600 text-white placeholder-gray-400'
-                      : 'bg-white border-gray-300 text-gray-900'
+                    ? 'bg-gray-800 border-gray-600 text-white placeholder-gray-400'
+                    : 'bg-white border-gray-300 text-gray-900'
                     }`}
                   placeholder="your@email.com"
                 />
@@ -137,8 +143,8 @@ export const RSVPForm: React.FC<RSVPFormProps> = ({ isDark }) => {
                   value={formData.phone}
                   onChange={handleInputChange}
                   className={`w-full px-4 py-3 rounded-lg border transition-colors focus:ring-2 focus:ring-rose-500 focus:border-transparent ${isDark
-                      ? 'bg-gray-800 border-gray-600 text-white placeholder-gray-400'
-                      : 'bg-white border-gray-300 text-gray-900'
+                    ? 'bg-gray-800 border-gray-600 text-white placeholder-gray-400'
+                    : 'bg-white border-gray-300 text-gray-900'
                     }`}
                   placeholder="08xxxxxxxxxx"
                 />
@@ -156,8 +162,8 @@ export const RSVPForm: React.FC<RSVPFormProps> = ({ isDark }) => {
                   onChange={handleInputChange}
                   required
                   className={`w-full px-4 py-3 rounded-lg border transition-colors focus:ring-2 focus:ring-rose-500 focus:border-transparent ${isDark
-                      ? 'bg-gray-800 border-gray-600 text-white'
-                      : 'bg-white border-gray-300 text-gray-900'
+                    ? 'bg-gray-800 border-gray-600 text-white'
+                    : 'bg-white border-gray-300 text-gray-900'
                     }`}
                 >
                   <option value="yes">Ya, saya hadir</option>
@@ -180,8 +186,8 @@ export const RSVPForm: React.FC<RSVPFormProps> = ({ isDark }) => {
                   value={formData.guest_count}
                   onChange={handleInputChange}
                   className={`w-full px-4 py-3 rounded-lg border transition-colors focus:ring-2 focus:ring-rose-500 focus:border-transparent ${isDark
-                      ? 'bg-gray-800 border-gray-600 text-white'
-                      : 'bg-white border-gray-300 text-gray-900'
+                    ? 'bg-gray-800 border-gray-600 text-white'
+                    : 'bg-white border-gray-300 text-gray-900'
                     }`}
                 />
               </div>
@@ -198,8 +204,8 @@ export const RSVPForm: React.FC<RSVPFormProps> = ({ isDark }) => {
                   onChange={handleInputChange}
                   rows={3}
                   className={`w-full px-4 py-3 rounded-lg border transition-colors focus:ring-2 focus:ring-rose-500 focus:border-transparent resize-none ${isDark
-                      ? 'bg-gray-800 border-gray-600 text-white placeholder-gray-400'
-                      : 'bg-white border-gray-300 text-gray-900'
+                    ? 'bg-gray-800 border-gray-600 text-white placeholder-gray-400'
+                    : 'bg-white border-gray-300 text-gray-900'
                     }`}
                   placeholder="Tuliskan kebutuhan makanan atau catatan khusus..."
                 ></textarea>
@@ -217,8 +223,8 @@ export const RSVPForm: React.FC<RSVPFormProps> = ({ isDark }) => {
                   onChange={handleInputChange}
                   rows={4}
                   className={`w-full px-4 py-3 rounded-lg border transition-colors focus:ring-2 focus:ring-rose-500 focus:border-transparent resize-none ${isDark
-                      ? 'bg-gray-800 border-gray-600 text-white placeholder-gray-400'
-                      : 'bg-white border-gray-300 text-gray-900'
+                    ? 'bg-gray-800 border-gray-600 text-white placeholder-gray-400'
+                    : 'bg-white border-gray-300 text-gray-900'
                     }`}
                   placeholder="Tuliskan doa atau ucapan untuk kami..."
                 ></textarea>

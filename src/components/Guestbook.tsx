@@ -5,9 +5,10 @@ import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
 
 interface GuestbookProps {
   isDark: boolean;
+  backgroundImage: string;
 }
 
-export const Guestbook: React.FC<GuestbookProps> = ({ isDark }) => {
+export const Guestbook: React.FC<GuestbookProps> = ({ isDark, backgroundImage }) => {
   const { ref, shouldAnimate } = useIntersectionObserver();
   const [messages, setMessages] = useState<GuestbookMessage[]>([]);
   const [newMessage, setNewMessage] = useState({ name: '', message: '' });
@@ -73,6 +74,11 @@ export const Guestbook: React.FC<GuestbookProps> = ({ isDark }) => {
       id="guestbook"
       ref={ref}
       className={`min-h-screen flex items-center py-12 sm:py-20 snap-start ${isDark ? 'bg-gray-900' : 'bg-gradient-to-br from-rose-50 to-rose-50'}`}
+      style={backgroundImage ? {
+        backgroundImage: `url('/images/background/${backgroundImage}.jpeg')`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      } : undefined}
     >
       <div className="container mx-auto px-4 sm:px-6 w-full">
         <div className={`text-center mb-10 sm:mb-16 transition-all duration-1000 ease-out ${shouldAnimate ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
@@ -104,8 +110,8 @@ export const Guestbook: React.FC<GuestbookProps> = ({ isDark }) => {
                     placeholder="Nama Anda"
                     required
                     className={`w-full px-4 py-3 rounded-lg border transition-colors focus:ring-2 focus:ring-rose-500 focus:border-transparent ${isDark
-                        ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400'
-                        : 'bg-white border-gray-300 text-gray-900'
+                      ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400'
+                      : 'bg-white border-gray-300 text-gray-900'
                       }`}
                   />
                 </div>
@@ -117,8 +123,8 @@ export const Guestbook: React.FC<GuestbookProps> = ({ isDark }) => {
                     required
                     rows={3}
                     className={`w-full px-3 sm:px-4 py-2 sm:py-3 rounded-lg border transition-colors focus:ring-2 focus:ring-rose-500 focus:border-transparent resize-none text-sm sm:text-base ${isDark
-                        ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400'
-                        : 'bg-white border-gray-300 text-gray-900'
+                      ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400'
+                      : 'bg-white border-gray-300 text-gray-900'
                       }`}
                   ></textarea>
                 </div>

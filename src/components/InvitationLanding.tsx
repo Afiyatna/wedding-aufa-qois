@@ -5,11 +5,13 @@ import { weddingData } from '../data/weddingData';
 interface InvitationLandingProps {
   guestName: string;
   onOpenInvitation: () => void;
+  backgroundImage?: string;
 }
 
-export const InvitationLanding: React.FC<InvitationLandingProps> = ({ 
-  guestName, 
-  onOpenInvitation 
+export const InvitationLanding: React.FC<InvitationLandingProps> = ({
+  guestName,
+  onOpenInvitation,
+  backgroundImage
 }) => {
   const [isAnimating, setIsAnimating] = useState(false);
 
@@ -21,15 +23,19 @@ export const InvitationLanding: React.FC<InvitationLandingProps> = ({
   };
 
   return (
-    <div className={`min-h-screen flex items-center justify-center relative overflow-hidden transition-all duration-1000 ${
-      isAnimating ? 'scale-110 opacity-0' : 'scale-100 opacity-100'
-    }`} style={{
-      background: 'linear-gradient(135deg, #fdf2f8 0%, #fce7f3 25%, #fbcfe8 50%, #f9a8d4 75%, #f472b6 100%)',
-      backgroundSize: '400% 400%',
-      animation: 'gradientShift 8s ease infinite'
-    }}>
+    <div className={`max-w-lg mx-auto min-h-screen flex items-center justify-center relative overflow-hidden transition-all duration-1000 ${isAnimating ? 'scale-110 opacity-0' : 'scale-100 opacity-100'
+      }`} style={{
+        background: 'linear-gradient(135deg, #fdf2f8 0%, #fce7f3 25%, #fbcfe8 50%, #f9a8d4 75%, #f472b6 100%)',
+        backgroundSize: '400% 400%',
+        animation: 'gradientShift 8s ease infinite'
+      }}>
       {/* Floating decorative elements */}
-      <div className="absolute inset-0 overflow-hidden">
+      <div className="absolute inset-0 overflow-hidden"
+        style={backgroundImage ? {
+          backgroundImage: `url('/images/background/${backgroundImage}.jpeg')`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        } : undefined}>
         <div className="absolute top-20 left-10 w-32 h-32 bg-white/20 rounded-full animate-pulse"></div>
         <div className="absolute top-40 right-20 w-24 h-24 bg-rose-200/30 rounded-full animate-bounce delay-1000"></div>
         <div className="absolute bottom-32 left-20 w-20 h-20 bg-rose-200/40 rounded-full animate-pulse delay-500"></div>

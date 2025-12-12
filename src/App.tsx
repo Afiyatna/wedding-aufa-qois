@@ -59,7 +59,7 @@ function App() {
 
   // Show invitation landing page
   if (currentView === 'invitation') {
-    return <InvitationLanding guestName={guestName} onOpenInvitation={handleOpenInvitation} />;
+    return <InvitationLanding guestName={guestName} onOpenInvitation={handleOpenInvitation} backgroundImage={"flower-rose"} />;
   }
 
   // Show splash screen
@@ -69,21 +69,21 @@ function App() {
 
   // Show main wedding invitation
   return (
-    <div className={`min-h-screen transition-colors duration-300 ${
+    <div className={`max-w-lg mx-auto min-h-screen transition-colors duration-300 ${
       isDark ? 'bg-gray-900 text-white' : 'bg-white text-gray-900'
     }`}>
-      <Header isDark={isDark} onThemeToggle={toggleTheme} />
+      {/* <Header isDark={isDark} onThemeToggle={toggleTheme} /> */}
       
       <main className="scroll-container">
-        <HeroSection isDark={isDark} guestName={guestName} />
-        <QuoteSection isDark={isDark} />
-        <QuotePage isDark={isDark} />
-        <EventDetails isDark={isDark} />
-        <DigitalEnvelope isDark={isDark} />
-        <Gallery isDark={isDark} />
-        <Countdown isDark={isDark} />
-        <RSVPForm isDark={isDark} />
-        <Guestbook isDark={isDark} />
+        <HeroSection isDark={isDark} guestName={guestName} backgroundImage={"flower-rose-2"} />
+        <QuoteSection isDark={isDark} backgroundImage={"flower-rose-4"} />
+        <QuotePage isDark={isDark} backgroundImage={"flower-rose-3"} />
+        <EventDetails isDark={isDark} backgroundImage={"flower-rose-4"} />
+        <DigitalEnvelope isDark={isDark} backgroundImage={"flower-rose-3"} />
+        <Gallery isDark={isDark} backgroundImage={"flower-rose-4"} />
+        <Countdown isDark={isDark} backgroundImage={"flower-rose-3"} />
+        <RSVPForm isDark={isDark} backgroundImage={"flower-rose-3"} />
+        <Guestbook isDark={isDark} backgroundImage={"flower-rose-4"} />
       </main>
 
       <Footer isDark={isDark} />

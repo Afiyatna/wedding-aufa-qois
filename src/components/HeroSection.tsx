@@ -6,9 +6,10 @@ import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
 interface HeroSectionProps {
   isDark: boolean;
   guestName?: string;
+  backgroundImage?: string;
 }
 
-export const HeroSection: React.FC<HeroSectionProps> = ({ isDark, guestName }) => {
+export const HeroSection: React.FC<HeroSectionProps> = ({ isDark, guestName, backgroundImage }) => {
   const { ref, shouldAnimate } = useIntersectionObserver();
   const [imageError, setImageError] = useState(false);
   const brideInitial = weddingData.couple.bride.firstName.charAt(0).toUpperCase();
@@ -44,7 +45,12 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ isDark, guestName }) =
       }}
     >
       {/* Background decoration */}
-      <div className="absolute inset-0 overflow-hidden">
+      <div className="absolute inset-0 overflow-hidden"
+        style={backgroundImage ? {
+          backgroundImage: `url('/images/background/${backgroundImage}.jpeg')`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        } : undefined}>
         <div className={`absolute top-20 left-10 w-32 h-32 rounded-full opacity-20 ${isDark ? 'bg-rose-500' : 'bg-rose-200'
           } animate-pulse`}></div>
         <div className={`absolute bottom-20 right-10 w-24 h-24 rounded-full opacity-20 ${isDark ? 'bg-rose-500' : 'bg-rose-200'
@@ -57,8 +63,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ isDark, guestName }) =
           {/* Intro Card */}
           <div className="flex justify-center mb-8 sm:mb-10">
             <div className={`relative w-full max-w-md mx-auto p-4 sm:p-6 rounded-2xl sm:rounded-3xl shadow-2xl ${isDark
-                ? 'bg-gray-800/90 border border-gray-700'
-                : 'bg-white/95 border border-rose-100'
+              ? 'bg-gray-800/90 border border-gray-700'
+              : 'bg-white/95 border border-rose-100'
               }`}>
               <p className={`text-xs sm:text-sm font-semibold tracking-widest uppercase text-center ${isDark ? 'text-gray-300' : 'text-rose-600'
                 }`}>
