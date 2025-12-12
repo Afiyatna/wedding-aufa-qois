@@ -68,7 +68,7 @@ export const InvitationLanding: React.FC<InvitationLandingProps> = ({
         <div className={`bg-white/90 backdrop-blur-md rounded-3xl p-8 shadow-2xl border border-white/50 transition-all duration-1000 delay-300 transform ${showContent ? 'translate-y-0 opacity-100' : 'translate-y-12 opacity-0'}`}>
           <div className="mb-6">
             <p className="text-rose-600 text-sm font-medium uppercase tracking-wider mb-2">
-              Undangan Pernikahan
+              Undangan
             </p>
             <h1 className="text-3xl font-serif text-gray-800 mb-4">
               {weddingData.couple.bride.firstName} & {weddingData.couple.groom.firstName}
@@ -84,12 +84,12 @@ export const InvitationLanding: React.FC<InvitationLandingProps> = ({
 
           {/* Personal greeting */}
           <div className="mb-6">
-            <p className="text-gray-600 text-sm mb-2">Kepada Yth.</p>
+            <p className="text-gray-600 text-sm mb-2">Kepada Bapak/Ibu/Saudara/i</p>
             <p className="text-2xl font-serif text-gray-800 mb-4">{guestName}</p>
-            <p className="text-gray-600 text-sm leading-relaxed">
+            {/* <p className="text-gray-600 text-sm leading-relaxed">
               Dengan penuh sukacita, kami mengundang Anda untuk hadir di hari pernikahan kami.
               Kehadiran Anda akan membuat hari spesial ini semakin berarti.
-            </p>
+            </p> */}
           </div>
 
           {/* Wedding date */}
@@ -108,7 +108,7 @@ export const InvitationLanding: React.FC<InvitationLandingProps> = ({
           {/* Open invitation button */}
           <button
             onClick={handleOpenInvitation}
-            className="w-full bg-gradient-to-r from-rose-500 to-rose-600 text-white py-4 px-8 rounded-2xl font-medium text-lg transition-all duration-300 hover:from-rose-600 hover:to-rose-700 hover:shadow-xl hover:scale-105 active:scale-95 relative overflow-hidden group"
+            className="w-full bg-gradient-to-r from-rose-500 to-rose-600 text-white p-2 rounded-2xl font-medium text-lg transition-all duration-300 hover:from-rose-600 hover:to-rose-700 hover:shadow-xl hover:scale-105 active:scale-95 relative overflow-hidden group"
           >
             <span className="relative z-10">Buka Undangan</span>
             <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
