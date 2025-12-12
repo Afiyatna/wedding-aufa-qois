@@ -93,7 +93,7 @@ export const InvitationLanding: React.FC<InvitationLandingProps> = ({
           </div>
 
           {/* Wedding date */}
-          <div className="flex items-center justify-center mb-8 text-rose-600">
+          {/* <div className="flex items-center justify-center mb-8 text-rose-600">
             <Calendar size={16} />
             <span className="ml-2 text-sm font-medium">
               {new Date(weddingData.events.ceremony.date).toLocaleDateString('id-ID', {
@@ -103,12 +103,12 @@ export const InvitationLanding: React.FC<InvitationLandingProps> = ({
                 day: 'numeric'
               })}
             </span>
-          </div>
+          </div> */}
 
           {/* Open invitation button */}
           <button
             onClick={handleOpenInvitation}
-            className="w-full bg-gradient-to-r from-rose-500 to-rose-600 text-white p-2 rounded-2xl font-medium text-lg transition-all duration-300 hover:from-rose-600 hover:to-rose-700 hover:shadow-xl hover:scale-105 active:scale-95 relative overflow-hidden group"
+            className="w-full bg-gradient-to-r from-rose-500 to-rose-600 text-white py-2 rounded-2xl font-medium text-md transition-all duration-300 hover:from-rose-600 hover:to-rose-700 hover:shadow-xl hover:scale-105 active:scale-95 relative overflow-hidden group"
           >
             <span className="relative z-10">Buka Undangan</span>
             <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>

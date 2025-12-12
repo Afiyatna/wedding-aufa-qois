@@ -69,12 +69,12 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ isDark, guestName, bac
                   </div>
                 </div>
 
-                <div className="text-center space-y-1">
+                <div className="flex justify-center align-center">
                   <h1 className={`text-2xl sm:text-3xl md:text-4xl font-serif ${isDark ? 'text-white' : 'text-gray-800'
                     }`}>
                     {weddingData.couple.bride.firstName}
                   </h1>
-                  <span className={`block text-lg sm:text-xl ${isDark ? 'text-gray-400' : 'text-gray-500'
+                  <span className={`mx-2 pt-2 block text-2xl ${isDark ? 'text-gray-400' : 'text-gray-500'
                     }`}>&</span>
                   <h1 className={`text-2xl sm:text-3xl md:text-4xl font-serif ${isDark ? 'text-white' : 'text-gray-800'
                     }`}>
