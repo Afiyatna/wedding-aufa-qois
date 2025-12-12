@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Mail, Calendar, Heart } from 'lucide-react';
+import { Mail, Heart } from 'lucide-react';
 import { weddingData } from '../data/weddingData';
 import { FloatingParticles } from './common/FloatingParticles';
 

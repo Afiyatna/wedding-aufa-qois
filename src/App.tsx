@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { InvitationLanding } from './components/InvitationLanding';
-import { SplashScreen } from './components/SplashScreen';
-import { Header } from './components/Header';
+// import { SplashScreen } from './components/SplashScreen';
+// import { Header } from './components/Header';
 import { HeroSection } from './components/HeroSection';
 import { QuoteSection } from './components/QuoteSection';
 import { QuotePage } from './components/QuotePage';
 import { DigitalEnvelope } from './components/DigitalEnvelope';
 import { EventDetails } from './components/EventDetails';
-import { Gallery } from './components/Gallery';
+// import { Gallery } from './components/Gallery';
 import { Countdown } from './components/Countdown';
 import { RSVPForm } from './components/RSVPForm';
 import { Guestbook } from './components/Guestbook';
@@ -37,25 +37,25 @@ function App() {
   }, []);
 
   const handleOpenInvitation = () => {
-    setCurrentView('splash');
-  };
-
-  const handleSplashComplete = () => {
     setCurrentView('main');
   };
 
-  const toggleTheme = () => {
-    const newTheme = !isDark;
-    setIsDark(newTheme);
+  // const handleSplashComplete = () => {
+  //   setCurrentView('main');
+  // };
 
-    if (newTheme) {
-      document.documentElement.classList.add('dark');
-      localStorage.setItem('wedding-theme', 'dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-      localStorage.setItem('wedding-theme', 'light');
-    }
-  };
+  // const toggleTheme = () => {
+  //   const newTheme = !isDark;
+  //   setIsDark(newTheme);
+
+  //   if (newTheme) {
+  //     document.documentElement.classList.add('dark');
+  //     localStorage.setItem('wedding-theme', 'dark');
+  //   } else {
+  //     document.documentElement.classList.remove('dark');
+  //     localStorage.setItem('wedding-theme', 'light');
+  //   }
+  // };
 
   // Show invitation landing page
   if (currentView === 'invitation') {
@@ -63,9 +63,9 @@ function App() {
   }
 
   // Show splash screen
-  if (currentView === 'splash') {
-    return <SplashScreen onComplete={handleSplashComplete} />;
-  }
+  // if (currentView === 'splash') {
+  //   return <SplashScreen onComplete={handleSplashComplete} />;
+  // }
 
   // Show main wedding invitation
   return (
