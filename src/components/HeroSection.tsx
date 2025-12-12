@@ -84,7 +84,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ isDark, guestName, bac
 
                 <p className={`mt-3 sm:mt-4 text-center text-xs sm:text-sm px-2 ${isDark ? 'text-gray-300' : 'text-gray-600'
                   }`}>
-                  Kami mengundang Anda untuk merayakan hari pernikahan kami.
+                  Kami mengundang Anda <br /> untuk merayakan hari pernikahan kami.
                 </p>
 
                 <div className="mt-3 sm:mt-4 flex items-center justify-center space-x-2 text-rose-600">
