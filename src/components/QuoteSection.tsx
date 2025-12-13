@@ -65,7 +65,8 @@ export const QuoteSection: React.FC<QuoteSectionProps> = ({ isDark, backgroundIm
                     </h3>
                     <p className={`text-xs sm:text-sm px-2 ${isDark ? 'text-gray-300' : 'text-gray-600'
                       }`}>
-                      Putri dari {weddingData.couple.bride.parents}
+                      Putri kelima dari 
+                      <br /> {weddingData.couple.bride.parents}
                     </p>
                   </div>
                 </div>
@@ -103,7 +104,8 @@ export const QuoteSection: React.FC<QuoteSectionProps> = ({ isDark, backgroundIm
                     </h3>
                     <p className={`text-xs sm:text-sm px-2 ${isDark ? 'text-gray-300' : 'text-gray-600'
                       }`}>
-                      Putra dari {weddingData.couple.groom.parents}
+                      Putra kelima dari 
+                      <br /> {weddingData.couple.groom.parents}
                     </p>
                   </div>
                 </div>
