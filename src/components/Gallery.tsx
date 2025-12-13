@@ -44,16 +44,19 @@ export const Gallery: React.FC<GalleryProps> = ({ isDark, backgroundImage }) => 
       <div className="container mx-auto px-4 sm:px-6 w-full">
         <div className={`text-center mb-10 sm:mb-16 transition-all duration-1000 ease-out ${shouldAnimate ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
           }`}>
-          <h2 className={`text-3xl sm:text-4xl md:text-5xl font-serif mb-3 sm:mb-4 ${isDark ? 'text-white' : 'text-gray-800'
+          <h2 className={`text-3xl sm:text-4xl md:text-5xl font-serif mb-3 sm:mb-4 italic ${isDark ? 'text-white' : 'text-gray-800'
             }`}>
             Galeri Kami
           </h2>
-          <p className={`text-base sm:text-lg ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
-            Momen-momen indah yang kami bagi bersama
+          <p className={`text-sm ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
+            Tidak ada yang spesial dalam cerita kami.<br />
+            Tapi kami sangat spesial untuk satu sama lain.<br />
+            Dan Kami bersyukur, dipertemukan Allah<br />
+            diwaktu terbaik, kini kami menanti hari istimewa kami.
           </p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-2 sm:gap-4 max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 gap-2 max-w-6xl mx-auto">
           {weddingData.gallery.map((photo, index) => (
             <div
               key={photo.id}

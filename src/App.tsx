@@ -20,6 +20,7 @@ import DashboardLayout from './pages/Dashboard/Layout';
 import Overview from './pages/Dashboard/Overview';
 import GuestList from './pages/Dashboard/GuestList';
 import Comments from './pages/Dashboard/Comments';
+import { Gallery } from './components/Gallery';
 
 function App() {
   return (
@@ -145,7 +146,8 @@ function InvitationWrapper() {
         <QuotePage isDark={isDark} backgroundImage={"flower-rose-3"} />
         <EventDetails isDark={isDark} backgroundImage={"flower-rose-4"} />
         <DigitalEnvelope isDark={isDark} backgroundImage={"flower-rose-3"} />
-        <Countdown isDark={isDark} backgroundImage={"flower-rose-4"} />
+        <Gallery isDark={isDark} backgroundImage={"flower-rose-4"} />
+        <Countdown isDark={isDark} backgroundImage={"flower-rose-3"} />
         <Guestbook isDark={isDark} initialName={guestName} guestId={guestId} backgroundImage={"flower-rose-4"} />
         <Footer isDark={isDark} />
       </main>

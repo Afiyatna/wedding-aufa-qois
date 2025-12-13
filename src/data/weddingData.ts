@@ -37,16 +37,16 @@ export const weddingData = {
     }
   },
   gallery: [
-    {
-      id: 1,
-      url: 'gallery/groom.jpg',
-      alt: "Mempelai Wanita"
-    },
-    {
-      id: 2,
-      url: "gallery/bride.jpg",
-      alt: "Pre-wedding photo 2"
-    },
+    // {
+    //   id: 1,
+    //   url: 'gallery/groom.jpg',
+    //   alt: "Mempelai Wanita"
+    // },
+    // {
+    //   id: 2,
+    //   url: "gallery/bride.jpg",
+    //   alt: "Pre-wedding photo 2"
+    // },
     {
       id: 3,
       url: "gallery/img3.jpg",
@@ -57,16 +57,16 @@ export const weddingData = {
       url: "gallery/img4.jpg",
       alt: "Pre-wedding photo 4"
     },
-    {
-      id: 5,
-      url: "gallery/A-Q.jpg",
-      alt: "Pre-wedding photo 5"
-    },
-    {
-      id: 6,
-      url: "gallery/img5.jpg",
-      alt: "Pre-wedding photo 6"
-    }
+    // {
+    //   id: 5,
+    //   url: "gallery/A-Q.jpg",
+    //   alt: "Pre-wedding photo 5"
+    // },
+    // {
+    //   id: 6,
+    //   url: "gallery/img5.jpg",
+    //   alt: "Pre-wedding photo 6"
+    // }
   ],
   digitalEnvelope: {
     title: "Wedding Gift",
