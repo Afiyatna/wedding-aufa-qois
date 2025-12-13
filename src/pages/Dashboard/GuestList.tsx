@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { supabase } from '../../lib/supabase';
-import { Plus, Search, Trash2, Edit, MessageCircle, FileText } from 'lucide-react';
+import { Plus, Search, Trash2, Edit, MessageCircle, FileText, Copy, Check, ChevronUp, ChevronDown, Filter, X } from 'lucide-react';
 
 type Guest = {
     id: string;
@@ -11,16 +11,37 @@ type Guest = {
     rsvp_status?: string;
 };
 
+type Category = {
+    id: string;
+    name: string;
+};
+
+type SortConfig = {
+    key: keyof Guest | 'status';
+    direction: 'asc' | 'desc';
+};
+
 export default function GuestList() {
     const [guests, setGuests] = useState<Guest[]>([]);
+    const [categories, setCategories] = useState<Category[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
+    const [filterCategory, setFilterCategory] = useState('All');
+    const [sortConfig, setSortConfig] = useState<SortConfig>({ key: 'created_at' as any, direction: 'desc' });
+    const [copiedId, setCopiedId] = useState<string | null>(null);
 
     // Form State
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isMultiModalOpen, setIsMultiModalOpen] = useState(false);
     const [isTemplateModalOpen, setIsTemplateModalOpen] = useState(false);
     const [formData, setFormData] = useState({ name: '', phone: '', category: 'General' });
+
+
+    // Category Management State
+    const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
+    const [editingCategory, setEditingCategory] = useState<Category | null>(null);
+    const [catFormName, setCatFormName] = useState('');
+
     const [waTemplate, setWaTemplate] = useState('');
     const [templateText, setTemplateText] = useState('');
     const [isEditMode, setIsEditMode] = useState(false);
@@ -30,9 +51,11 @@ export default function GuestList() {
     const [batchGuests, setBatchGuests] = useState<{ name: string; phone: string }[]>(
         Array(5).fill({ name: '', phone: '' })
     );
+    const [batchCategory, setBatchCategory] = useState('General');
 
     useEffect(() => {
         fetchGuests();
+        fetchCategories();
         fetchTemplate();
     }, []);
 
@@ -60,6 +83,11 @@ Wassalamualaikum Wr. Wb.`;
         }
     };
 
+    const fetchCategories = async () => {
+        const { data } = await supabase.from('guest_categories').select('*').order('name', { ascending: true });
+        if (data) setCategories(data);
+    };
+
     const fetchGuests = async () => {
         setLoading(true);
         const { data } = await supabase.from('guests').select('*').order('created_at', { ascending: false });
@@ -75,40 +103,35 @@ Wassalamualaikum Wr. Wb.`;
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+
         const slug = handleCreateSlug(formData.name);
+        const submitData = {
+            name: formData.name,
+            slug,
+            phone: formData.phone || null, // Allow null
+            category: formData.category
+        };
 
         if (isEditMode && editId) {
             const { error } = await supabase
                 .from('guests')
-                .update({ name: formData.name, slug, phone: formData.phone, category: formData.category })
+                .update(submitData)
                 .eq('id', editId);
             if (!error) {
                 fetchGuests();
                 closeModal();
-                // alert('Data tamu berhasil diperbarui.');
             } else {
-                if (error.code === '23505') {
-                    if (error.message.includes('phone')) alert('Gagal: Nomor WhatsApp sudah digunakan tamu lain.');
-                    else alert('Gagal: Data duplikat.');
-                } else {
-                    alert('Terjadi kesalahan: ' + error.message);
-                }
+                alert('Gagal: ' + error.message);
             }
         } else {
             const { error } = await supabase
                 .from('guests')
-                .insert([{ name: formData.name, slug, phone: formData.phone, category: formData.category }]);
+                .insert([submitData]);
             if (!error) {
                 fetchGuests();
                 closeModal();
-                // alert('Tamu berhasil ditambahkan.');
             } else {
-                if (error.code === '23505') {
-                    if (error.message.includes('phone')) alert('Gagal: Nomor WhatsApp sudah terdaftar.');
-                    else alert('Gagal: Data duplikat.');
-                } else {
-                    alert('Terjadi kesalahan: ' + error.message);
-                }
+                alert('Gagal: ' + error.message);
             }
         }
     };
@@ -127,19 +150,10 @@ Wassalamualaikum Wr. Wb.`;
         e.preventDefault();
         setLoading(true);
 
-        // Filter out empty rows
-        const validRows = batchGuests.filter(row => row.name.trim() !== '' || row.phone.trim() !== '');
+        const validRows = batchGuests.filter(row => row.name.trim() !== '');
 
         if (validRows.length === 0) {
-            alert('Silakan isi minimal satu data tamu.');
-            setLoading(false);
-            return;
-        }
-
-        // Validate mandatory fields
-        const invalidRow = validRows.find(row => row.name.trim() === '' || row.phone.trim() === '');
-        if (invalidRow) {
-            alert('Gagal: Nama dan Nomor HP wajib diisi untuk setiap baris yang digunakan.');
+            alert('Silakan isi minimal satu nama tamu.');
             setLoading(false);
             return;
         }
@@ -147,8 +161,8 @@ Wassalamualaikum Wr. Wb.`;
         const guestsToInsert = validRows.map(row => ({
             name: row.name.trim(),
             slug: handleCreateSlug(row.name.trim()),
-            phone: row.phone.trim(),
-            category: 'General'
+            phone: row.phone.trim() || null,
+            category: batchCategory
         }));
 
         const { error } = await supabase.from('guests').insert(guestsToInsert);
@@ -156,20 +170,64 @@ Wassalamualaikum Wr. Wb.`;
         if (!error) {
             fetchGuests();
             closeMultiModal();
-            // alert('Batch input berhasil!');
         } else {
-            console.error(error);
-            if (error.code === '23505') {
-                if (error.message.includes('phone')) {
-                    alert('Gagal: Salah satu Nomor WhatsApp sudah terdaftar.');
-                } else {
-                    alert('Gagal: Data duplikat ditemukan.');
-                }
+            alert('Gagal: ' + error.message);
+        }
+        setLoading(false);
+    };
+
+    const handleSaveCategory = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setLoading(true);
+
+        if (editingCategory) {
+            const { error } = await supabase
+                .from('guest_categories')
+                .update({ name: catFormName.trim() })
+                .eq('id', editingCategory.id);
+            if (!error) {
+                fetchCategories();
+                setEditingCategory(null);
+                setCatFormName('');
             } else {
-                alert('Terjadi kesalahan: ' + error.message);
+                alert('Error update category: ' + error.message);
+            }
+        } else {
+            const { error } = await supabase
+                .from('guest_categories')
+                .insert([{ name: catFormName.trim() }]);
+            if (!error) {
+                fetchCategories();
+                setCatFormName('');
+            } else {
+                alert('Error create category: ' + error.message);
             }
         }
         setLoading(false);
+    };
+
+    const handleDeleteCategory = async (id: string, name: string) => {
+        // Check if used
+        const { count, error } = await supabase
+            .from('guests')
+            .select('*', { count: 'exact', head: true })
+            .eq('category', name);
+
+        if (error) {
+            alert('Error checking category usage.');
+            return;
+        }
+
+        if (count && count > 0) {
+            alert(`Gagal: Kategori "${name}" sedang digunakan oleh ${count} tamu. Silakan ubah kategori tamu tersebut terlebih dahulu.`);
+            return;
+        }
+
+        if (confirm(`Hapus kategori "${name}"?`)) {
+            const { error: delError } = await supabase.from('guest_categories').delete().eq('id', id);
+            if (!delError) fetchCategories();
+            else alert('Error deleting: ' + delError.message);
+        }
     };
 
     const handleSaveTemplate = async (e: React.FormEvent) => {
@@ -182,7 +240,6 @@ Wassalamualaikum Wr. Wb.`;
         if (!error) {
             setWaTemplate(templateText);
             setIsTemplateModalOpen(false);
-            // alert('Template berhasil disimpan!');
         } else {
             alert('Error saving template: ' + error.message);
         }
@@ -219,23 +276,39 @@ Wassalamualaikum Wr. Wb.`;
         return `${baseUrl}/?u=${guestId}`;
     };
 
-    const sendWA = (guest: Guest) => {
-        if (!guest.phone) return alert('Nomor HP tidak ada!');
-
+    const generateMessage = (guest: Guest) => {
         const link = generateLink(guest.id);
-
         let text = waTemplate;
         text = text.replace('{name}', guest.name);
         text = text.replace('{link}', link);
+        return text;
+    };
 
-        const encodedText = encodeURIComponent(text);
-        // Ensure phone number has country code. Remove leading 0 and add 62
-        let phone = guest.phone.replace(/[^0-9]/g, '');
-        if (phone.startsWith('0')) {
-            phone = '62' + phone.substring(1);
+    const sendWA = (guest: Guest) => {
+        if (!guest.phone) {
+            // If no phone, maybe just copy? But user asked for copy button separate.
+            // alert('Nomor HP tidak ada!');
+            // return;
         }
 
-        window.open(`https://wa.me/${phone}?text=${encodedText}`, '_blank');
+        const text = generateMessage(guest);
+        const encodedText = encodeURIComponent(text);
+
+        if (guest.phone) {
+            let phone = guest.phone.replace(/[^0-9]/g, '');
+            if (phone.startsWith('0')) phone = '62' + phone.substring(1);
+            window.open(`https://wa.me/${phone}?text=${encodedText}`, '_blank');
+        } else {
+            // Fallback if they click WA icon but no phone -> maybe open WA blank?
+            window.open(`https://wa.me/?text=${encodedText}`, '_blank');
+        }
+    };
+
+    const handleCopyMessage = (guest: Guest) => {
+        const text = generateMessage(guest);
+        navigator.clipboard.writeText(text);
+        setCopiedId(guest.id);
+        setTimeout(() => setCopiedId(null), 2000);
     };
 
     const getStatusBadge = (status?: string) => {
@@ -251,9 +324,27 @@ Wassalamualaikum Wr. Wb.`;
         }
     };
 
-    const filteredGuests = guests.filter(g =>
-        g.name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    const handleSort = (key: keyof Guest | 'status') => {
+        setSortConfig(current => ({
+            key,
+            direction: current.key === key && current.direction === 'asc' ? 'desc' : 'asc'
+        }));
+    };
+
+    const filteredGuests = guests
+        .filter(g => {
+            const matchesSearch = g.name.toLowerCase().includes(searchTerm.toLowerCase());
+            const matchesCategory = filterCategory === 'All' || (g.category || 'General') === filterCategory;
+            return matchesSearch && matchesCategory;
+        })
+        .sort((a, b) => {
+            const aValue = a[sortConfig.key as keyof Guest] || '';
+            const bValue = b[sortConfig.key as keyof Guest] || '';
+
+            if (aValue < bValue) return sortConfig.direction === 'asc' ? -1 : 1;
+            if (aValue > bValue) return sortConfig.direction === 'asc' ? 1 : -1;
+            return 0;
+        });
 
     return (
         <div className="space-y-6">
@@ -263,7 +354,8 @@ Wassalamualaikum Wr. Wb.`;
                     <h2 className="sm:hidden text-3xl font-black text-gray-900">Tamu</h2>
                     <p className="mt-2 text-sm text-gray-600">Kelola Data Tamu</p>
                 </div>
-                <div className="flex flex-col md:flex-row gap-2">
+                {/* <div className="flex flex-col md:flex-row gap-2"> */}
+                <div className="grid grid-cols-2 gap-2">
                     <button
                         onClick={() => setIsModalOpen(true)}
                         className="bg-rose-600 text-white px-4 py-2 rounded-lg flex justify-center items-center gap-2 hover:bg-rose-600 transition-colors"
@@ -272,41 +364,66 @@ Wassalamualaikum Wr. Wb.`;
                         <span className="hidden sm:inline">Tambah Tamu</span>
                         <span className="sm:hidden">Tambah</span>
                     </button>
-                    <div className='flex gap-2'>
-                        <button
-                            onClick={() => setIsTemplateModalOpen(true)}
-                            // inline-flex items-center justify-center font-medium gap-2 rounded-lg transition px-4 py-2 text-md bg-white text-gray-700 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 px-4 py-2 flex-1
-                            className="bg-white text-gray-700 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 px-4 py-2 flex-1 rounded-lg flex items-center gap-2 transition-colors"
-                            title="Edit Template WA"
-                        >
-                            {/* <Edit size={18} /> */}
-                            <span className="hidden sm:inline">Template WA</span>
-                            <span className="sm:hidden">Template</span>
-                        </button>
-                        <button
-                            onClick={() => setIsMultiModalOpen(true)}
-                            className="bg-white text-gray-700 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 px-4 py-2 rounded-lg flex items-center gap-2 transition-colors"
-                        >
-                            {/* <FileText size={18} /> */}
-                            <span className="hidden sm:inline">Batch Input</span>
-                            <span className="sm:hidden">Batch</span>
-                        </button>
-                    </div>
+                    <button
+                        onClick={() => setIsMultiModalOpen(true)}
+                        className="bg-rose-600 text-white px-4 py-2 rounded-lg flex justify-center items-center gap-2 hover:bg-rose-600 transition-colors"
+                    >
+                        {/* <FileText size={18} /> */}
+                        <span className="hidden sm:inline">Batch Input</span>
+                        <span className="sm:hidden">Batch</span>
+                    </button>
+                    <button
+                        onClick={() => setIsTemplateModalOpen(true)}
+                        // inline-flex items-center justify-center font-medium gap-2 rounded-lg transition px-4 py-2 text-md bg-white text-gray-700 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 px-4 py-2 flex-1
+                        className="bg-white text-gray-700 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 px-4 py-2 flex-1 rounded-lg flex justify-center items-center gap-2 transition-colors"
+                        title="Edit Template WA"
+                    >
+                        {/* <Edit size={18} /> */}
+                        <span className="hidden sm:inline">Template WA</span>
+                        <span className="sm:hidden">Template</span>
+                    </button>
+                    <button
+                        onClick={() => setIsCategoryModalOpen(true)}
+                        className="bg-white text-gray-700 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 px-4 py-2 rounded-lg flex justify-center items-center gap-2 transition-colors"
+                    >
+                        {/* <Tags size={18} /> */}
+                        <span className="hidden sm:inline">Kategori</span>
+                        <span className="sm:hidden">Kategori</span>
+                    </button>
+                    {/* <div className='flex gap-2'>
+                    </div> */}
                 </div>
             </div>
 
-            {/* Search */}
-            <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <Search size={20} className="text-gray-400" />
+            {/* Search and Filter */}
+            <div className="flex flex-col md:flex-row gap-4">
+                <div className="relative flex-1">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <Search size={20} className="text-gray-400" />
+                    </div>
+                    <input
+                        type="text"
+                        placeholder="Cari nama tamu..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        className="pl-10 w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-rose-500"
+                    />
                 </div>
-                <input
-                    type="text"
-                    placeholder="Cari nama tamu..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="pl-10 w-full md:w-1/3 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-rose-500"
-                />
+
+                <div className="relative">
+                    <select
+                        value={filterCategory}
+                        onChange={(e) => setFilterCategory(e.target.value)}
+                        className="w-full md:w-48 appearance-none pl-10 pr-8 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-rose-500 bg-white"
+                    >
+                        <option value="All">Semua Kategori</option>
+                        {categories.map(c => (
+                            <option key={c.id} value={c.name}>{c.name}</option>
+                        ))}
+                    </select>
+                    <Filter size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                    <ChevronDown size={16} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+                </div>
             </div>
 
             {/* Table */}
@@ -316,25 +433,61 @@ Wassalamualaikum Wr. Wb.`;
                         <thead className="bg-gray-50 border-b border-gray-200">
                             <tr>
                                 <th className="px-4 py-4 w-16 text-center font-semibold text-gray-600">WA</th>
-                                <th className="px-6 py-4 font-semibold text-gray-600">Nama</th>
-                                <th className="px-6 py-4 font-semibold text-gray-600 text-center">Status</th>
-                                <th className="px-6 py-4 font-semibold text-gray-600">Link</th>
+
+                                <th
+                                    className="px-6 py-4 font-semibold text-gray-600 cursor-pointer hover:bg-gray-100 transition-colors group select-none"
+                                    onClick={() => handleSort('name')}
+                                >
+                                    <div className="flex items-center gap-1">
+                                        Nama
+                                        {sortConfig.key === 'name' && (
+                                            sortConfig.direction === 'asc' ? <ChevronUp size={16} /> : <ChevronDown size={16} />
+                                        )}
+                                    </div>
+                                </th>
+
+                                <th
+                                    className="px-6 py-4 font-semibold text-gray-600 cursor-pointer hover:bg-gray-100 transition-colors group select-none"
+                                    onClick={() => handleSort('category')}
+                                >
+                                    <div className="flex items-center gap-1">
+                                        Kategori
+                                        {sortConfig.key === 'category' && (
+                                            sortConfig.direction === 'asc' ? <ChevronUp size={16} /> : <ChevronDown size={16} />
+                                        )}
+                                    </div>
+                                </th>
+
+                                <th
+                                    className="px-6 py-4 font-semibold text-gray-600 text-center cursor-pointer hover:bg-gray-100 transition-colors group select-none"
+                                    onClick={() => handleSort('rsvp_status')}
+                                >
+                                    <div className="flex items-center justify-center gap-1">
+                                        Status
+                                        {sortConfig.key === 'rsvp_status' && (
+                                            sortConfig.direction === 'asc' ? <ChevronUp size={16} /> : <ChevronDown size={16} />
+                                        )}
+                                    </div>
+                                </th>
+
+                                <th className="px-6 py-4 font-semibold text-gray-600 text-center">Link</th>
                                 <th className="px-6 py-4 font-semibold text-gray-600 text-center">Aksi</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-100">
                             {loading ? (
-                                <tr><td colSpan={5} className="p-6 text-center">Loading...</td></tr>
+                                <tr><td colSpan={6} className="p-6 text-center">Loading...</td></tr>
                             ) : filteredGuests.length === 0 ? (
-                                <tr><td colSpan={5} className="p-6 text-center text-gray-500">Tidak ada data tamu.</td></tr>
+                                <tr><td colSpan={6} className="p-6 text-center text-gray-500">Tidak ada data tamu.</td></tr>
                             ) : (
                                 filteredGuests.map((guest) => (
                                     <tr key={guest.id} className="hover:bg-gray-50">
                                         <td className="px-4 py-4 text-center">
                                             <button
                                                 onClick={() => sendWA(guest)}
-                                                title="Kirim WA"
-                                                className="p-2 bg-green-50 text-green-600 hover:bg-green-100 rounded-xl transition-colors inline-flex"
+                                                title={guest.phone ? "Kirim WA" : "Nomor HP Kosong"}
+                                                className={`p-2 rounded-xl transition-colors inline-flex ${guest.phone ? 'bg-green-50 text-green-600 hover:bg-green-100' : 'bg-gray-100 text-gray-400 cursor-not-allowed'}`}
+                                                disabled={!guest.phone}
                                             >
                                                 <MessageCircle size={20} />
                                             </button>
@@ -343,13 +496,27 @@ Wassalamualaikum Wr. Wb.`;
                                             <div className="font-medium text-gray-900">{guest.name}</div>
                                             <div className="text-sm text-gray-500">{guest.phone || '-'}</div>
                                         </td>
+                                        <td className="px-6 py-4">
+                                            <div className="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-gray-100 text-gray-600">
+                                                {guest.category || 'General'}
+                                            </div>
+                                        </td>
                                         <td className="px-6 py-4 text-center">
                                             {getStatusBadge(guest.rsvp_status)}
                                         </td>
                                         <td className="px-6 py-4">
-                                            <a target="_blank" href={generateLink(guest.id)} className="text-sm text-blue-600 max-w-[150px] md:max-w-[250px] block truncate">
-                                                {generateLink(guest.id)}
-                                            </a>
+                                            <div className="flex items-center gap-2">
+                                                <button
+                                                    onClick={() => handleCopyMessage(guest)}
+                                                    className={`p-1.5 rounded-lg transition-all ${copiedId === guest.id ? 'bg-green-100 text-green-600' : 'bg-gray-100 text-gray-500 hover:bg-gray-200'}`}
+                                                    title="Copy Pesan WhatsApp"
+                                                >
+                                                    {copiedId === guest.id ? <Check size={14} /> : <Copy size={14} />}
+                                                </button>
+                                                <a target="_blank" href={generateLink(guest.id)} className="text-sm text-blue-600 max-w-[150px] md:max-w-[200px] block hover:underline">
+                                                    {generateLink(guest.id)}
+                                                </a>
+                                            </div>
                                         </td>
                                         <td className="px-6 py-4 text-right">
                                             <div className="flex items-center justify-center gap-2">
@@ -393,7 +560,7 @@ Wassalamualaikum Wr. Wb.`;
                                 />
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">No. WhatsApp</label>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">WhatsApp (Opsional)</label>
                                 <input
                                     type="number"
                                     value={formData.phone}
@@ -402,20 +569,22 @@ Wassalamualaikum Wr. Wb.`;
                                     placeholder="Contoh: 08123456789"
                                 />
                             </div>
-                            {/* Category Hidden
+
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-1">Kategori</label>
-                                <select
-                                    value={formData.category}
-                                    onChange={e => setFormData({ ...formData, category: e.target.value })}
-                                    className="w-full border border-gray-300 rounded-lg px-3 py-2"
-                                >
-                                    <option value="General">General</option>
-                                    <option value="VIP">VIP</option>
-                                    <option value="Keluarga">Keluarga</option>
-                                    <option value="Teman Kantor">Teman Kantor</option>
-                                </select>
-                            </div> */}
+                                <div className="relative">
+                                    <select
+                                        value={formData.category}
+                                        onChange={e => setFormData({ ...formData, category: e.target.value })}
+                                        className="w-full border border-gray-300 rounded-lg px-3 py-2 appearance-none"
+                                    >
+                                        {categories.map(c => (
+                                            <option key={c.id} value={c.name}>{c.name}</option>
+                                        ))}
+                                    </select>
+                                    <ChevronDown size={18} className={`absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-gray-700`} />
+                                </div>
+                            </div>
                             <div className="flex justify-end gap-3 mt-6">
                                 <button
                                     type="button"
@@ -438,12 +607,12 @@ Wassalamualaikum Wr. Wb.`;
 
             {/* Multi Input Modal */}
             {isMultiModalOpen && (
-                <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-                    <div className="bg-white rounded-xl shadow-xl max-w-2xl w-full p-6 max-h-[90vh] overflow-y-auto">
+                <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-99 py-0 px-4">
+                    <div className="bg-white rounded-xl shadow-xl max-w-2xl w-full p-6 max-h-[75vh] overflow-y-auto">
                         <div className="flex justify-between items-center mb-6">
                             <h3 className="text-xl font-bold">Input Banyak Tamu</h3>
                             <button onClick={closeMultiModal} className="text-gray-400 hover:text-gray-600">
-                                <Trash2 size={20} className="transform rotate-45" />
+                                <X size={20} />
                             </button>
                         </div>
 
@@ -451,10 +620,43 @@ Wassalamualaikum Wr. Wb.`;
                             <div className="bg-blue-50 p-4 rounded-lg text-sm text-blue-800 mb-4 border border-blue-200">
                                 <p className="font-semibold mb-1">Panduan:</p>
                                 <ul className="list-disc list-inside">
-                                    <li>Nama dan Nomor HP <strong>wajib diisi</strong>.</li>
-                                    <li>Baris yang kosong akan diabaikan.</li>
+                                    <li><strong>Nama wajib diisi</strong>. Nomor HP opsional.</li>
                                     <li>Format Nomor HP (08xx, 62xx).</li>
+                                    <li>Baris yang kosong akan diabaikan.</li>
                                 </ul>
+                            </div>
+
+                            <div className="mb-4">
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Pilih Kategori untuk Batch Ini</label>
+                                <div className="relative">
+                                    <select
+                                        value={batchCategory}
+                                        onChange={(e) => setBatchCategory(e.target.value)}
+                                        className="w-full border border-gray-300 rounded-lg px-3 py-2 bg-white appearance-none"
+                                    >
+                                        {categories.map(c => (
+                                            <option key={c.id} value={c.name}>{c.name}</option>
+                                        ))}
+                                    </select>
+                                    <ChevronDown size={18} className={`absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-gray-700`} />
+                                </div>
+
+                                {/* <label className={`block text-sm font-medium mb-1`}>Konfirmasi Kehadiran</label>
+                                <div className="relative">
+                                    <select
+                                    value={formData.attendance}
+                                    onChange={(e) => setFormData(prev => ({ ...prev, attendance: e.target.value as any }))}
+                                    className={`w-full px-4 py-3 rounded-lg border transition-colors focus:ring-2 focus:ring-rose-500 focus:border-transparent appearance-none pr-10 ${isDark
+                                        ? 'bg-gray-700 border-gray-600 text-white'
+                                        : 'bg-white border-gray-300 text-gray-900'
+                                        }`}
+                                    >
+                                    <option value="yes">Hadir</option>
+                                    <option value="no">Tidak Hadir</option>
+                                    <option value="maybe">Mungkin Hadir</option>
+                                    </select>
+                                    <ChevronDown size={18} className={`absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none ${isDark ? 'text-gray-400' : 'text-gray-700'}`} />
+                                </div> */}
                             </div>
 
                             <div className="space-y-3">
@@ -521,6 +723,77 @@ Wassalamualaikum Wr. Wb.`;
                 </div>
             )}
 
+            {/* Category Management Modal */}
+            {isCategoryModalOpen && (
+                <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+                    <div className="bg-white rounded-xl shadow-xl max-w-md w-full p-6">
+                        <div className="flex justify-between items-center mb-6">
+                            <h3 className="text-xl font-bold">Kelola Kategori</h3>
+                            <button onClick={() => { setIsCategoryModalOpen(false); setEditingCategory(null); setCatFormName(''); }} className="text-gray-400 hover:text-gray-600">
+                                <X size={20} />
+                            </button>
+                        </div>
+
+                        <div className="space-y-6">
+                            {/* Form */}
+                            <form onSubmit={handleSaveCategory} className="flex gap-2">
+                                <input
+                                    type="text"
+                                    value={catFormName}
+                                    onChange={(e) => setCatFormName(e.target.value)}
+                                    placeholder={editingCategory ? "Edit nama kategori..." : "Tambah kategori baru..."}
+                                    className="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-rose-500"
+                                    required
+                                />
+                                <button
+                                    type="submit"
+                                    disabled={loading}
+                                    className="bg-rose-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-rose-700 disabled:opacity-50"
+                                >
+                                    {editingCategory ? 'Update' : 'Tambah'}
+                                </button>
+                                {editingCategory && (
+                                    <button
+                                        type="button"
+                                        onClick={() => { setEditingCategory(null); setCatFormName(''); }}
+                                        className="bg-gray-100 text-gray-600 px-3 py-2 rounded-lg text-sm hover:bg-gray-200"
+                                    >
+                                        Batal
+                                    </button>
+                                )}
+                            </form>
+
+                            {/* List */}
+                            <div className="border rounded-lg divide-y max-h-[300px] overflow-y-auto">
+                                {categories.length === 0 ? (
+                                    <div className="p-4 text-center text-sm text-gray-500">Belum ada kategori custom.</div>
+                                ) : (
+                                    categories.map(cat => (
+                                        <div key={cat.id} className="p-3 flex justify-between items-center hover:bg-gray-50">
+                                            <span className="font-medium text-gray-800">{cat.name}</span>
+                                            <div className="flex gap-2">
+                                                <button
+                                                    onClick={() => { setEditingCategory(cat); setCatFormName(cat.name); }}
+                                                    className="p-1.5 text-blue-600 hover:bg-blue-50 rounded"
+                                                >
+                                                    <Edit size={16} />
+                                                </button>
+                                                <button
+                                                    onClick={() => handleDeleteCategory(cat.id, cat.name)}
+                                                    className="p-1.5 text-red-600 hover:bg-red-50 rounded"
+                                                >
+                                                    <Trash2 size={16} />
+                                                </button>
+                                            </div>
+                                        </div>
+                                    ))
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+
             {/* Template Modal */}
             {isTemplateModalOpen && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
@@ -528,7 +801,7 @@ Wassalamualaikum Wr. Wb.`;
                         <div className="flex justify-between items-center mb-4">
                             <h3 className="text-xl font-bold">Edit Template WhatsApp</h3>
                             <button onClick={() => setIsTemplateModalOpen(false)} className="text-gray-400 hover:text-gray-600">
-                                <Trash2 size={20} className="transform rotate-45" />
+                                <X size={20} />
                             </button>
                         </div>
 
