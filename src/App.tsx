@@ -138,7 +138,7 @@ function InvitationWrapper() {
   }
 
   return (
-    <div className={`max-w-[450px] mx-auto min-h-screen transition-colors duration-300 ${isDark ? 'bg-gray-900 text-white' : 'bg-white text-gray-900'
+    <div className={`max-w-2xl mx-auto min-h-screen transition-colors duration-300 ${isDark ? 'bg-gray-900 text-white' : 'bg-white text-gray-900'
       }`}>
       <main className="scroll-container">
         <HeroSection isDark={isDark} guestName={guestName} backgroundImage={"flower-rose-5"} />
