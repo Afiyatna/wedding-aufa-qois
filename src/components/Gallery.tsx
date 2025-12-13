@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { weddingData } from '../data/weddingData';
 import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
@@ -12,23 +12,7 @@ export const Gallery: React.FC<GalleryProps> = ({ isDark, backgroundImage }) => 
   const { ref, shouldAnimate } = useIntersectionObserver();
   const [selectedImage, setSelectedImage] = useState<number | null>(null);
 
-  const nextImage = () => {
-    if (selectedImage !== null) {
-      setSelectedImage((selectedImage + 1) % weddingData.gallery.length);
-    }
-  };
 
-  const prevImage = () => {
-    if (selectedImage !== null) {
-      setSelectedImage(selectedImage === 0 ? weddingData.gallery.length - 1 : selectedImage - 1);
-    }
-  };
-
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Escape') setSelectedImage(null);
-    if (e.key === 'ArrowRight') nextImage();
-    if (e.key === 'ArrowLeft') prevImage();
-  };
 
   return (
     <section
@@ -81,50 +65,95 @@ export const Gallery: React.FC<GalleryProps> = ({ isDark, backgroundImage }) => 
 
       {/* Lightbox */}
       {selectedImage !== null && (
-        <div
-          className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4"
-          onClick={() => setSelectedImage(null)}
-          onKeyDown={handleKeyDown}
-          tabIndex={0}
-        >
-          <div className="relative max-w-4xl max-h-full">
-            <img
-              src={weddingData.gallery[selectedImage].url}
-              alt={weddingData.gallery[selectedImage].alt}
-              className="max-w-full max-h-full object-contain rounded-lg"
-              onClick={(e) => e.stopPropagation()}
-            />
-
-            {/* Close button */}
-            <button
-              onClick={() => setSelectedImage(null)}
-              className="absolute top-4 right-4 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition-colors"
-            >
-              <X size={24} />
-            </button>
-
-            {/* Navigation buttons */}
-            <button
-              onClick={(e) => { e.stopPropagation(); prevImage(); }}
-              className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition-colors"
-            >
-              <ChevronLeft size={24} />
-            </button>
-
-            <button
-              onClick={(e) => { e.stopPropagation(); nextImage(); }}
-              className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition-colors"
-            >
-              <ChevronRight size={24} />
-            </button>
-
-            {/* Image counter */}
-            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/50 text-white px-4 py-2 rounded-full">
-              {selectedImage + 1} / {weddingData.gallery.length}
-            </div>
-          </div>
-        </div>
+        <Content
+          images={weddingData.gallery}
+          initialIndex={selectedImage}
+          onClose={() => setSelectedImage(null)}
+        />
       )}
     </section>
+  );
+};
+
+const Content = ({ images, initialIndex, onClose }: { images: typeof weddingData.gallery, initialIndex: number, onClose: () => void }) => {
+  const [selectedIndex, setSelectedIndex] = useState(initialIndex);
+  const [showControls, setShowControls] = useState(true);
+
+  // Auto-hide controls after 3 seconds
+  useEffect(() => {
+    let timeout: NodeJS.Timeout;
+    if (showControls) {
+      timeout = setTimeout(() => {
+        setShowControls(false);
+      }, 3000);
+    }
+    return () => clearTimeout(timeout);
+  }, [showControls]);
+
+  const nextImage = () => {
+    setSelectedIndex((prev) => (prev + 1) % images.length);
+  };
+
+  const prevImage = () => {
+    setSelectedIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Escape') onClose();
+    if (e.key === 'ArrowRight') nextImage();
+    if (e.key === 'ArrowLeft') prevImage();
+  };
+
+  return (
+    <div
+      className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-0"
+      onClick={() => setShowControls(prev => !prev)}
+      onKeyDown={handleKeyDown}
+      tabIndex={0}
+      autoFocus
+      ref={input => input && input.focus()}
+    >
+      <div className="relative w-full h-full flex items-center justify-center">
+        <img
+          src={images[selectedIndex].url}
+          alt={images[selectedIndex].alt}
+          className="max-w-full max-h-full object-contain"
+          onClick={() => {
+            // Allow clicking image to toggle controls
+          }}
+        />
+
+        {/* Controls Overlay - Conditional Visibility */}
+        <div className={`transition-opacity duration-300 ${showControls ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+          {/* Close button - Top Right of Viewport */}
+          <button
+            onClick={(e) => { e.stopPropagation(); onClose(); }}
+            className="fixed top-4 right-4 bg-black/50 text-white p-3 rounded-full hover:bg-black/70 transition-colors z-50"
+          >
+            <X size={24} />
+          </button>
+
+          {/* Navigation buttons - Viewport Edges */}
+          <button
+            onClick={(e) => { e.stopPropagation(); prevImage(); }}
+            className="fixed left-4 top-1/2 -translate-y-1/2 bg-black/50 text-white p-3 rounded-full hover:bg-black/70 transition-colors z-50"
+          >
+            <ChevronLeft size={28} />
+          </button>
+
+          <button
+            onClick={(e) => { e.stopPropagation(); nextImage(); }}
+            className="fixed right-4 top-1/2 -translate-y-1/2 bg-black/50 text-white p-3 rounded-full hover:bg-black/70 transition-colors z-50"
+          >
+            <ChevronRight size={28} />
+          </button>
+
+          {/* Image counter - Bottom Center of Viewport */}
+          <div className="fixed bottom-6 left-1/2 -translate-x-1/2 bg-black/50 text-white px-4 py-2 rounded-full text-sm font-medium z-50">
+            {selectedIndex + 1} / {images.length}
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
