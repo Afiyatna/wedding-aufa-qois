@@ -513,7 +513,7 @@ Wassalamualaikum Wr. Wb.`;
                                                 >
                                                     {copiedId === guest.id ? <Check size={14} /> : <Copy size={14} />}
                                                 </button>
-                                                <a target="_blank" href={generateLink(guest.id)} className="text-sm text-blue-600 max-w-[150px] md:max-w-[200px] block hover:underline">
+                                                <a target="_blank" href={generateLink(guest.id)} className="text-sm text-blue-600 max-w-[150px] truncate md:max-w-[200px] block hover:underline">
                                                     {generateLink(guest.id)}
                                                 </a>
                                             </div>
