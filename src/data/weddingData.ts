@@ -22,7 +22,7 @@ export const weddingData = {
     ceremony: {
       title: "Wedding Ceremony",
       date: "2025-12-25",
-      time: "09:00",
+      time: "09:00 - 11:00",
       venue: "Masjid Baitul Munir",
       address: "SMP/SMA Generus Nusantara Boarding School GNBS KENDAL",
       mapUrl: "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d1980.2392810479255!2d110.2337336!3d-6.9527375!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e705d436c0e4f7f%3A0x2b8efcc47b25fe1d!2sSMP%2FSMA%20Generus%20Nusantara%20Boarding%20School%20%22GNBS%22%20KENDAL!5e0!3m2!1sid!2sid!4v1764806836881!5m2!1sid!2sid"

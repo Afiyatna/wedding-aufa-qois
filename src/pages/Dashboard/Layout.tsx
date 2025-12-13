@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { Outlet, NavLink, useNavigate } from 'react-router-dom';
 import { supabase } from '../../lib/supabase';
-import { Users, Home, LogOut, MessageSquare } from 'lucide-react';
+import { Users, Home, LogOut, MessageSquare, Settings } from 'lucide-react';
 
 export default function DashboardLayout() {
     const navigate = useNavigate();
@@ -78,6 +78,19 @@ export default function DashboardLayout() {
                         <span className="flex-shrink-0"><MessageSquare size={20} /></span>
                         <span className="font-medium">Ucapan</span>
                     </NavLink>
+
+                    <NavLink
+                        to="/dashboard/settings"
+                        className={({ isActive }) =>
+                            `flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${isActive
+                                ? 'bg-rose-50 text-rose-600'
+                                : 'text-gray-600 hover:bg-gray-50'
+                            }`
+                        }
+                    >
+                        <Settings size={20} />
+                        <span className="font-medium">Pengaturan</span>
+                    </NavLink>
                 </nav>
 
                 <div className="p-4 border-t border-gray-200">
@@ -144,6 +157,19 @@ export default function DashboardLayout() {
                 >
                     <MessageSquare size={24} strokeWidth={2} />
                     <span>Ucapan</span>
+                </NavLink>
+
+                <NavLink
+                    to="/dashboard/settings"
+                    className={({ isActive }) =>
+                        `flex flex-col items-center gap-1 text-xs font-medium transition-colors ${isActive
+                            ? 'text-rose-600'
+                            : 'text-gray-500 hover:text-gray-900'
+                        }`
+                    }
+                >
+                    <Settings size={24} strokeWidth={2} />
+                    <span>Setttings</span>
                 </NavLink>
             </nav>
         </div>

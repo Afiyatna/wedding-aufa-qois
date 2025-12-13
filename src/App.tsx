@@ -20,6 +20,7 @@ import DashboardLayout from './pages/Dashboard/Layout';
 import Overview from './pages/Dashboard/Overview';
 import GuestList from './pages/Dashboard/GuestList';
 import Comments from './pages/Dashboard/Comments';
+import Settings from './pages/Dashboard/Settings';
 import { Gallery } from './components/Gallery';
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
           <Route index element={<Overview />} />
           <Route path="guests" element={<GuestList />} />
           <Route path="comments" element={<Comments />} />
+          <Route path="settings" element={<Settings />} />
         </Route>
       </Routes>
     </BrowserRouter>
@@ -46,6 +48,7 @@ function InvitationWrapper() {
   const [guestId, setGuestId] = useState<string | null>(null);
   const [isValidGuest, setIsValidGuest] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
+  const [sessionTime, setSessionTime] = useState<string | undefined>(undefined);
 
   useEffect(() => {
     const checkGuest = async () => {
@@ -58,16 +61,19 @@ function InvitationWrapper() {
         // ID-based lookup (Secure)
         const { data, error } = await supabase
           .from('guests')
-          .select('id, name')
+          .select('id, name, reception_sessions(time_display)')
           .eq('id', idParam)
           .maybeSingle();
 
         if (error || !data) {
           setIsValidGuest(false);
         } else {
-          setIsValidGuest(true);
           setGuestName(data.name);
           setGuestId(data.id);
+          if (data.reception_sessions) {
+            const sessionData = Array.isArray(data.reception_sessions) ? data.reception_sessions[0] : data.reception_sessions;
+            if (sessionData) setSessionTime(sessionData.time_display);
+          }
         }
         setIsLoading(false);
         return;
@@ -77,16 +83,19 @@ function InvitationWrapper() {
       if (nameParam) {
         const { data, error } = await supabase
           .from('guests')
-          .select('id, name')
+          .select('id, name, reception_sessions(time_display)')
           .ilike('name', nameParam)
           .maybeSingle();
 
         if (error || !data) {
           setIsValidGuest(false);
         } else {
-          setIsValidGuest(true);
           setGuestName(data.name);
           setGuestId(data.id);
+          if (data.reception_sessions) {
+            const sessionData = Array.isArray(data.reception_sessions) ? data.reception_sessions[0] : data.reception_sessions;
+            if (sessionData) setSessionTime(sessionData.time_display);
+          }
         }
         setIsLoading(false);
         return;
@@ -144,7 +153,7 @@ function InvitationWrapper() {
         <HeroSection isDark={isDark} guestName={guestName} backgroundImage={"flower-rose-5"} />
         <QuoteSection isDark={isDark} backgroundImage={"flower-rose-4"} />
         <QuotePage isDark={isDark} backgroundImage={"flower-rose-3"} />
-        <EventDetails isDark={isDark} backgroundImage={"flower-rose-4"} />
+        <EventDetails isDark={isDark} backgroundImage={"flower-rose-4"} sessionTime={sessionTime} />
         <DigitalEnvelope isDark={isDark} backgroundImage={"flower-rose-3"} />
         <Gallery isDark={isDark} backgroundImage={"flower-rose-4"} />
         <Countdown isDark={isDark} backgroundImage={"flower-rose-3"} />

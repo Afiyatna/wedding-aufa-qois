@@ -6,9 +6,10 @@ import { SectionWrapper, AnimateIn } from './common/SectionWrapper';
 interface EventDetailsProps {
   isDark: boolean;
   backgroundImage?: string;
+  sessionTime?: string;
 }
 
-export const EventDetails: React.FC<EventDetailsProps> = ({ isDark, backgroundImage }) => {
+export const EventDetails: React.FC<EventDetailsProps> = ({ isDark, backgroundImage, sessionTime }) => {
   const formatTime = (time: string) => {
     const raw = time.trim();
 
@@ -28,7 +29,12 @@ export const EventDetails: React.FC<EventDetailsProps> = ({ isDark, backgroundIm
     return `${date.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', hour12: false })} WIB`;
   };
 
-  const events = [weddingData.events.ceremony, weddingData.events.reception];
+  const receptionEvent = {
+    ...weddingData.events.reception,
+    time: sessionTime || weddingData.events.reception.time
+  };
+
+  const events = [weddingData.events.ceremony, receptionEvent];
 
   return (
     <SectionWrapper

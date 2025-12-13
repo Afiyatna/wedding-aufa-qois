@@ -1,19 +1,31 @@
 import React, { useEffect, useState } from 'react';
 import { supabase } from '../../lib/supabase';
-import { Plus, Search, Trash2, Edit, MessageCircle, FileText, Copy, Check, ChevronUp, ChevronDown, Filter, X } from 'lucide-react';
+import { Plus, Search, Trash2, Edit, MessageCircle, FileText, Copy, Check, ChevronUp, ChevronDown, Filter, X, Clock } from 'lucide-react';
 
 type Guest = {
     id: string;
     name: string;
     slug: string;
     phone?: string;
+
     category?: string;
     rsvp_status?: string;
+    session_id?: string;
+    reception_sessions?: {
+        name: string;
+        time_display: string;
+    };
 };
 
 type Category = {
     id: string;
     name: string;
+};
+
+type Session = {
+    id: string;
+    name: string;
+    time_display: string;
 };
 
 type SortConfig = {
@@ -24,6 +36,7 @@ type SortConfig = {
 export default function GuestList() {
     const [guests, setGuests] = useState<Guest[]>([]);
     const [categories, setCategories] = useState<Category[]>([]);
+    const [sessions, setSessions] = useState<Session[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
     const [filterCategory, setFilterCategory] = useState('All');
@@ -33,17 +46,9 @@ export default function GuestList() {
     // Form State
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isMultiModalOpen, setIsMultiModalOpen] = useState(false);
-    const [isTemplateModalOpen, setIsTemplateModalOpen] = useState(false);
-    const [formData, setFormData] = useState({ name: '', phone: '', category: 'General' });
-
-
-    // Category Management State
-    const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
-    const [editingCategory, setEditingCategory] = useState<Category | null>(null);
-    const [catFormName, setCatFormName] = useState('');
+    const [formData, setFormData] = useState({ name: '', phone: '', category: 'General', session_id: '' });
 
     const [waTemplate, setWaTemplate] = useState('');
-    const [templateText, setTemplateText] = useState('');
     const [isEditMode, setIsEditMode] = useState(false);
     const [editId, setEditId] = useState<string | null>(null);
 
@@ -52,10 +57,12 @@ export default function GuestList() {
         Array(5).fill({ name: '', phone: '' })
     );
     const [batchCategory, setBatchCategory] = useState('General');
+    const [batchSession, setBatchSession] = useState('');
 
     useEffect(() => {
         fetchGuests();
         fetchCategories();
+        fetchSessions();
         fetchTemplate();
     }, []);
 
@@ -63,7 +70,6 @@ export default function GuestList() {
         const { data } = await supabase.from('app_settings').select('value').eq('key', 'wa_template').single();
         if (data && data.value) {
             setWaTemplate(data.value);
-            setTemplateText(data.value);
         } else {
             // Default fallback if DB is empty
             const defaultTemplate = `Assalamualaikum Wr. Wb.
@@ -79,7 +85,6 @@ Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i
 
 Wassalamualaikum Wr. Wb.`;
             setWaTemplate(defaultTemplate);
-            setTemplateText(defaultTemplate);
         }
     };
 
@@ -88,9 +93,23 @@ Wassalamualaikum Wr. Wb.`;
         if (data) setCategories(data);
     };
 
+    const fetchSessions = async () => {
+        const { data } = await supabase.from('reception_sessions').select('*').order('name', { ascending: true });
+        if (data && data.length > 0) {
+            setSessions(data);
+            // Set default session for batch form if needed
+            setBatchSession(data[0].id);
+        }
+    };
+
     const fetchGuests = async () => {
         setLoading(true);
-        const { data } = await supabase.from('guests').select('*').order('created_at', { ascending: false });
+        const { data, error } = await supabase
+            .from('guests')
+            .select('*, reception_sessions(name, time_display)')
+            .order('created_at', { ascending: false });
+
+        if (error) console.error('Error fetching guests:', error);
         if (data) setGuests(data);
         setLoading(false);
     };
@@ -109,7 +128,8 @@ Wassalamualaikum Wr. Wb.`;
             name: formData.name,
             slug,
             phone: formData.phone || null, // Allow null
-            category: formData.category
+            category: formData.category,
+            session_id: formData.session_id || null
         };
 
         if (isEditMode && editId) {
@@ -162,7 +182,8 @@ Wassalamualaikum Wr. Wb.`;
             name: row.name.trim(),
             slug: handleCreateSlug(row.name.trim()),
             phone: row.phone.trim() || null,
-            category: batchCategory
+            category: batchCategory,
+            session_id: batchSession || null
         }));
 
         const { error } = await supabase.from('guests').insert(guestsToInsert);
@@ -176,75 +197,7 @@ Wassalamualaikum Wr. Wb.`;
         setLoading(false);
     };
 
-    const handleSaveCategory = async (e: React.FormEvent) => {
-        e.preventDefault();
-        setLoading(true);
-
-        if (editingCategory) {
-            const { error } = await supabase
-                .from('guest_categories')
-                .update({ name: catFormName.trim() })
-                .eq('id', editingCategory.id);
-            if (!error) {
-                fetchCategories();
-                setEditingCategory(null);
-                setCatFormName('');
-            } else {
-                alert('Error update category: ' + error.message);
-            }
-        } else {
-            const { error } = await supabase
-                .from('guest_categories')
-                .insert([{ name: catFormName.trim() }]);
-            if (!error) {
-                fetchCategories();
-                setCatFormName('');
-            } else {
-                alert('Error create category: ' + error.message);
-            }
-        }
-        setLoading(false);
-    };
-
-    const handleDeleteCategory = async (id: string, name: string) => {
-        // Check if used
-        const { count, error } = await supabase
-            .from('guests')
-            .select('*', { count: 'exact', head: true })
-            .eq('category', name);
-
-        if (error) {
-            alert('Error checking category usage.');
-            return;
-        }
-
-        if (count && count > 0) {
-            alert(`Gagal: Kategori "${name}" sedang digunakan oleh ${count} tamu. Silakan ubah kategori tamu tersebut terlebih dahulu.`);
-            return;
-        }
-
-        if (confirm(`Hapus kategori "${name}"?`)) {
-            const { error: delError } = await supabase.from('guest_categories').delete().eq('id', id);
-            if (!delError) fetchCategories();
-            else alert('Error deleting: ' + delError.message);
-        }
-    };
-
-    const handleSaveTemplate = async (e: React.FormEvent) => {
-        e.preventDefault();
-        setLoading(true);
-        const { error } = await supabase
-            .from('app_settings')
-            .upsert({ key: 'wa_template', value: templateText });
-
-        if (!error) {
-            setWaTemplate(templateText);
-            setIsTemplateModalOpen(false);
-        } else {
-            alert('Error saving template: ' + error.message);
-        }
-        setLoading(false);
-    };
+    // --- Category & Template Handlers REMOVED (Moved to Settings.tsx) ---
 
     const closeMultiModal = () => {
         setIsMultiModalOpen(false);
@@ -258,7 +211,12 @@ Wassalamualaikum Wr. Wb.`;
     };
 
     const openEditModal = (guest: Guest) => {
-        setFormData({ name: guest.name, phone: guest.phone || '', category: guest.category || 'General' });
+        setFormData({
+            name: guest.name,
+            phone: guest.phone || '',
+            category: guest.category || 'General',
+            session_id: guest.session_id || ''
+        });
         setIsEditMode(true);
         setEditId(guest.id);
         setIsModalOpen(true);
@@ -266,7 +224,7 @@ Wassalamualaikum Wr. Wb.`;
 
     const closeModal = () => {
         setIsModalOpen(false);
-        setFormData({ name: '', phone: '', category: 'General' });
+        setFormData({ name: '', phone: '', category: 'General', session_id: '' });
         setIsEditMode(false);
         setEditId(null);
     };
@@ -355,43 +313,23 @@ Wassalamualaikum Wr. Wb.`;
                     <p className="mt-2 text-sm text-gray-600">Kelola Data Tamu</p>
                 </div>
                 {/* <div className="flex flex-col md:flex-row gap-2"> */}
-                <div className="grid grid-cols-2 gap-2">
+                <div className="flex gap-2">
                     <button
                         onClick={() => setIsModalOpen(true)}
-                        className="bg-rose-600 text-white px-4 py-2 rounded-lg flex justify-center items-center gap-2 hover:bg-rose-600 transition-colors"
+                        className="bg-rose-600 text-white px-4 py-2 rounded-lg flex justify-center items-center gap-2 hover:bg-rose-700 transition-colors"
                     >
-                        {/* <Plus size={18} /> */}
+                        <Plus size={18} />
                         <span className="hidden sm:inline">Tambah Tamu</span>
                         <span className="sm:hidden">Tambah</span>
                     </button>
                     <button
                         onClick={() => setIsMultiModalOpen(true)}
-                        className="bg-rose-600 text-white px-4 py-2 rounded-lg flex justify-center items-center gap-2 hover:bg-rose-600 transition-colors"
+                        className="bg-white text-gray-700 ring-1 ring-inset ring-gray-300 px-4 py-2 rounded-lg flex justify-center items-center gap-2 hover:bg-gray-50 transition-colors"
                     >
-                        {/* <FileText size={18} /> */}
+                        <FileText size={18} />
                         <span className="hidden sm:inline">Batch Input</span>
                         <span className="sm:hidden">Batch</span>
                     </button>
-                    <button
-                        onClick={() => setIsTemplateModalOpen(true)}
-                        // inline-flex items-center justify-center font-medium gap-2 rounded-lg transition px-4 py-2 text-md bg-white text-gray-700 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 px-4 py-2 flex-1
-                        className="bg-white text-gray-700 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 px-4 py-2 flex-1 rounded-lg flex justify-center items-center gap-2 transition-colors"
-                        title="Edit Template WA"
-                    >
-                        {/* <Edit size={18} /> */}
-                        <span className="hidden sm:inline">Template WA</span>
-                        <span className="sm:hidden">Template</span>
-                    </button>
-                    <button
-                        onClick={() => setIsCategoryModalOpen(true)}
-                        className="bg-white text-gray-700 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 px-4 py-2 rounded-lg flex justify-center items-center gap-2 transition-colors"
-                    >
-                        {/* <Tags size={18} /> */}
-                        <span className="hidden sm:inline">Kategori</span>
-                        <span className="sm:hidden">Kategori</span>
-                    </button>
-                    {/* <div className='flex gap-2'>
-                    </div> */}
                 </div>
             </div>
 
@@ -470,6 +408,8 @@ Wassalamualaikum Wr. Wb.`;
                                     </div>
                                 </th>
 
+                                <th className="px-6 py-4 font-semibold text-gray-600">Sesi</th>
+
                                 <th className="px-6 py-4 font-semibold text-gray-600 text-center">Link</th>
                                 <th className="px-6 py-4 font-semibold text-gray-600 text-center">Aksi</th>
                             </tr>
@@ -503,6 +443,15 @@ Wassalamualaikum Wr. Wb.`;
                                         </td>
                                         <td className="px-6 py-4 text-center">
                                             {getStatusBadge(guest.rsvp_status)}
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            {guest.reception_sessions ? (
+                                                <div className="flex items-center gap-1 text-sm text-gray-600">
+                                                    <span>{guest.reception_sessions.name}</span>
+                                                </div>
+                                            ) : (
+                                                <span className="text-gray-400 text-sm">-</span>
+                                            )}
                                         </td>
                                         <td className="px-6 py-4">
                                             <div className="flex items-center gap-2">
@@ -540,310 +489,207 @@ Wassalamualaikum Wr. Wb.`;
                         </tbody>
                     </table>
                 </div>
-            </div>
 
-            {/* Modal */}
-            {isModalOpen && (
-                <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-                    <div className="bg-white rounded-xl shadow-xl max-w-md w-full p-6">
-                        <h3 className="text-xl font-bold mb-4">{isEditMode ? 'Edit Tamu' : 'Tambah Tamu Baru'}</h3>
-                        <form onSubmit={handleSubmit} className="space-y-4">
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Nama Tamu</label>
-                                <input
-                                    type="text"
-                                    required
-                                    value={formData.name}
-                                    onChange={e => setFormData({ ...formData, name: e.target.value })}
-                                    className="w-full border border-gray-300 rounded-lg px-3 py-2"
-                                    placeholder="Contoh: Bpk. Fulan"
-                                />
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">WhatsApp (Opsional)</label>
-                                <input
-                                    type="number"
-                                    value={formData.phone}
-                                    onChange={e => setFormData({ ...formData, phone: e.target.value })}
-                                    className="w-full border border-gray-300 rounded-lg px-3 py-2"
-                                    placeholder="Contoh: 08123456789"
-                                />
-                            </div>
 
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Kategori</label>
-                                <div className="relative">
-                                    <select
-                                        value={formData.category}
-                                        onChange={e => setFormData({ ...formData, category: e.target.value })}
-                                        className="w-full border border-gray-300 rounded-lg px-3 py-2 appearance-none"
-                                    >
-                                        {categories.map(c => (
-                                            <option key={c.id} value={c.name}>{c.name}</option>
-                                        ))}
-                                    </select>
-                                    <ChevronDown size={18} className={`absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-gray-700`} />
+                {/* Modal */}
+                {isModalOpen && (
+                    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+                        <div className="bg-white rounded-xl shadow-xl max-w-md w-full p-6">
+                            <h3 className="text-xl font-bold mb-4">{isEditMode ? 'Edit Tamu' : 'Tambah Tamu Baru'}</h3>
+                            <form onSubmit={handleSubmit} className="space-y-4">
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">Nama Tamu</label>
+                                    <input
+                                        type="text"
+                                        required
+                                        value={formData.name}
+                                        onChange={e => setFormData({ ...formData, name: e.target.value })}
+                                        className="w-full border border-gray-300 rounded-lg px-3 py-2"
+                                        placeholder="Contoh: Bpk. Fulan"
+                                    />
                                 </div>
-                            </div>
-                            <div className="flex justify-end gap-3 mt-6">
-                                <button
-                                    type="button"
-                                    onClick={closeModal}
-                                    className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg"
-                                >
-                                    Batal
-                                </button>
-                                <button
-                                    type="submit"
-                                    className="px-4 py-2 bg-rose-600 text-white rounded-lg hover:bg-rose-700"
-                                >
-                                    Simpan
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            )}
-
-            {/* Multi Input Modal */}
-            {isMultiModalOpen && (
-                <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-99 py-0 px-4">
-                    <div className="bg-white rounded-xl shadow-xl max-w-2xl w-full p-6 max-h-[75vh] overflow-y-auto">
-                        <div className="flex justify-between items-center mb-6">
-                            <h3 className="text-xl font-bold">Input Banyak Tamu</h3>
-                            <button onClick={closeMultiModal} className="text-gray-400 hover:text-gray-600">
-                                <X size={20} />
-                            </button>
-                        </div>
-
-                        <form onSubmit={handleMultiSubmit} className="space-y-4">
-                            <div className="bg-blue-50 p-4 rounded-lg text-sm text-blue-800 mb-4 border border-blue-200">
-                                <p className="font-semibold mb-1">Panduan:</p>
-                                <ul className="list-disc list-inside">
-                                    <li><strong>Nama wajib diisi</strong>. Nomor HP opsional.</li>
-                                    <li>Format Nomor HP (08xx, 62xx).</li>
-                                    <li>Baris yang kosong akan diabaikan.</li>
-                                </ul>
-                            </div>
-
-                            <div className="mb-4">
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Pilih Kategori untuk Batch Ini</label>
-                                <div className="relative">
-                                    <select
-                                        value={batchCategory}
-                                        onChange={(e) => setBatchCategory(e.target.value)}
-                                        className="w-full border border-gray-300 rounded-lg px-3 py-2 bg-white appearance-none"
-                                    >
-                                        {categories.map(c => (
-                                            <option key={c.id} value={c.name}>{c.name}</option>
-                                        ))}
-                                    </select>
-                                    <ChevronDown size={18} className={`absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-gray-700`} />
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">WhatsApp (Opsional)</label>
+                                    <input
+                                        type="number"
+                                        value={formData.phone}
+                                        onChange={e => setFormData({ ...formData, phone: e.target.value })}
+                                        className="w-full border border-gray-300 rounded-lg px-3 py-2"
+                                        placeholder="Contoh: 08123456789"
+                                    />
                                 </div>
 
-                                {/* <label className={`block text-sm font-medium mb-1`}>Konfirmasi Kehadiran</label>
-                                <div className="relative">
-                                    <select
-                                    value={formData.attendance}
-                                    onChange={(e) => setFormData(prev => ({ ...prev, attendance: e.target.value as any }))}
-                                    className={`w-full px-4 py-3 rounded-lg border transition-colors focus:ring-2 focus:ring-rose-500 focus:border-transparent appearance-none pr-10 ${isDark
-                                        ? 'bg-gray-700 border-gray-600 text-white'
-                                        : 'bg-white border-gray-300 text-gray-900'
-                                        }`}
-                                    >
-                                    <option value="yes">Hadir</option>
-                                    <option value="no">Tidak Hadir</option>
-                                    <option value="maybe">Mungkin Hadir</option>
-                                    </select>
-                                    <ChevronDown size={18} className={`absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none ${isDark ? 'text-gray-400' : 'text-gray-700'}`} />
-                                </div> */}
-                            </div>
-
-                            <div className="space-y-3">
-                                <div className="grid grid-cols-12 gap-4 font-semibold text-gray-700 pb-2 border-b">
-                                    <div className="col-span-1 text-center">#</div>
-                                    <div className="col-span-6">Nama Tamu</div>
-                                    <div className="col-span-5">WhatsApp</div>
-                                </div>
-
-                                {batchGuests.map((guest, index) => (
-                                    <div key={index} className="grid grid-cols-12 gap-4 items-center">
-                                        <div className="col-span-1 text-center font-mono text-sm">
-                                            {index + 1}
-                                        </div>
-                                        <div className="col-span-6">
-                                            <input
-                                                type="text"
-                                                value={guest.name}
-                                                onChange={e => handleBatchChange(index, 'name', e.target.value)}
-                                                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-rose-500 focus:border-rose-500 outline-none transition-all"
-                                                placeholder="Nama Tamu"
-                                            />
-                                        </div>
-                                        <div className="col-span-5">
-                                            <input
-                                                type="number"
-                                                value={guest.phone}
-                                                onChange={e => handleBatchChange(index, 'phone', e.target.value)}
-                                                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-rose-500 focus:border-rose-500 outline-none transition-all"
-                                                placeholder="08xxxxxxxx"
-                                            />
-                                        </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">Kategori</label>
+                                    <div className="relative">
+                                        <select
+                                            value={formData.category}
+                                            onChange={e => setFormData({ ...formData, category: e.target.value })}
+                                            className="w-full border border-gray-300 rounded-lg px-3 py-2 appearance-none"
+                                        >
+                                            {categories.map(c => (
+                                                <option key={c.id} value={c.name}>{c.name}</option>
+                                            ))}
+                                        </select>
+                                        <ChevronDown size={18} className={`absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-gray-700`} />
                                     </div>
-                                ))}
+                                </div>
 
-                                <button
-                                    type="button"
-                                    onClick={handleAddRow}
-                                    className="mt-4 w-full py-2 border-2 border-dashed border-gray-300 rounded-lg text-gray-500 hover:border-rose-500 hover:text-rose-500 transition-colors flex items-center justify-center gap-2 font-medium"
-                                >
-                                    <Plus size={18} />
-                                    Tambah Tamu
-                                </button>
-                            </div>
-
-                            <div className="flex justify-end gap-3 mt-8 pt-4 border-t border-gray-100">
-                                <button
-                                    type="button"
-                                    onClick={closeMultiModal}
-                                    className="px-6 py-2.5 text-gray-600 hover:bg-gray-100 rounded-lg font-medium transition-colors"
-                                >
-                                    Batal
-                                </button>
-                                <button
-                                    type="submit"
-                                    disabled={loading}
-                                    className="px-6 py-2.5 bg-rose-600 text-white rounded-lg hover:bg-rose-700 font-medium shadow-sm shadow-rose-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                                >
-                                    {loading ? 'Menyimpan...' : 'Simpan Semua'}
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            )}
-
-            {/* Category Management Modal */}
-            {isCategoryModalOpen && (
-                <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-                    <div className="bg-white rounded-xl shadow-xl max-w-md w-full p-6">
-                        <div className="flex justify-between items-center mb-6">
-                            <h3 className="text-xl font-bold">Kelola Kategori</h3>
-                            <button onClick={() => { setIsCategoryModalOpen(false); setEditingCategory(null); setCatFormName(''); }} className="text-gray-400 hover:text-gray-600">
-                                <X size={20} />
-                            </button>
-                        </div>
-
-                        <div className="space-y-6">
-                            {/* Form */}
-                            <form onSubmit={handleSaveCategory} className="flex gap-2">
-                                <input
-                                    type="text"
-                                    value={catFormName}
-                                    onChange={(e) => setCatFormName(e.target.value)}
-                                    placeholder={editingCategory ? "Edit nama kategori..." : "Tambah kategori baru..."}
-                                    className="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-rose-500"
-                                    required
-                                />
-                                <button
-                                    type="submit"
-                                    disabled={loading}
-                                    className="bg-rose-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-rose-700 disabled:opacity-50"
-                                >
-                                    {editingCategory ? 'Update' : 'Tambah'}
-                                </button>
-                                {editingCategory && (
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">Sesi Resepsi</label>
+                                    <div className="relative">
+                                        <select
+                                            value={formData.session_id}
+                                            onChange={e => setFormData({ ...formData, session_id: e.target.value })}
+                                            className="w-full border border-gray-300 rounded-lg px-3 py-2 appearance-none"
+                                        >
+                                            <option value="">Pilih Sesi</option>
+                                            {sessions.map(s => (
+                                                <option key={s.id} value={s.id}>{s.name} ({s.time_display})</option>
+                                            ))}
+                                        </select>
+                                        <ChevronDown size={18} className={`absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-gray-700`} />
+                                    </div>
+                                </div>
+                                <div className="flex justify-end gap-3 mt-6">
                                     <button
                                         type="button"
-                                        onClick={() => { setEditingCategory(null); setCatFormName(''); }}
-                                        className="bg-gray-100 text-gray-600 px-3 py-2 rounded-lg text-sm hover:bg-gray-200"
+                                        onClick={closeModal}
+                                        className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg"
                                     >
                                         Batal
                                     </button>
-                                )}
+                                    <button
+                                        type="submit"
+                                        className="px-4 py-2 bg-rose-600 text-white rounded-lg hover:bg-rose-700"
+                                    >
+                                        Simpan
+                                    </button>
+                                </div>
                             </form>
+                        </div>
+                    </div>
+                )}
 
-                            {/* List */}
-                            <div className="border rounded-lg divide-y max-h-[300px] overflow-y-auto">
-                                {categories.length === 0 ? (
-                                    <div className="p-4 text-center text-sm text-gray-500">Belum ada kategori custom.</div>
-                                ) : (
-                                    categories.map(cat => (
-                                        <div key={cat.id} className="p-3 flex justify-between items-center hover:bg-gray-50">
-                                            <span className="font-medium text-gray-800">{cat.name}</span>
-                                            <div className="flex gap-2">
-                                                <button
-                                                    onClick={() => { setEditingCategory(cat); setCatFormName(cat.name); }}
-                                                    className="p-1.5 text-blue-600 hover:bg-blue-50 rounded"
-                                                >
-                                                    <Edit size={16} />
-                                                </button>
-                                                <button
-                                                    onClick={() => handleDeleteCategory(cat.id, cat.name)}
-                                                    className="p-1.5 text-red-600 hover:bg-red-50 rounded"
-                                                >
-                                                    <Trash2 size={16} />
-                                                </button>
+                {/* Multi Input Modal */}
+                {isMultiModalOpen && (
+                    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-99 py-0 px-4">
+                        <div className="bg-white rounded-xl shadow-xl max-w-2xl w-full p-6 max-h-[75vh] overflow-y-auto">
+                            <div className="flex justify-between items-center mb-6">
+                                <h3 className="text-xl font-bold">Input Banyak Tamu</h3>
+                                <button onClick={closeMultiModal} className="text-gray-400 hover:text-gray-600">
+                                    <X size={20} />
+                                </button>
+                            </div>
+
+                            <form onSubmit={handleMultiSubmit} className="space-y-4">
+                                <div className="bg-blue-50 p-4 rounded-lg text-sm text-blue-800 mb-4 border border-blue-200">
+                                    <p className="font-semibold mb-1">Panduan:</p>
+                                    <ul className="list-disc list-inside">
+                                        <li><strong>Nama wajib diisi</strong>. Nomor HP opsional.</li>
+                                        <li>Format Nomor HP (08xx, 62xx).</li>
+                                        <li>Baris yang kosong akan diabaikan.</li>
+                                    </ul>
+                                </div>
+
+                                <div className="mb-4">
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">Pilih Kategori untuk Batch Ini</label>
+                                    <div className="relative">
+                                        <select
+                                            value={batchCategory}
+                                            onChange={(e) => setBatchCategory(e.target.value)}
+                                            className="w-full border border-gray-300 rounded-lg px-3 py-2 bg-white appearance-none"
+                                        >
+                                            {categories.map(c => (
+                                                <option key={c.id} value={c.name}>{c.name}</option>
+                                            ))}
+                                        </select>
+                                        <ChevronDown size={18} className={`absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-gray-700`} />
+                                    </div>
+                                </div>
+
+                                <div className="mb-4">
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">Sesi Resepsi untuk Batch Ini</label>
+                                    <div className="relative mb-6">
+                                        <select
+                                            value={batchSession}
+                                            onChange={(e) => setBatchSession(e.target.value)}
+                                            className="w-full border border-gray-300 rounded-lg px-3 py-2 bg-white appearance-none"
+                                        >
+                                            <option value="">Pilih Sesi</option>
+                                            {sessions.map(s => (
+                                                <option key={s.id} value={s.id}>{s.name} ({s.time_display})</option>
+                                            ))}
+                                        </select>
+                                        <ChevronDown size={18} className={`absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-gray-700`} />
+                                    </div>
+                                </div>
+
+                                <div className="space-y-3 mt-4">
+                                    <div className="grid grid-cols-12 gap-4 font-semibold text-gray-700 pb-2 border-b">
+                                        <div className="col-span-1 text-center">#</div>
+                                        <div className="col-span-6">Nama Tamu</div>
+                                        <div className="col-span-5">WhatsApp</div>
+                                    </div>
+
+                                    {batchGuests.map((guest, index) => (
+                                        <div key={index} className="grid grid-cols-12 gap-4 items-center">
+                                            <div className="col-span-1 text-center font-mono text-sm">
+                                                {index + 1}
+                                            </div>
+                                            <div className="col-span-6">
+                                                <input
+                                                    type="text"
+                                                    value={guest.name}
+                                                    onChange={e => handleBatchChange(index, 'name', e.target.value)}
+                                                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-rose-500 focus:border-rose-500 outline-none transition-all"
+                                                    placeholder="Nama Tamu"
+                                                />
+                                            </div>
+                                            <div className="col-span-5">
+                                                <input
+                                                    type="number"
+                                                    value={guest.phone}
+                                                    onChange={e => handleBatchChange(index, 'phone', e.target.value)}
+                                                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-rose-500 focus:border-rose-500 outline-none transition-all"
+                                                    placeholder="08xxxxxxxx"
+                                                />
                                             </div>
                                         </div>
-                                    ))
-                                )}
-                            </div>
+                                    ))}
+
+                                    <button
+                                        type="button"
+                                        onClick={handleAddRow}
+                                        className="mt-4 w-full py-2 border-2 border-dashed border-gray-300 rounded-lg text-gray-500 hover:border-rose-500 hover:text-rose-500 transition-colors flex items-center justify-center gap-2 font-medium"
+                                    >
+                                        <Plus size={18} />
+                                        Tambah Tamu
+                                    </button>
+                                </div>
+
+                                <div className="flex justify-end gap-3 mt-8 pt-4 border-t border-gray-100">
+                                    <button
+                                        type="button"
+                                        onClick={closeMultiModal}
+                                        className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg font-medium transition-colors"
+                                    >
+                                        Batal
+                                    </button>
+                                    <button
+                                        type="submit"
+                                        disabled={loading}
+                                        className="px-4 py-2 bg-rose-600 text-white rounded-lg hover:bg-rose-700 font-medium shadow-sm shadow-rose-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                                    >
+                                        {loading ? 'Menyimpan...' : 'Simpan Semua'}
+                                    </button>
+                                </div>
+                            </form>
                         </div>
                     </div>
-                </div>
-            )}
+                )}
 
-            {/* Template Modal */}
-            {isTemplateModalOpen && (
-                <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-                    <div className="bg-white rounded-xl shadow-xl max-w-lg w-full p-6">
-                        <div className="flex justify-between items-center mb-4">
-                            <h3 className="text-xl font-bold">Edit Template WhatsApp</h3>
-                            <button onClick={() => setIsTemplateModalOpen(false)} className="text-gray-400 hover:text-gray-600">
-                                <X size={20} />
-                            </button>
-                        </div>
-
-                        <form onSubmit={handleSaveTemplate} className="space-y-4">
-                            <div className="bg-yellow-50 p-3 rounded-lg text-sm text-yellow-800 mb-4">
-                                <p className="font-semibold">Variabel yang tersedia:</p>
-                                <ul className="list-disc list-inside mt-1">
-                                    <li><code>{'{name}'}</code> : Nama Tamu</li>
-                                    <li><code>{'{link}'}</code> : Link Undangan</li>
-                                </ul>
-                            </div>
-
-                            <div>
-                                <textarea
-                                    required
-                                    value={templateText}
-                                    onChange={e => setTemplateText(e.target.value)}
-                                    className="w-full border border-gray-300 rounded-lg px-3 py-2 h-64 font-mono text-sm"
-                                    placeholder="Tulis template pesan disini..."
-                                />
-                            </div>
-
-                            <div className="flex justify-end gap-3 mt-6">
-                                <button
-                                    type="button"
-                                    onClick={() => setIsTemplateModalOpen(false)}
-                                    className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg"
-                                >
-                                    Batal
-                                </button>
-                                <button
-                                    type="submit"
-                                    className="px-4 py-2 bg-rose-600 text-white rounded-lg hover:bg-rose-700"
-                                >
-                                    Simpan Template
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            )}
-
+            </div>
         </div>
     );
 }
