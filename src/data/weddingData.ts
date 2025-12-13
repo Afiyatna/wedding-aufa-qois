@@ -4,13 +4,13 @@ export const weddingData = {
       fullName: "Aufa Amroini Indah Saesari",
       firstName: "Aufa",
       parents: "Bpk. H. Rosanto Budiharjo & Ibu Ida Katrinawaningsih",
-      image: "gallery/bride.jpg" // Path ke gambar mempelai wanita, contoh: "images/bride.jpg" atau kosongkan jika ingin menggunakan inisial
+      image: "gallery/aufa4.jpeg" // Path ke gambar mempelai wanita, contoh: "images/bride.jpg" atau kosongkan jika ingin menggunakan inisial
     },
     groom: {
       fullName: "Sabilul Qois",
       firstName: "Qois",
       parents: "Bpk. H. Mulyadi (Alm) & Ibu Siti Syamsiah",
-      image: "gallery/groom.jpg" // Path ke gambar mempelai pria, contoh: "images/groom.jpg" atau kosongkan jika ingin menggunakan inisial
+      image: "gallery/qois4.jpeg" // Path ke gambar mempelai pria, contoh: "images/groom.jpg" atau kosongkan jika ingin menggunakan inisial
     }
   },
   coupleImage: "gallery/img5.jpg", // Path ke gambar gabungan kedua mempelai untuk HeroSection, contoh: "gallery/A-Q.jpg" atau kosongkan jika ingin menggunakan inisial
