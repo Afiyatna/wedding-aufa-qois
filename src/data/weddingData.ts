@@ -44,7 +44,7 @@ export const weddingData = {
     },
     {
       id: 2,
-      url: "gallery/gallery2.png",
+      url: "gallery/gallery2.jpg",
       alt: "Gallery 2"
     },
     {
@@ -59,7 +59,7 @@ export const weddingData = {
     },
     {
       id: 4,
-      url: "gallery/gallery4.png",
+      url: "gallery/gallery4.jpg",
       alt: "Gallery 4"
     },
     {
