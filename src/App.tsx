@@ -20,6 +20,7 @@ import DashboardLayout from './pages/Dashboard/Layout';
 import Overview from './pages/Dashboard/Overview';
 import GuestList from './pages/Dashboard/GuestList';
 import Comments from './pages/Dashboard/Comments';
+import { Gallery } from './components/Gallery';
 
 function App() {
   return (
@@ -137,7 +138,7 @@ function InvitationWrapper() {
   }
 
   return (
-    <div className={`max-w-[450px] mx-auto min-h-screen transition-colors duration-300 ${isDark ? 'bg-gray-900 text-white' : 'bg-white text-gray-900'
+    <div className={`max-w-2xl mx-auto min-h-screen transition-colors duration-300 ${isDark ? 'bg-gray-900 text-white' : 'bg-white text-gray-900'
       }`}>
       <main className="scroll-container">
         <HeroSection isDark={isDark} guestName={guestName} backgroundImage={"flower-rose-5"} />
@@ -145,7 +146,8 @@ function InvitationWrapper() {
         <QuotePage isDark={isDark} backgroundImage={"flower-rose-3"} />
         <EventDetails isDark={isDark} backgroundImage={"flower-rose-4"} />
         <DigitalEnvelope isDark={isDark} backgroundImage={"flower-rose-3"} />
-        <Countdown isDark={isDark} backgroundImage={"flower-rose-4"} />
+        <Gallery isDark={isDark} backgroundImage={"flower-rose-4"} />
+        <Countdown isDark={isDark} backgroundImage={"flower-rose-3"} />
         <Guestbook isDark={isDark} initialName={guestName} guestId={guestId} backgroundImage={"flower-rose-4"} />
         <Footer isDark={isDark} />
       </main>

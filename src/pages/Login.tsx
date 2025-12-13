@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { supabase } from '../lib/supabase';
 import { useNavigate } from 'react-router-dom';
-import { Lock, User } from 'lucide-react';
+import { Eye, EyeOff, Lock, User } from 'lucide-react';
 
 export default function Login() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const navigate = useNavigate();
 
@@ -81,13 +82,23 @@ export default function Login() {
                                 <Lock size={20} className="text-gray-400" />
                             </div>
                             <input
-                                type="password"
+                                type={showPassword ? 'text' : 'password'}
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
-                                className="pl-10 w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-rose-500 transition-colors"
+                                className="pl-10 pr-10 w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-rose-500 transition-colors"
                                 placeholder="••••••••"
                                 required
                             />
+                            <div
+                                className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
+                                onClick={() => setShowPassword(!showPassword)}
+                            >
+                                {showPassword ? (
+                                    <Eye size={20} className="text-gray-400" />
+                                ) : (
+                                    <EyeOff size={20} className="text-gray-400" />
+                                )}
+                            </div>
                         </div>
                     </div>
 

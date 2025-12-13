@@ -4,13 +4,13 @@ export const weddingData = {
       fullName: "Aufa Amroini Indah Saesari",
       firstName: "Aufa",
       parents: "Bpk. H. Rosanto Budiharjo & Ibu Ida Katrinawaningsih",
-      image: "gallery/bride.jpg" // Path ke gambar mempelai wanita, contoh: "images/bride.jpg" atau kosongkan jika ingin menggunakan inisial
+      image: "gallery/aufa4.jpeg" // Path ke gambar mempelai wanita, contoh: "images/bride.jpg" atau kosongkan jika ingin menggunakan inisial
     },
     groom: {
       fullName: "Sabilul Qois",
       firstName: "Qois",
       parents: "Bpk. H. Mulyadi (Alm) & Ibu Siti Syamsiah",
-      image: "gallery/groom.jpg" // Path ke gambar mempelai pria, contoh: "images/groom.jpg" atau kosongkan jika ingin menggunakan inisial
+      image: "gallery/qois4.jpeg" // Path ke gambar mempelai pria, contoh: "images/groom.jpg" atau kosongkan jika ingin menggunakan inisial
     }
   },
   coupleImage: "gallery/img5.jpg", // Path ke gambar gabungan kedua mempelai untuk HeroSection, contoh: "gallery/A-Q.jpg" atau kosongkan jika ingin menggunakan inisial
@@ -37,16 +37,16 @@ export const weddingData = {
     }
   },
   gallery: [
-    {
-      id: 1,
-      url: 'gallery/groom.jpg',
-      alt: "Mempelai Wanita"
-    },
-    {
-      id: 2,
-      url: "gallery/bride.jpg",
-      alt: "Pre-wedding photo 2"
-    },
+    // {
+    //   id: 1,
+    //   url: 'gallery/groom.jpg',
+    //   alt: "Mempelai Wanita"
+    // },
+    // {
+    //   id: 2,
+    //   url: "gallery/bride.jpg",
+    //   alt: "Pre-wedding photo 2"
+    // },
     {
       id: 3,
       url: "gallery/img3.jpg",
@@ -57,16 +57,16 @@ export const weddingData = {
       url: "gallery/img4.jpg",
       alt: "Pre-wedding photo 4"
     },
-    {
-      id: 5,
-      url: "gallery/A-Q.jpg",
-      alt: "Pre-wedding photo 5"
-    },
-    {
-      id: 6,
-      url: "gallery/img5.jpg",
-      alt: "Pre-wedding photo 6"
-    }
+    // {
+    //   id: 5,
+    //   url: "gallery/A-Q.jpg",
+    //   alt: "Pre-wedding photo 5"
+    // },
+    // {
+    //   id: 6,
+    //   url: "gallery/img5.jpg",
+    //   alt: "Pre-wedding photo 6"
+    // }
   ],
   digitalEnvelope: {
     title: "Wedding Gift",

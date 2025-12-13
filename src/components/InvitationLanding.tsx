@@ -30,7 +30,7 @@ export const InvitationLanding = ({ onOpenInvitation, guestName, valigGuestName,
   };
 
   return (
-    <div className={`max-w-[450px] mx-auto min-h-screen flex items-center justify-center relative overflow-hidden transition-all duration-1000 ${isAnimating ? 'scale-110 opacity-0' : 'scale-100 opacity-100'
+    <div className={`max-w-2xl mx-auto min-h-screen flex items-center justify-center relative overflow-hidden transition-all duration-1000 ${isAnimating ? 'scale-110 opacity-0' : 'scale-100 opacity-100'
       }`} style={{
         background: 'linear-gradient(135deg, #fdf2f8 0%, #fce7f3 25%, #fbcfe8 50%, #f9a8d4 75%, #f472b6 100%)',
         backgroundSize: '400% 400%',

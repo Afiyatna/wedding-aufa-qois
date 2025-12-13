@@ -1,19 +1,29 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Heart } from 'lucide-react';
 
 export const FloatingParticles: React.FC = () => {
+  const particles = useMemo(() => {
+    return [...Array(6)].map((_, i) => ({
+      id: i,
+      size: 80 + Math.random() * 24,
+      left: `${Math.random() * 100}%`,
+      duration: 15 + Math.random() * 15,
+      delay: -Math.random() * 20
+    }));
+  }, []);
+
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none select-none">
       {/* Floating hearts - Reduced count for mobile performance */}
-      {[...Array(6)].map((_, i) => (
+      {particles.map((p) => (
         <Heart
-          key={i}
+          key={p.id}
           className="absolute text-rose-300/40 will-change-transform"
-          size={80 + Math.random() * 24} // Varied sizes
+          size={p.size}
           style={{
-            left: `${Math.random() * 100}%`,
-            animation: `floatUp ${15 + Math.random() * 15}s linear infinite`,
-            animationDelay: `-${Math.random() * 20}s`,
+            left: p.left,
+            animation: `floatUp ${p.duration}s linear infinite`,
+            animationDelay: `${p.delay}s`,
             opacity: 0,
           }}
           fill="currentColor"
