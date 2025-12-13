@@ -40,26 +40,30 @@ export const Gallery: React.FC<GalleryProps> = ({ isDark, backgroundImage }) => 
           </p>
         </div>
 
-        <div className="grid grid-cols-1 gap-2 max-w-6xl mx-auto">
-          {weddingData.gallery.map((photo, index) => (
-            <div
-              key={photo.id}
-              className={`relative group cursor-pointer transition-all duration-1000 ease-out delay-${index * 100} ${shouldAnimate ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-                }`}
-              onClick={() => setSelectedImage(index)}
-            >
-              <div className="aspect-square overflow-hidden rounded-lg">
-                <img
-                  src={photo.url}
-                  alt={photo.alt}
-                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                  <div className="text-white text-sm font-medium">Lihat ukuran penuh</div>
+        <div className="grid grid-cols-2 gap-2 max-w-6xl mx-auto">
+          {weddingData.gallery.map((photo, index) => {
+            const isFullWidth = index === 0 || index === weddingData.gallery.length - 1;
+
+            return (
+              <div
+                key={photo.id}
+                className={`relative group cursor-pointer transition-all duration-1000 ease-out delay-${index * 100} ${shouldAnimate ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+                  } ${isFullWidth ? 'col-span-2' : ''}`}
+                onClick={() => setSelectedImage(index)}
+              >
+                <div className={`${isFullWidth ? 'aspect-video' : 'aspect-square'} overflow-hidden rounded-lg`}>
+                  <img
+                    src={photo.url}
+                    alt={photo.alt}
+                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                    <div className="text-white text-sm font-medium">Lihat ukuran penuh</div>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
 

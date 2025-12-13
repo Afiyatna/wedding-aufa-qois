@@ -13,7 +13,7 @@ export const MusicPlayer: React.FC<MusicPlayerProps> = ({ isDark }) => {
 
   // Note: Using a placeholder audio URL - in a real implementation, 
   // you would upload your wedding song to a hosting service
-  const audioUrl = "music/Kahitna-Soulmate.mp3";
+  const audioUrl = "music/TULUS-Teman-Hidup.mp3";
 
   useEffect(() => {
     const audio = audioRef.current;
